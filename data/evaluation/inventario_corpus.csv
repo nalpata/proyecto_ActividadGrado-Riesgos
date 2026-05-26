@@ -1,0 +1,15 @@
+id_documento,documento,tipo_documental,formato,fecha_inferida,paginas_pdf,tamano_kb,palabras_extraidas,caracteres_extraidos,estado_extraccion,requiere_ocr,score_senales_riesgo,incumplimiento,retraso_demora,compromiso_pendiente,observacion,ans,riesgo,alerta,cierre,observaciones_limpieza
+DOC-001,0504-24_INT-DATAR-Comunicado 64-notificación aplicación ANS Cifras recaudo-202407.pdf,Comunicado,PDF,2024-07,2,179.6,319,1883,OK,No,8,1,3,0,0,3,0,0,1,Extracción inicial disponible
+DOC-002,CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.docx,Review / acta sprint,DOCX,2024-05,,241.4,1421,8750,OK,No,40,1,6,12,0,0,2,4,15,Extracción inicial disponible
+DOC-003,CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.pdf,Review / acta sprint,PDF,2024-05,6,372.0,1510,9208,OK,No,38,1,4,12,0,0,2,4,15,Extracción inicial disponible
+DOC-004,CNS-0570-24 INT-DATAR-Comunicado 67-Incumplimiento tiempos plan de cierre-202407.pdf,Comunicado,PDF,2024-07,2,265.9,423,2475,OK,No,9,0,0,0,0,1,0,1,7,Extracción inicial disponible
+DOC-005,CNS-XXXX-24 INT-DATAR-Comunicado 58-Respuesta de interventoría-202405.docx,Comunicado,DOCX,2024-05,,114.2,3800,24070,OK,No,87,16,16,15,27,2,1,0,10,Extracción inicial disponible
+DOC-006,CNS-xxxx-24 INT-DATAR-Comunicado 63-Incumplimiento compromisos otrosí2-202407.docx,Comunicado,DOCX,2024-07,,95.2,469,2884,OK,No,18,3,0,13,0,1,1,0,0,Extracción inicial disponible
+DOC-007,INT_DATAR_Comunicado_12_20230929- V1.pdf,Comunicado,PDF,2023-09-29,3,152.9,924,5494,OK,No,7,0,0,5,0,0,0,0,2,Extracción inicial disponible
+DOC-008,INT_DATAR_Comunicado_2_20230124.pdf,Comunicado,PDF,2023-01-24,3,158.5,432,2560,OK,No,3,0,0,0,1,0,0,0,2,Extracción inicial disponible
+DOC-009,INT_DATAR_Comunicado_33_20231226.pdf,Comunicado,PDF,2023-12-26,4,247.7,832,4763,OK,No,4,0,0,0,0,4,0,0,0,Extracción inicial disponible
+DOC-010,INT_DATAR_Comunicado_36_20140105.pdf,Comunicado,PDF,2014-01-05,3,241.0,429,2461,OK,No,3,0,0,0,0,1,0,0,2,Extracción inicial disponible
+DOC-011,INT_EJE_RV_Comunicado_3_DATAR_10042023_VF.pdf,Comunicado,PDF,,3,185.5,1348,7945,OK,No,9,0,2,5,0,0,1,0,1,Extracción inicial disponible
+DOC-012,INT_PC_AC_Acta Seguimiento Interventoria_20240402.docx,Acta de seguimiento,DOCX,2024-04-02,,270.5,2902,18786,OK,No,148,26,2,57,10,2,6,16,29,Extracción inicial disponible
+DOC-013,INT_PC_AC_Acta Seguimiento Interventoria_20240409.docx,Acta de seguimiento,DOCX,2024-04-09,,272.2,4401,28512,OK,No,139,13,22,54,12,2,4,4,28,Extracción inicial disponible
+DOC-014,RQ001 Acta Review Sprint 8_Firmada.pdf,Review / acta sprint,PDF,,3,322.0,1869,11412,OK,No,5,0,0,0,0,0,1,0,4,Extracción inicial disponible
