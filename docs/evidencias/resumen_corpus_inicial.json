@@ -1,0 +1,32 @@
+{
+  "total_documentos": 14,
+  "pdfs": 9,
+  "docx": 5,
+  "actas": 3,
+  "comunicados": 11,
+  "total_paginas_pdf": 29,
+  "total_palabras_extraidas": 19079,
+  "posibles_escaneados": 0,
+  "documentos_con_mas_senales_riesgo": [
+    {
+      "documento": "CNS-XXXX-24 INT-DATAR-Comunicado 58-Respuesta de interventoría-202405.docx",
+      "score_senales_inicial": 64
+    },
+    {
+      "documento": "INT_PC_AC_Acta Seguimiento Interventoria_20240409.docx",
+      "score_senales_inicial": 56
+    },
+    {
+      "documento": "INT_EJE_RV_Comunicado_3_DATAR_10042023_VF.pdf",
+      "score_senales_inicial": 45
+    },
+    {
+      "documento": "INT_PC_AC_Acta Seguimiento Interventoria_20240402.docx",
+      "score_senales_inicial": 41
+    },
+    {
+      "documento": "CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.docx",
+      "score_senales_inicial": 22
+    }
+  ]
+}
