@@ -1,0 +1,15 @@
+﻿documento,extension,tipo_documental,fecha_detectada,paginas,tamano_kb,palabras_extraidas,posible_escaneado,riesgo_retraso_terms,riesgo_incumplimiento_terms,compromisos_terms,observaciones_terms,ans_terms,score_senales_inicial,texto_extraido_path
+0504-24_INT-DATAR-Comunicado 64-notificación aplicación ANS Cifras recaudo-202407.pdf,pdf,Comunicado,2024-07,2.0,179.6,319,False,3,1,0,3,3,10,data/processed/text/0504-24_INT-DATAR-Comunicado_64-notificaci_n_aplicaci_n_ANS_Cifras_recaudo-202407.txt
+CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.docx,docx,Comunicado,2024-05,,241.4,1421,False,5,1,7,9,0,22,data/processed/text/CNS-0418-24_INT-DATAR-Comunicado_59-Resultado_Review_S9-202405.txt
+CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.pdf,pdf,Comunicado,2024-05,6.0,372.0,1510,False,4,1,7,9,0,21,data/processed/text/CNS-0418-24_INT-DATAR-Comunicado_59-Resultado_Review_S9-202405.txt
+CNS-0570-24 INT-DATAR-Comunicado 67-Incumplimiento tiempos plan de cierre-202407.pdf,pdf,Comunicado,2024-07,2.0,265.9,423,False,1,1,0,3,2,7,data/processed/text/CNS-0570-24_INT-DATAR-Comunicado_67-Incumplimiento_tiempos_plan_de_cierre-202407.txt
+CNS-XXXX-24 INT-DATAR-Comunicado 58-Respuesta de interventoría-202405.docx,docx,Comunicado,2024-05,,114.2,3800,False,11,10,12,29,2,64,data/processed/text/CNS-XXXX-24_INT-DATAR-Comunicado_58-Respuesta_de_interventor_a-202405.txt
+CNS-xxxx-24 INT-DATAR-Comunicado 63-Incumplimiento compromisos otrosí2-202407.docx,docx,Comunicado,2024-07,,95.2,469,False,1,3,7,0,1,12,data/processed/text/CNS-xxxx-24_INT-DATAR-Comunicado_63-Incumplimiento_compromisos_otros_2-202407.txt
+INT_DATAR_Comunicado_12_20230929- V1.pdf,pdf,Comunicado,2023-09-29,2.0,152.9,694,False,5,1,4,3,1,14,data/processed/text/INT_DATAR_Comunicado_12_20230929-_V1.txt
+INT_DATAR_Comunicado_2_20230124.pdf,pdf,Comunicado,2023-01-24,3.0,158.5,935,False,2,1,4,1,2,10,data/processed/text/INT_DATAR_Comunicado_2_20230124.txt
+INT_DATAR_Comunicado_33_20231226.pdf,pdf,Comunicado,2023-12-26,4.0,247.7,1412,False,0,0,0,5,1,6,data/processed/text/INT_DATAR_Comunicado_33_20231226.txt
+INT_DATAR_Comunicado_36_20140105.pdf,pdf,Comunicado,2014-01-05,2.0,241.0,545,False,2,3,5,4,0,14,data/processed/text/INT_DATAR_Comunicado_36_20140105.txt
+INT_EJE_RV_Comunicado_3_DATAR_10042023_VF.pdf,pdf,Comunicado,,5.0,185.5,2028,False,6,1,11,27,0,45,data/processed/text/INT_EJE_RV_Comunicado_3_DATAR_10042023_VF.txt
+INT_PC_AC_Acta Seguimiento Interventoria_20240402.docx,docx,Acta,2024-04-02,,270.5,2421,False,5,1,10,15,10,41,data/processed/text/INT_PC_AC_Acta_Seguimiento_Interventoria_20240402.txt
+INT_PC_AC_Acta Seguimiento Interventoria_20240409.docx,docx,Acta,2024-04-09,,272.2,2318,False,11,2,11,24,8,56,data/processed/text/INT_PC_AC_Acta_Seguimiento_Interventoria_20240409.txt
+RQ001 Acta Review Sprint 8_Firmada.pdf,pdf,Acta,,3.0,322.0,784,False,0,0,0,3,1,4,data/processed/text/RQ001_Acta_Review_Sprint_8_Firmada.txt

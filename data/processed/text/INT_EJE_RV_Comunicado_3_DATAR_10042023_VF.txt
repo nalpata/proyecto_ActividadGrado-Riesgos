@@ -1,0 +1,276 @@
+A member firm of Ernst & Young Global Limited 
+A member firm of Ernst & Young Global Limited 
+A member firm of Ernst & Young Global Limited 
+A member firm of Ernst & Young Global Limited 
+ 
+ 
+Ernst & Young S.A.S.  
+Ernst & Young S.A.S. 
+Ernst & Young S.A.S. 
+Ernst & Young S.A.S. 
+Bogotá D.C.  
+Medellín – Antioquia 
+Cali – Valle del Cauca 
+Barranquilla - Atlántico 
+Carrera 11 No 98 - 07 
+Carrera 43A No. 3 Sur-130 
+Avenida 4 Norte No. 6N – 61 
+Calle 77B No 59 – 61 
+Edificio Pijao Green Office 
+Edificio Milla de Oro 
+Edificio Siglo XXI 
+Edificio Centro Empresarial  
+Tercer Piso 
+Torre 1 – Piso 14 
+Oficina 502 
+Las Américas II Oficina 311 
+Tel. +57 (601) 484 7000 
+Tel: +57 (604) 369 8400 
+Tel: +57 (602) 485 6280 
+Tel: +57 (605) 385 2201 
+ 
+ 
+ 
+ 
+ 
+Señores 
+10 de abril 2023 
+Germán Morante / Edgar Arias 
+ 
+Representación legal del Consorcio para el proyecto DATAR 
+MyQ/PWC 
+Bogotá, D.C. 
+ 
+ 
+Requerimiento del Interventor al consorcio del Contrato de Servicios de 
+Consultoría 92872-025-2022 celebrado con la DIAN, relacionado con los 
+artefactos de planeación del proyecto (Cronograma, matriz de entregables 
+e interdependencias) y documentos de gestión del proyecto DATAR 
+ 
+ 
+Estimados Germán y Edgar: 
+ 
+De la manera más atenta, en calidad de interventor del Contrato en referencia, nos 
+permitimos solicitar la información que se encuentra descrita en los numerales 
+relacionados a continuación, debido a que se han identificado reiterados atrasos en el 
+cumplimiento de los compromisos definidos en el plan de acción presentado el 11 de enero 
+2023 por parte del Consorcio y las diferentes sesiones de trabajo y seguimiento realizadas 
+con la DIAN y la Interventoría. 
+ 
+Artefactos de planeación 
+ 
+1. Entrega del cronograma de trabajo ajustado, el cual ha tenido varias iteraciones a la 
+fecha, las cuales se relacionan a continuación: 
+ 
+o Inicialmente la fecha planeada de entrega de este cronograma quedó definida para 
+el 07 de diciembre 2023, fecha en la cual, el Consorcio entregó la primera versión 
+del artefacto. La Interventoría envío observaciones el 13 de diciembre 2022. 
+o Posterior a esto, el 26 de diciembre 2023 se entrega una versión ajustada por parte 
+del Consorcio, la cual no atiende los comentarios realizados por la Interventoría, 
+enviando observaciones a través de correo el 30 de diciembre 2022, reiterando los 
+puntos mencionados en correos anteriores. 
+
+A member firm of Ernst & Young Global Limited 
+ 
+ 
+ 
+ 
+o El 18 de enero 2023 el Consorcio entrega una versión ajustada, la cual fue validada 
+por la Interventoría, identificando que se reiteran los comentarios, para lo cual se 
+envían observaciones a través de correo el 20 de enero 2023. 
+o El 22 de marzo 2023 se programó una sesión presencial entre la DIAN, el Consorcio 
+y la Interventoría, en donde se validó la versión ajustada del cronograma y se 
+hicieron las observaciones correspondientes por parte de la DIAN y la Interventoría. 
+o Luego de esto, el 03 de abril 2023 el Consorcio entregó la versión 5 del 
+cronograma.  Las observaciones por parte de la DIAN y la Interventoría, se enviaron 
+y socializaron con el Consorcio, el 04 de abril 2023. En esta sesión se genera el 
+compromiso de entrega del cronograma ajustado por parte del Consorcio, para el 
+05 de abril 2023, a lo cual se recibe el 09 de abril 2023 (4 días luego de lo 
+acordado). Con relación a la fecha inicial esperada de cierre, según los acuerdos 
+realizados con el Consorcio, se tienen 84 días de atraso a la fecha. 
+ 
+Una vez revisada la versión de cronograma liberada por el Consorcio el domingo 09 de 
+abril 2023, se presentan las siguientes observaciones pendientes por subsanar: 
+ 
+o Incluir todos los predecesores y sucesores a las actividades, hitos, dependencias 
+y contribuciones, según corresponda. Lo anterior, con el fin de poder identificar 
+de manera clara la ruta crítica del proyecto. Adicionalmente, se deben revisar las 
+asignaciones realizadas, ya que por ejemplo el predecesor de los entregables y 
+actividades de la “Fase 3- Habilitación de herramientas”, deberían considerar la 
+finalización del entregable de “Ent03- Diseño detallado del DATAR”, el cual se tiene 
+planeado para el 10 de mayo 2023. Por tanto, previo a la liberación a la DIAN y la 
+Interventoría de los productos de la “Fase 3 - habilitación de herramientas”, se debe 
+incluir esta predecesora para que la información del diseño sea considerada en nel 
+contenido de estos entregables. Igualmente, dado que el “Ent08 – Ambientes 
+habilitados”, debe contemplar la información de la configuración del ambiente de 
+producción, se debe considerar este insumo para la liberación final del documento 
+y de aquellos que se vean impactados con la entrega de esta información. 
+ 
+o Incluir los responsables asignados a cada una de las actividades. Lo anterior, con 
+el fin de validar el balanceo de los recursos e identificar en que momentos puede 
+haber una sobrecarga de actividades y con ello, se requiera la incorporación de 
+nuevos recursos.  
+ 
+o Revisar los tiempos de las fases de cara a lo aprobado en el control de cambios. 
+Lo anterior, teniendo en cuenta las siguientes variaciones identificadas: 
+ 
+
+A member firm of Ernst & Young Global Limited 
+ 
+ 
+ 
+ 
+Hito y/o actividad 
+Fecha inicial 
+cambio 
+propuesto 
+Fecha final 
+cambio 
+propuesto 
+Fecha inicial 
+cronograma 
+actual 
+Fecha final 
+cronograma 
+actual 
+Fase 4: Diseño de 
+procesos de gestión 
+14/06/2022 
+14/04/2023 
+14/06/2023 
+05/05/2023 
+Fase 5: Prestación de 
+servicios de gestión de 
+datos 
+24/05/2023 
+30/11/2025 
+17/03/2023 
+19/11/2025 
+ 
+o Incorporar en el cronograma la información de las contribuciones y dependencias 
+con los demás proyectos, de acuerdo con lo definido en la matriz de 
+interdependencias. Lo anterior, indicando de manera clara en el cronograma, 
+cuales son dependencias y cuales contribuciones. Adicionalmente, se solicita 
+considerar que las interdependencias incluidas que se encuentren relacionadas con 
+la operación del DATAR (Ej. “Solicitud de migración de información por parte de 
+Planeación”), no sean incluidas en este plan de trabajo, ya que estos 
+requerimientos serán controlados a través de la herramienta que sea propuesta por 
+el Consorcio, para todos los servicios por demanda. 
+ 
+o Actualizar las interdependencias e hitos con fechas vencidas, de cara a lo definido 
+en el control de cambios, ya que no se puede iniciar un nuevo plan de trabajo, 
+mostrando atrasos en las actividades, hitos o interdependencias, ya que no permite 
+realizar una gestión adecuada del proyecto. 
+ 
+2. Entrega de la matriz de entregables ajustada de acuerdo con los comentarios enviados 
+por la Interventoría el 09 de marzo 2023.  A la fecha, no ha sido aprobado y cerrado 
+este artefacto, ya que el Consorcio no ha atendido en su totalidad las observaciones 
+realizadas por la DIAN y la Interventoría en las entregas realizadas, generando las 
+siguientes iteraciones en la revisión de este documento:  
+ 
+o Entrega del Consorcio el 07 de diciembre 2022, con observaciones enviadas por la 
+Interventoría el 14 de diciembre 2023. 
+o Entrega del documento ajustado por parte del Consorcio el 23 de diciembre 2022, 
+con observaciones enviadas por la Interventoría el 29 de diciembre 2022. 
+o Entrega del documento ajustado por parte del Consorcio el 12 de enero 2023, con 
+observaciones enviadas por la Interventoría el 14 de enero 2023. 
+o Entrega del documento ajustado por parte del Consorcio el 23 de enero 2023, con 
+observaciones enviadas por la Interventoría el 25 de enero 2023. 
+o Entrega del documento ajustado por parte del Consorcio el 07 de febrero 2023, 
+con observaciones de la Interventoría y la DIAN del 08 de febrero 2023. 
+o Entrega del documento ajustado por parte del Consorcio el 09 de febrero 2023, 
+con observaciones enviadas por la Interventoría el 14 de febrero 2023. 
+
+A member firm of Ernst & Young Global Limited 
+ 
+ 
+ 
+ 
+o Entrega del documento ajustado por parte del Consorcio el 21 de febrero 2023, 
+con observaciones realizadas en sesión presencial con la DIAN y la Interventoría el 
+21 de febrero 2023. 
+o Finalmente, el Consorcio entrega el documento ajustado el 02 de marzo 2023, con 
+observaciones de la Interventoría enviadas el 09 de marzo 2023. 
+ 
+La fecha esperada de cierre de este documento, según el último compromiso realizado 
+por el Consorcio, corresponde al 23 de marzo 2023. Con relación a la fecha inicial de 
+compromiso pactada para el 07 de diciembre 2023, se tienen 84 días de atraso. 
+ 
+3. Entrega de la matriz de interdependencias ajustada de acuerdo con los comentarios 
+enviados por la Interventoría el 03 de febrero 2023.  A la fecha, no ha sido aprobado 
+y cerrado este artefacto, ya que el Consorcio no ha atendido en su totalidad las 
+observaciones realizadas por la DIAN y la Interventoría en las entregas realizadas, 
+generando las siguientes iteraciones en la revisión de este documento:  
+ 
+o Entrega de la primera versión por parte del Consorcio el 06 de diciembre 2022, 
+con observaciones enviadas por la Interventoría el 12 de diciembre 2023. 
+o Entrega del documento ajustado por parte del Consorcio el 23 de diciembre 2022, 
+con observaciones enviadas por la Interventoría el 28 de diciembre 2022. 
+o Entrega del documento ajustado por parte del Consorcio el 03 de enero 2023, con 
+observaciones enviadas por la Interventoría el 05 de enero 2023. 
+o Finalmente, entrega del documento ajustado por parte del Consorcio el 31 de enero 
+2023, con observaciones de la Interventoría el 03 de febrero 2023.  
+ 
+La fecha esperada de cierre de este documento, según el último compromiso realizado 
+por el Consorcio, corresponde al 24 de marzo 2023. Con relación a la fecha inicial de 
+compromiso pactada para el 06 de diciembre 2023, se tienen 85 días de atraso. 
+ 
+Documentos de gestión 
+ 
+1. Entrega de los documentos de gestión asociados a la ejecución de proyecto, los cuales 
+no han sido cerrados a la fecha por las falencias en la calidad y/o completitud de la 
+información que se registra en estos productos, asociados a: 
+ 
+o Informes mensuales del proyecto de noviembre 2022 a marzo 2023 (5 informes), 
+los cuales hacen parte de los productos pactados según lo definido en el SDP y la 
+matriz de entregables. Actualmente, se tiene pendiente la entrega de los ajustes 
+de los informes de noviembre y diciembre 2022 desde el 01 de marzo 2023 con 
+observaciones de la DIAN y la Interventoría, y la primera versión de los demás 
+informes. 
+
+A member firm of Ernst & Young Global Limited 
+ 
+ 
+ 
+ 
+o Entrega de los informes semanales ajustados y cargados en la herramienta de 
+gestión documental, de acuerdo con las observaciones enviadas semanalmente por 
+la Interventoría (14 informes). 
+o Firma de las actas de integración del 19/01/2023 y 02/02/2023 (Henry Moreno), 
+las cuales fueron solicitadas desde el 24 de febrero 2023. Al igual que la firma del 
+acta de integración del 16/02/2023 (Juan Daza), la cual fue solicitada desde el 10 
+de marzo 2023. 
+o Entrega de aproximadamente 201 actas de las sesiones realizadas en el proyecto, 
+desde el 07 de diciembre 2022 al 31 de marzo 2023. 
+o Entrega de los documentos parafiscales pendientes por parte del Consorcio 
+(BICODE: DIC-22 /ENE-23/MAR-23, PWC: FEB-23/MAR-23 y M&Q: ENE-23/MAR-
+23). 
+o Entrega de la información precontractual de las pólizas, de acuerdo con el 
+comunicado emitido por la Interventoría el 31 de marzo 2023. 
+ 
+Las razones que fundamentan el requerimiento para que se cumpla, se basan en que: 1) 
+Actualmente, no se tiene una herramienta confiable para la gestión del proyecto que 
+permita identificar el avance real del mismo y administrar los recursos y riesgos asociados 
+a su ejecución,  2) No existe una alineación de expectativas de cada uno de los 
+componentes del proyecto, debido a que no se han cerrado y aprobado los artefactos de 
+planeación, 3) Reiterados reprocesos en las actividades de revisión por parte de la DIAN 
+y la Interventoría, causado por la falta de atención de las observaciones realizadas, al 
+igual que por las demoras en la entrega de esta información para su validación por parte 
+del Consorcio y 4) Constantes incumplimientos en los compromisos adquiridos por el 
+Consorcio, los cuales impactan la gestión del proyecto.  
+ 
+Por lo expuesto se les solicita dar cumplimiento y respuesta de fondo y oportuna, al 
+presente requerimiento a más tardar el 12 de abril 2023.  
+ 
+ 
+ 
+Cordialmente, 
+ 
+ 
+ 
+Patricia Patiño 
+Executive director 
+Ernst & Young S.A.S. 
+Interventoría del Contrato 
+ 
+ 

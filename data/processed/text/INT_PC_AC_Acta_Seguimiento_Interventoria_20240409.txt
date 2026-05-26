@@ -1,0 +1,155 @@
+Dirección de Gestión de Innovación y Tecnología
+Proyectos Estratégicos de Transformación Digital
+Proyecto: Interventoría Técnica, Administrativa, Financiera y Jurídica de los Contratos de Transformación Digital en el Programa de Apoyo a la Modernización de la DIAN
+ACTA DE REUNION No INT_111
+(Seguimiento a Interventoría)
+Fecha de reunión: 9 de abril de 2024 
+Hora: 11:00 a.m. – 12:00 a.m.
+Lugar: Virtual MS Teams – Presencial sala de juntas DGIT
+Asistentes: 
+DIAN:
+EY:
+Desarrollo de la reunión:
+Avance de actividades del proyecto de Interventoría 
+Fecha de corte: 2 de abril de 2024
+Avance General 
+Avance real: 32% 
+Avance esperado: 32% 
+Atraso: 0% 
+% de atraso: 0%
+Avance Fase Ejecución
+Avance real: 31% 
+Avance esperado: 31% 
+Atraso: 0% 
+Días de atraso de hitos o entregables: 80 días.  
+El detalle de los hitos que presentan atraso se encuentra en la presentación de seguimiento semanal, en la diapositiva 2, junto con el plan de acción frente a la desviación.
+Detalle de la Gestión de Proyectos
+DataR
+Servicios a demanda - “Cifras de recaudo”
+La interventoría informó una actualización sobre el estado y progreso general del requerimiento "cifras de recaudo". Con fecha de corte al 8/04/2024, se han proyectado un total de 88 historias de usuario. De estas, el 44% han sido calificadas como "cerradas", el 7% como "resueltas", y el 49% permanecen abiertas.
+Desde la interventoría se informó el estado desde el inicio del requerimiento a la fecha, informando los siguientes ítems: 
+Para el sprint del 0 al 5 se tenía un total de 42 historias de usuario, sobre estos Sprints se veía que, si bien el Consorcio tenía algunos atrasos, se ejecutan unos planes de acción, que al final permitieron el cierre de las HU, por cuanto, la Interventoría considera que la salud del requerimiento era aceptable y contaba con oportunidades de mejora.
+Para el sprint 6 y 7 se cuenta con doce (12) HU comprometidas, a la fecha del 09/04/2024 continúan abiertas. La imposibilidad de cerrarlas se debe a la etapa de verificación en la que se está corroborando la exactitud de los datos en los formatos 1188 (formato consolidado de bancos) y el formato 1105 (formato relativo a reglas de negocio para ajustes en la declaración de renta de los ciudadanos). Aunque el Consorcio ya ha implementado estas historias de usuario, durante las sesiones de validación se ha reconocido la necesidad de realizar revisiones adicionales tanto por parte de la DIAN, complementando y esclareciendo información; como por parte del Consorcio, encargándose de realizar las modificaciones requeridas. Se planea proseguir con las sesiones de validación, lo cual es una parte esperada del proceso en un proyecto de implementación de datos.
+Se alerta a la DIAN, porque adicional al sprint 6 y 7 se dio inicio al sprint 8; este tiene un total de 10 HU comprometidas, por lo que se tienen más de 20 HU abiertas, y teniendo en cuenta las actividades que aun se están cerrando del sprint 6 y 7, la interventoría ve un riesgo de que el sprint 8 no pueda cerrarse según lo proyectado. Adicionalmente, los sprint 9 en adelante genera una dependencia entre HU, lo que impacta el avance del proyecto.
+Se notifica a la DIAN sobre una situación de alerta relacionada con los Sprints en curso. Además de los Sprints 6 y 7 en ejecución, se inició el sprint 8, que tiene comprometidas diez (10) historias de usuario (HU). Esta carga acumulativa resulta en más de 20 HU que aún están pendientes de cierre. Dada esta situación y considerando que aún hay actividades en proceso de finalización correspondientes a los Sprints 6 y 7, la interventoría alerta un riesgo de no cumplimiento en el cierre del sprint 8. Por otro lado, a partir del sprint 9 en adelante, se observa que existe una dependencia entre HU, lo cual podría llegar a generar impactos adicionales en el progreso del requerimiento y afectar la fecha fin planeada de cierre (11/07/2024).
+La interventoría sugirió convocar una reunión estratégica con los representantes legales del Consorcio, con el propósito de solicitar un plan de acción al contratista para subsanar los atrasos existentes. Cabe destacar que estos retrasos tienen su origen en las detalladas revisiones que se están llevando a cabo sobre los datos en colaboración con el área encargada del negocio. Adicionalmente, se aconsejó que, como una posible solución, el Consorcio podría considerar la asignación de más recursos técnicos con el fin de desbloquear actividades y avanzar de manera paralela en los diferentes frentes de trabajo.
+La Interventoría informó que sostuvo una conversación con la líder técnica de la DIAN, en la cual se evaluó el desempeño del Consorcio. A pesar de que inicialmente las expectativas respecto a la capacidad del Consorcio para satisfacer el requerimiento no eran muy altas, los avances observados indican que es posible entregar un producto que no solo cumpla con las necesidades de la DIAN, sino que también agregue valor a la entidad.
+La DIAN expresó que para los Sprints del 1 al 5, en realidad el Consorcio ha estado tratando de ponerse al día con los retrasos, por cuanto no se podría hablar de una buena salud del requerimiento. En cuanto a los Sprints 6, 7 y 8, la DIAN está de acuerdo con la Interventoría en que es necesario revisar el estado de los atrasos con el equipo directivo del Consorcio. Además, indicó que, si se decide realizar algún cambio en la planificación, este no debe impactar los plazos establecidos y debe resolver todas las tareas pendientes.
+De otro lado la interventoría informó nuevas alertas relacionadas con: 
+La no ejecución del primer release en el sprint 8, tal como lo informó el Consorcio en la sesión de review del sprint 7.
+Alto riesgo de incumplimiento en el cierre de las HU comprometidas para el sprint 8 por parte del Consorcio.
+La no respuesta a las comunicaciones enviadas por la Interventoría al Consorcio. 
+La no participación de Ana Cáceres como gerente del proyecto a partir del 9/04/2024, en a que el Consorcio aseguró haber realizado un acuerdo con la DIAN al respecto.
+Respecto de los puntos anteriores, la DIAN confirmó que es obligación del Consorcio responder las solicitudes de interventoría. Además, deberá formalizar mediante una solicitud el cambio del rol de gerente de proyecto.
+Servicios fijos
+Se reporta avance sobre la gestión y cierre de productos.
+DIAN solicitó a la Interventoría revisar la pertinencia de incorporar o no el entregable 4 en el esfuerzo actual del proyecto.
+Kyndryl se encuentra ejecutando los ajustes a las remediaciones, con base en observaciones realizadas por el Consorcio.
+Gestión contractual terminación del contrato por mutuo acuerdo.
+Sobre la gestión contractual se informó que se encuentra en gestión por parte de la DIAN el trámite del nuevo otrosí al contrato. La Interventoría enviará concepto el 9/04/2024.
+Hitos y entregables
+El detalle de los hitos y entregables se encuentra en la presentación de seguimiento semanal, en el Anexo I Estado productos DataR, diapositivas 13, 14 y 15. 
+Servicios por demanda, servicios fijos y seguimientos ejecutivos
+El detalle del avance de los servicios por demanda, los servicios fijos y seguimientos ejecutivo, se encuentra en la presentación de seguimiento semanal, en la diapositiva 5 y 6, donde se encuentran las temáticas y aspectos clave del PETD.
+Alertas y recomendaciones
+El detalle se encuentra en la presentación de seguimiento semanal, en la diapositiva 8, 9 y 10 donde se encuentran las alertas, recomendaciones y acciones ejecutadas.
+Comunicados y conceptos
+El detalle se encuentra en la presentación de seguimiento semanal, en la diapositiva 11, donde se encuentran los comunicados y conceptos del PETD.
+Multinube – Lote 1 
+Hitos y entregables
+El detalle de los hitos y entregables se encuentra en la presentación de seguimiento semanal, en el Anexo I Estado productos Multinube, diapositivas veinticinco (25), ventaseis (26) y veintisiete (27).
+Operación Factura Electrónica, Notificaciones y PQRDS
+El detalle se encuentra en la presentación de seguimiento semanal, diapositiva dieciocho (18). 
+Puntos de discusión en el seguimiento:
+La Interventoría solicitó a la DIAN dar celeridad sobre la aprobación de la estrategia de respaldo y temas de seguridad luego de la implementación en producción del Sharding.
+Recepción de aplicaciones restantes
+El detalle se encuentra en la presentación de seguimiento semanal, diapositiva dieciocho (18). 
+Puntos de discusión en el seguimiento: 
+La Interventoría informó que se inició la operación de tres aplicaciones del grupo I (sistemas de clasificación arancelaria, importación temporal de vehículos y portales defensoría), y de todas las aplicaciones del grupo II. Se indicó que para el 23/04/2024 se espera tomar la operación de las aplicaciones que corresponden al grupo III.
+Implementación ServiceNow
+El detalle se encuentra en la presentación de seguimiento semanal, diapositiva diecinueve (19). 
+Estado del seguimiento táctico 
+El detalle se encuentra en la presentación de seguimiento semanal, diapositiva veinte (20).
+Puntos de discusión en el seguimiento: 
+La Interventoría informó que pese a las solicitudes realizadas a Kyndryl el 01/04/2024 y 03/04/2024 vía correo electrónico, donde se solicitó la presentación del arquitecto de datos, no se ha obtenido respuesta por parte de proveedor. Se procederá con la emisión de un comunicado. 
+Alertas y recomendaciones
+Para el periodo informado no se generaron nuevas alertas o recomendaciones. El detalle se encuentra en la presentación de seguimiento semanal, en las diapositivas veintiuno (21) y veintidós (22), donde se encuentran las alertas, recomendaciones y acciones ejecutadas. Para el periodo informado no se cuenta con nuevas alertas y recomendaciones.
+Comunicados y conceptos
+Para el periodo informado no se generaron comunicados y conceptos. El detalle de los conceptos en curso se encuentra en la presentación de seguimiento semanal, diapositiva veintitrés (23)
+Gestión financiera
+El detalle de la gestión financiera se encuentra en la presentación de seguimiento semanal, en el Anexo IV Gestión Financiera, de la diapositiva treinta y seis (34) a la diapositiva treinta y ocho (38).
+Gestión transversal – Interdependencias
+El detalle de las interdependencias se encuentra en la diapositiva 33 y 34.
+ Seguimiento a compromisos
+Conclusiones y nuevos compromisos
+Nota: La presentación de seguimiento hace parte integral del acta y puede ser consultada en la ruta: INT_EJ_IN_Reporte_Avance_20240402.pptx
+Próxima reunión:
+Lugar: Presencial
+Día: 16 de abril de 2024
+Hora: 11:00 a.m. – 12:00 m.
+Participantes:
+Nombre y Apellido | Cargo / Rol dentro del Proyecto
+Julián David Medina Herrera | Director de Gestión de Innovación y Tecnología
+Daniel Andrés Rojas Ospina | Subdirector de Procesamiento de Datos – DIAN 
+Supervisor de contrato DataR
+Juan Carlos Vizcaíno | Supervisor de contrato Multinube
+Martín Camilo Fonseca Trompa | Subdirector de Soluciones y Desarrollo
+Luzmila Romero Lancheros | Líder del proyecto de Interventoría – DIAN
+Nancy Vianeth Vera Rodríguez | Jefe Coordinación Centro de Gestión de Proyectos de Innovación y Tecnología – CenIT (A)
+Nombre y Apellido | Cargo / Rol dentro del Proyecto
+Patricia Patiño | Directora de Interventoría
+Andrés Cuadros | Interventoría: equipo transversal
+Carlos Quintero | Interventoría: equipo transversal
+Edwin Torres | Interventoría: equipo transversal
+Sebastián Puentes | Interventoría: equipo transversal
+Valeria Garzón | Interventoría: equipo transversal
+Carlos A Lenguerque | Interventoría: equipo apoyo DataR
+Ingrid Vela | Interventoría: equipo apoyo DataR
+Luis Bonilla | Interventoría: equipo apoyo Multinube
+Conclusiones / Compromisos | Responsable | Estado de Cumplimiento / Fecha comprometida
+(DataR) Realizar el taller de lecciones con el equipo del proyecto DataR. 
+> Pendiente confirmación de fecha por parte de la DIAN, interventoría propone ejecución el 19/04/2024. | Interventoría | En curso
+
+Por definir
+(Multinube) Realizar el taller de lecciones con el equipo del proyecto Multinube.
+> La Interventoría remitió a la DIAN la propuesta metodológica, con fechas y grupos, según lo revisado, para confirmación de la DIAN. La DIAN remitió observaciones el 8/03/2024. La Interventoría dio respuesta a la DIAN el 13/03/2024. Se estima dar inicio al taller de lecciones aprendidas después del 15/04/2024 | Interventoría | En curso
+
+Por definir
+(Interventoría) Realizar el taller de lecciones con el equipo del proyecto de Interventoría.
+> Se agendará en 2024, después de realizado el taller del proyecto DataR. | Interventoría | No iniciado
+
+Por definir
+(DataR) Realizar el seguimiento a la documentación en DevOps y Wiki y emitir un comunicado en caso de que al 50% del sprint no se encuentre la gestión al mismo porcentaje (actas / entregables).
+> Se han remitido las observaciones y hallazgos, mediante correo electrónico, así: 
+Cifras de recaudo: sprint 7 - weekly 26/03/2024 | Interventoría | En curso, recurrente
+(Multinube) Realizar la aprobación por medio de correo electrónico del flujo de DevOps presentado por Kyndryl para la toma de operación de Factura Electrónica.
+> Pendiente segunda sesión para revisar el contenido del flujo de Factura Electrónica con la herramienta Github (02/04/2024). Se encuentra pendiente cerrar las observaciones en el documento en línea. | DIAN | En curso
+
+12/04/2024
+22/03/2024
+15/02/2024
+02/02/2024
+26/01/2024
+12/01/2024
+(Multinube – DataR) notificar a la DIAN vía correo electrónico, una vez identificada, las alertas y recomendaciones de los proyectos DataR y Multinube.
+> En el periodo de reporte se generó alerta y recomendación para el proyecto DataR. | Interventoría | Recurrente
+(DataR) Concepto de la Interventoría en relación con la situación del proyecto, desde los principales hitos hasta el momento actual.
+> La Interventoría envió el concepto el 11/03/2024, a la espera de observaciones para emitir la versión definitiva. | Interventoría | En curso
+
+12/04/2024
+05/04/2024
+11/03/2024
+8/03/2024
+(Multinube) Coordinar mesas de trabajo con Kyndryl para iniciar el proceso de negociación contractual. Mantener informada a la Interventoría. | DIAN | No iniciado
+(Multinube) Elaborar un informe de las implementaciones que se han hecho en paralelo con la actualización de los diseños en la fase 2. | Interventoría | Finalizado 
+
+03/04/2024
+02/04/2024
+(Multinube) Coordinar una mesa de trabajo para la revisión conjunta sobre las modificaciones contractuales del proyecto. | DIAN / Interventoría | No iniciado
+Conclusiones / Compromisos | Responsable | Estado de Cumplimiento / Fecha comprometida
+(Multinube) – tomar las acciones necesarias para presionar a Kyndryl con el ingreso del arquitecto de datos al proyecto. | Interventoría | 12/04/2024
+Firma
+Luzmila Romero Lancheros
+Líder del proyecto de Interventoría – DIAN | Firma
+Patricia Patiño
+Directora de la Interventoría

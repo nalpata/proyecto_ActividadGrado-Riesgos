@@ -1,0 +1,242 @@
+A member firm of Ernst & Young Global Limited 
+A member firm of Ernst & Young Global Limited 
+A member firm of Ernst & Young Global Limited 
+A member firm of Ernst & Young Global Limited 
+ 
+ 
+Ernst & Young S.A.S.  
+Ernst & Young S.A.S. 
+Ernst & Young S.A.S. 
+Ernst & Young S.A.S. 
+Bogotá D.C.  
+Medellín – Antioquia 
+Cali – Valle del Cauca 
+Barranquilla - Atlántico 
+Carrera 11 No 98 - 07 
+Carrera 43A No. 3 Sur-130 
+Avenida 4 Norte No. 6N – 61 
+Calle 77B No 59 – 61 
+Edificio Pijao Green Office 
+Edificio Milla de Oro 
+Edificio Siglo XXI 
+Edificio Centro Empresarial  
+Tercer Piso 
+Torre 1 – Piso 14 
+Oficina 502 
+Las Américas II Oficina 311 
+Tel. +57 (601) 484 7000 
+Tel: +57 (604) 369 8400 
+Tel: +57 (602) 485 6280 
+Tel: +57 (605) 385 2201 
+ 
+ 
+Señores 
+CNS-0418-24 
+Germán Morante / Édgar Arias 
+30 de mayo 2024 
+Representación legal del Consorcio para el proyecto DATAR  
+M&Q / PWC 
+Bogotá, D.C. 
+ 
+ 
+Comunicación del Interventor del Contrato de Servicios 92872-025-
+2022, celebrado entre el Fondo DIAN para Colombia y el Consorcio M&Q – 
+PWC – DATAR, relacionado con el estado de cierre del sprint 9 del 
+requerimiento “Cifras de recaudo”. 
+ 
+Estimados Germán y Édgar: 
+ 
+De la manera más atenta, en calidad de Interventor del contrato de la referencia y en 
+ejercicio de nuestras funciones, nos permitimos informar el estado de cierre del sprint 9 
+del requerimiento “Cifras de recaudo”, socializado en sesiones “Review Sprint 9 Recaudo 
+DataR” realizada el 02/05/2024, fecha en la cual el Consorcio se había comprometido a 
+dar cierre al sprint en mención.  
+ 
+1. El 17/04/2024 se realizó sesión de “Sprint Planning Sprint 9 Recaudo DataR” en la 
+que se comprometió por parte del Consorcio la ejecución de veintiún (21) historias 
+de usuario (HU). Durante la sesión, el consorcio informó que la implementación de 
+todas las reglas de negocio del requerimiento se completaría en el sprint 9. Además, 
+confirmó a la DIAN e Interventoría la no existencia de dependencias entre las 
+Historias de Usuario (HU), garantizando así que la ejecución podría llevarse a cabo 
+sin inconvenientes. 
+
+A member firm of Ernst & Young Global Limited 
+ 
+ 
+ 
+ 
+ 
+Fuente: HU declaradas en sprint planning del 17/04/2024 
+ 
+La Interventoría realizó las siguientes alertas y recomendaciones durante la sesión: 
+ 
+• 
+Se alertó sobre el incremento de historias de Usuario (HU) en el sprint, ya que 
+podría indicar un exceso de carga de trabajo para el equipo, lo que podría 
+afectar la calidad del trabajo realizado y la capacidad para cumplir con los 
+compromisos establecidos. Recordamos que, en la metodología ágil, es 
+importante mantener un equilibrio adecuado en la carga de trabajo para 
+garantizar la entrega de incrementos de producto de calidad al final de cada 
+sprint.  
+ 
+• 
+Dado el volumen de historias de usuario (HU) comprometidas, la Interventoría 
+recomendó al Consorcio la importancia de informar cualquier impedimento o 
+necesidad a través de los espacios diarios (daily) dispuestos en el proyecto. 
+Esto permitiría al Consorcio contar con todos los recursos y la información 
+necesaria para llevar a cabo las tareas planeadas.  
+ 
+• 
+Se solicitó y recomendó al Consorcio completar la descripción y los criterios 
+de aceptación para todas las historias de usuario comprometidas, no fueron 
+evidenciadas en su totalidad durante la reunión. 
+ 
+• 
+La Interventoría reiteró al Consorcio la necesidad de contar con un plan 
+general de las historias de usuario (HU) para los sprints restantes (10 al 14), 
+de manera que se logre contar con una visión global del requerimiento. La 
+
+A member firm of Ernst & Young Global Limited 
+ 
+ 
+ 
+ 
+ausencia de este plan general puede afectar la capacidad del equipo para 
+anticipar necesidades, asignar recursos adecuadamente y mantener un ritmo 
+de trabajo sostenible.  
+ 
+2. El 24/04/2024, en la mitad de ejecución del sprint 9, cuando se esperaba un 50% de 
+ejecución, se realizó la ceremonia denominada “weekly sprint”, en la cual se 
+concluyó e informó que: 
+ 
+• 
+El Consorcio declaró las veintiún (21) Historias de Usuario (HU) 
+comprometidas en estado "Activo". 
+• 
+En cuanto al progreso en las tareas, se reportaron 9 cerradas, 8 activas y 30 
+nuevas, resultando un avance final del 19%. 
+• 
+El Consorcio se comprometió con la liberación de las HU relacionadas con 
+script de pruebas el día 25/04/2024. Adicionalmente, informó que no se 
+cuenta con actividades, dependencia o bloqueantes que impidieran avanzar 
+con la ejecución de las HU del sprint. 
+ 
+Durante la sesión se informaron las siguientes alertas y recomendaciones por parte 
+de la DIAN e Interventoría: 
+ 
+• 
+La Interventoría informó su preocupación debido al avance insuficiente 
+reportado por el Consorcio, lo cual, planteaba un riesgo de no lograr el cierre 
+del sprint en los plazos previstos para el sprint. En consecuencia, se solicitó la 
+Consorcio la adopción de medidas correctivas para mitigar el retraso. 
+ 
+• 
+La interventoría informó que el Consorcio no había realizado la entrega de los 
+acuerdos de confidencialidad requeridos para formalizar la integración de 
+nuevo personal, lo cual era un compromiso dado el volumen de trabajo del 
+sprint.  
+ 
+• 
+La DIAN y la Interventoría reiteraron la importancia de que el Consorcio 
+realice una alineación efectiva e informe sobre los pasos a seguir al equipo 
+Multinube con respecto al primer release del requerimiento. La falta de 
+comunicación clara y oportuna puede afectar la coordinación y el éxito del 
+primer release. 
+ 
+3. El 25/04/2024, durante la sesión se ejecutó sesión denominada "Scripts de 
+pruebas", en la que el Consorcio, la DIAN y la Interventoría acordaron la 
+agrupación de las Historias de Usuario (HU) relacionadas con el diseño de scripts 
+de pruebas. Como resultado de este acuerdo, el Consorcio realizó los ajustes 
+necesarios en la herramienta Azure DevOps, resultando en una única HU para 
+esta actividad en el sprint 9. 
+
+A member firm of Ernst & Young Global Limited 
+ 
+ 
+ 
+ 
+Adicionalmente, se confirmó en la misma sesión que la agrupación de las HU no 
+implicaba un cambio de alcance, sino que beneficiaba al Consorcio al reducir la 
+cantidad de HU de scripts de pruebas de varias a una sola. También se acordó 
+que las HU pendientes del sprint 8, correspondientes a este tema y que estaban 
+retrasadas, serían entregadas en el sprint 9, proporcionando al Consorcio tiempo 
+adicional para completar estas tareas. 
+ 
+Finalmente, tras la actualización de DevOps, se tiene el siguiente detalle de 
+historias de usuario. Inicialmente se habían planeado veintiuna (21) HU, y este 
+número se redujo a diez (10) HU (ver detalle en la siguiente gráfica). 
+ 
+ 
+Fuente: Detalle HU Azure DevOps – sprint 9 
+ 
+4. El 02/05/2024, fecha comprometida de cierre del sprint 9, la Interventoría solicitó al 
+Consorcio presentar las evidencias sobre el avance y/o cierre de las tareas e 
+historias de usuario (HU) comprometidas. En la sesión se identificó que: 
+ 
+• 
+El Consorcio reportó 1 HU “resuelta” y 9 HU “abiertas”. 
+• 
+Sobre el avance de las tareas, se reportaron 20 de 51 tareas en estado 
+“cerrado”, representando el 39% de avance. 
+ 
+ 
+Fuente: Estado de las HU al cierre del sprint 9 del 17/05/2024 
+ 
+
+A member firm of Ernst & Young Global Limited 
+ 
+ 
+ 
+ 
+Considerando el no cierre del sprint, durante la sesión se acordaron los siguientes 
+compromisos: 
+ 
+• 
+Liberación de las HU asociadas con reglas de negocio EyS y script de pruebas 
+el 02/05/2024 y 06/05/2024. 
+• 
+Liberación de un plan con los pasos metodológicos y escenarios de validación 
+de las reglas de negocio. 
+ 
+Situaciones evidenciadas en el sprint 9: 
+ 
+• 
+Falta de descripciones y criterios de aceptación completos: Se observó que no 
+todas las historias de usuario comprometidas tenían descripciones y criterios de 
+aceptación completos durante la reunión de planificación. 
+ 
+• 
+Persisten las discrepancias entre lo comprometido y lo efectivamente 
+finalizado: A pesar de que el consorcio garantizó la realización de una cantidad 
+específica de Historias de Usuario (HU) durante la planeación del sprint 9, no se 
+logró completar y entregar todas las HU antes del cierre del sprint para revisión 
+de la DIAN e Interventoría. 
+ 
+• 
+Tareas retrasadas y productividad baja: los hechos informados anteriormente 
+reafirman el atraso en el cierre de las historias de usuario. Incluso en el punto 
+medio de la ejecución del sprint 9, los avances no correspondían a lo esperado. 
+ 
+• 
+Falencias en el cierre oportuno: persisten las falencias en la definición de una 
+estrategia que permita lograr el cierre de las historias de usuario (HU), previa 
+revisión y aprobación de la documentación y/o artefactos por parte de la DIAN e 
+Interventoría. 
+ 
+• 
+Inoportunidad en el cierre de compromisos: tras evidenciar la no entrega de las 
+HU comprometidas, se establecieron compromisos finales de cierre por parte del 
+Consorcio; esto incluía la entrega de las HU restantes al finalizar. Sin embargo, el 
+Consorcio no dio cumplimiento al compromiso adquirido.  
+ 
+• 
+Posible incumplimiento de la fecha de cierre del requerimiento: a la fecha se 
+cuenta con HU abiertas desde los sprints 4 al 8, representando atrasos que 
+ponen en riesgo tanto la ejecución del sprint 9, como la entrega del 
+requerimiento el 11/07/2024. 
+ 
+• 
+Ausencia de un plan general para sprints futuros: Se identificó la falta de un 
+plan general que relacione las historias de usuario de los sprints restantes, lo que 
+puede afectar la capacidad del equipo para anticipar necesidades y asignar 
+

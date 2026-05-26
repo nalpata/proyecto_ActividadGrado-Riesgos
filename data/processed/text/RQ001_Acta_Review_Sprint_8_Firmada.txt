@@ -1,0 +1,146 @@
+ 
+ 
+ 
+ 
+Dirección de Gestión de Innovación y Tecnología 
+Proyectos Estratégicos de Transformación Digital  
+ 
+Proyecto: Repositorio Único De Datos - DataR 
+ 
+ACTA DE REUNIÓN 
+(Review Sprint 8 – Cifras de Recaudo) 
+ 
+1. Fecha de reunión: 17 de abril de 2024  
+ 
+2. Hora: 11:00 a.m. – 12:00 a.m. 
+ 
+3. Lugar: Microsoft Teams - Review Sprint 8 Recaudo DataR 
+ 
+4. Asistentes:  
+ 
+DIAN: 
+ 
+Nombre y Apellido 
+Cargo / Rol dentro del Proyecto 
+Ileana Iguarán Salinas  
+Gerente de proyecto DataR – DIAN 
+Viviana Yiseth Cardozo Escobar 
+Consultor BID 
+Yenny Astrid Gómez 
+Funcionario DIAN 
+Claudia Marcela Quemba 
+Funcionario DIAN 
+Omar Rojas García 
+Funcionario DIAN 
+ 
+EY: 
+ 
+Nombre y Apellido 
+Cargo / Rol dentro del Proyecto 
+Luis Maury 
+Interventoría: equipo apoyo DataR 
+Ingrid Vela Beltrán 
+Interventoría: equipo apoyo DataR 
+ 
+Consorcio (M&Q - PWC): 
+ 
+Nombre y Apellido 
+Cargo / Rol dentro del Proyecto 
+Angela Patricia Rios 
+Gerente de proyecto DataR 
+Ana María Gomez Montes 
+Scrum Master – Equipo por demanda 
+Sandra Castro 
+Product Owner – Equipo por demanda 
+Marco Revolledo 
+Equipo por demanda 
+Juan Anzola 
+Equipo por demanda 
+Miguel Velandia 
+Equipo por demanda 
+Eliseo Buitrago Alvarado 
+Equipo por demanda 
+Cristian Camilo Mayorga 
+Equipo por demanda 
+Edison Camilo Gatarejo 
+Equipo por demanda 
+William Mateus Avila 
+Equipo por demanda 
+ 
+5. Resultados del Review del Sprint 8 ejecutado del 4 de abril al 17 de abril de 2024: 
+5.1. 
+Historias de Usuario (HU) Comprometidas para el Sprint 8 
+En sesión de Sprint Planning realizada el 3 de abril de 2024 inicialmente el consorcio 
+comprometió nueve (9) HU, sin embargo, por solicitud de la Interventoría se incluyó 
+una (1) historia de usuario relacionada con la preparación de los prerrequisitos de 
+despliegue para el primer release del requerimiento, por lo que el Consorcio realizó la 
+actualización de la planeación, la cual se informó finalmente por correo electrónico del 
+día 8 de abril de 2024.  
+
+ 
+ACTA NÚMERO                                                                            
+ 
+Continuación del Acta Review Sprint 8 – Req Recaudo 
+ 
+_______________________________________________________________________________ 
+ 
+ 
+En consecuencia, se comprometieron diez (10) nuevas Historias de Usuario para el 
+Sprint 8 y un (1) Test Plan que comprendía ejecutar 19 Caso de prueba:  
+ 
+ 
+Historias de Usuario comprometidas Sprint 8 
+1 
+REQ001HU305 - Aplicar reglas del modelo EyS Formato 1105 (P2) 
+2 
+REQ001HU305 - Aplicar reglas del modelo EyS Formato 1105 (P3) 
+3 
+REQ001HU306 - Aplicar reglas del modelo EyS (p2)_p4 
+4 
+REQ001HU306 - Aplicar reglas del modelo EyS (p2)_p5 
+5 
+REQ001HU701 - Generar Anexo Documentación técnica Parte 5 
+6 
+REQ001HU805 - Generación de matriz de prerrequisitos para despliegue en 
+ambiente pre productivo 
+7 
+REQ001HU809 - Diseñar script de pruebas de calidad de datos - integridad 
+8 
+REQ001HU810 - Diseñar script de pruebas de calidad de datos - completitud 
+9 
+REQ001HU811 - Diseñar script de pruebas de calidad de datos - precisión 
+10 
+REQ001HU814 - Diseñar script de pruebas de extracción, ingesta y migración de 
+datos 
+11 
+Test Plan Cifras de recaudo Sprint 8 
+ 
+La Interventoría observó que el Consorcio estaba desagregando HU, de acuerdo con lo 
+informado por parte del Consorcio esto se debía a la complejidad en la aplicación de reglas 
+de negocio. Teniendo en cuenta la incertidumbre sobre la cantidad total de HU que 
+requerimiento, la Interventoría solicitó actualizar y socializar la proyección de HU hasta el 
+sprint 14 del requerimiento. 
+El total de HU comprometidas para el Sprint 8 fue de diez (10), de las cuales el Consorcio 
+realizó liberación de cinco (5) historias de usuario de la siguiente forma: 
+• El 12 de abril de 2024, el Consorcio realizó la primera liberación asociada a las 
+historias de usuario REQ001HU805 - Generación de matriz de prerrequisitos para 
+despliegue en ambiente pre productivo para revisión por parte de DIAN e 
+Interventoría vía correo con asunto “DataR- RQ001 - Sprint 8 - Liberación de 
+producto 12 abril 2024” 
+• El 15 de abril de 2024, el Consorcio realizó una segunda liberación de cuatro (4) 
+historias de usuario REQ001HU305 - Aplicar reglas del modelo EyS Formato 1105 
+(P2), REQ001HU305 - Aplicar reglas del modelo EyS Formato 1105 (P3), 
+REQ001HU306 - Aplicar reglas del modelo EyS (p2)_p4 y REQ001HU306 - 
+Aplicar reglas del modelo EyS (p2)_p5 en correo con asunto “DataR - REQ001 - 
+Sprint 8 – Estado”  
+Teniendo cuenta lo anterior, el 17 de abril de 2024 la DIAN generó respuesta sobre las HU 
+asociadas a la aplicación de las reglas de negocio de entradas y salidas (EyS) indicando 
+“estamos al tanto de la estrategia de validación con el fin de abarcar el proceso general de 
+entradas y salidas. Para ello, se sugiere definir puntos de control de revisión que coincidan 
+con las etapas claves del proceso, permitiendo así una validación integral, en lugar de 
+centrarse en aspectos puntuales de las historias de usuario. Esto se menciona y se ve 
+relevante dada la naturaleza y procedimientos específicos del negocio.” 
+ 
+Para la sesión de Review del Sprint 8 de las diez (10) historias de usuario comprometidas, 
+el Consorcio presentó cinco (5) historias de usuario previamente liberadas en estado 
+
