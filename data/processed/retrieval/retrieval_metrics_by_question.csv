@@ -1,0 +1,21 @@
+﻿model_alias,question_id,question,categoria,precision_at_1,precision_at_3,precision_at_5,hit_at_1,hit_at_3,hit_at_5,mrr,relevant_retrieved_top5
+bge_m3,Q001,¿Qué incumplimientos contractuales fueron identificados en los documentos?,incumplimientos,1.0,0.6666666666666666,0.4,1,1,1,1.0,2
+bge_m3,Q002,¿Qué compromisos aparecen como vencidos o no cumplidos?,incumplimientos,1.0,1.0,1.0,1,1,1,1.0,5
+bge_m3,Q003,¿Qué riesgos de retraso se evidencian en el corpus?,riesgos,1.0,1.0,1.0,1,1,1,1.0,5
+bge_m3,Q004,¿Qué riesgos asociados a despliegues fueron identificados?,despliegues,0.0,0.6666666666666666,0.4,0,1,1,0.5,2
+bge_m3,Q005,¿Qué ANS fueron reportados como incumplidos o afectados?,ans,0.0,0.3333333333333333,0.6,0,1,1,0.3333333333333333,3
+bge_m3,Q006,¿Qué acciones correctivas fueron solicitadas por la interventoría?,acciones_correctivas,1.0,0.6666666666666666,0.4,1,1,1,1.0,2
+bge_m3,Q010,¿Qué documentos evidencian incumplimiento reiterado?,incumplimientos,0.0,0.6666666666666666,0.8,0,1,1,0.5,4
+bge_m3,Q012,¿Qué señales tempranas de riesgo aparecen en los comunicados?,riesgos,0.0,0.6666666666666666,0.6,0,1,1,0.5,3
+bge_m3,Q013,¿Qué riesgos afectan el cumplimiento del proyecto?,riesgos,0.0,0.0,0.4,0,0,1,0.25,2
+bge_m3,Q020,¿Qué evidencia documental soporta la existencia de riesgos críticos?,evidencia,1.0,1.0,1.0,1,1,1,1.0,5
+minilm,Q001,¿Qué incumplimientos contractuales fueron identificados en los documentos?,incumplimientos,1.0,0.6666666666666666,0.8,1,1,1,1.0,4
+minilm,Q002,¿Qué compromisos aparecen como vencidos o no cumplidos?,incumplimientos,1.0,0.6666666666666666,0.6,1,1,1,1.0,3
+minilm,Q003,¿Qué riesgos de retraso se evidencian en el corpus?,riesgos,0.0,0.0,0.4,0,0,1,0.25,2
+minilm,Q004,¿Qué riesgos asociados a despliegues fueron identificados?,despliegues,0.0,0.0,0.0,0,0,0,0.0,0
+minilm,Q005,¿Qué ANS fueron reportados como incumplidos o afectados?,ans,0.0,0.0,0.0,0,0,0,0.0,0
+minilm,Q006,¿Qué acciones correctivas fueron solicitadas por la interventoría?,acciones_correctivas,0.0,0.6666666666666666,0.4,0,1,1,0.5,2
+minilm,Q010,¿Qué documentos evidencian incumplimiento reiterado?,incumplimientos,0.0,0.6666666666666666,0.4,0,1,1,0.5,2
+minilm,Q012,¿Qué señales tempranas de riesgo aparecen en los comunicados?,riesgos,1.0,0.3333333333333333,0.2,1,1,1,1.0,1
+minilm,Q013,¿Qué riesgos afectan el cumplimiento del proyecto?,riesgos,1.0,0.3333333333333333,0.2,1,1,1,1.0,1
+minilm,Q020,¿Qué evidencia documental soporta la existencia de riesgos críticos?,evidencia,1.0,0.6666666666666666,0.6,1,1,1,1.0,3

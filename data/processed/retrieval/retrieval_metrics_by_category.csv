@@ -1,0 +1,13 @@
+﻿model_alias,categoria,questions_evaluated,precision_at_5,hit_at_5,mrr
+bge_m3,acciones_correctivas,1,0.4,1.0,1.0
+bge_m3,ans,1,0.6,1.0,0.3333333333333333
+bge_m3,despliegues,1,0.4,1.0,0.5
+bge_m3,evidencia,1,1.0,1.0,1.0
+bge_m3,incumplimientos,3,0.7333333333333334,1.0,0.8333333333333334
+bge_m3,riesgos,3,0.6666666666666666,1.0,0.5833333333333334
+minilm,acciones_correctivas,1,0.4,1.0,0.5
+minilm,ans,1,0.0,0.0,0.0
+minilm,despliegues,1,0.0,0.0,0.0
+minilm,evidencia,1,0.6,1.0,1.0
+minilm,incumplimientos,3,0.6,1.0,0.8333333333333334
+minilm,riesgos,3,0.26666666666666666,1.0,0.75
