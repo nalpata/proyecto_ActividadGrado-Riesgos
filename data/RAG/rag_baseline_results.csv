@@ -1,0 +1,91 @@
+﻿question_id,question,categoria,rag_answer,top_k,embedding_model,llm_used
+Q001,¿Qué incumplimientos contractuales fueron identificados en los documentos?,incumplimientos,"Respuesta:
+Se han identificado varios incumplimientos contractuales en los documentos revisados, que incluyen falencias en la calidad de los entregables, incumplimiento de fechas comprometidas, falta de atención a observaciones de la DIAN y la Interventoría, y problemas en la preparación y entrega de documentos. A continuación, se detallan los incumplimientos específicos:
+
+- Falencias en la calidad de los entregables, lo que ha generado reprocesos en la revisión de la información (DOC_006, Comunicado, página 26, chunk_id DOC_006_RCHUNK_041).
+- Incumplimiento de las fechas comprometidas, a pesar de los seguimientos semanales realizados por la Interventoría (DOC_006, Comunicado, página 26, chunk_id DOC_006_RCHUNK_041).
+- No atención a las observaciones realizadas por la DIAN y la Interventoría, lo que ha llevado a reprocesos y al incumplimiento de los tiempos definidos para el cierre de productos (DOC_006, Comunicado, página 26, chunk_id DOC_006_RCHUNK_041).
+- Incumplimiento de compromisos acordados en mesas de trabajo, como la asistencia a reuniones y la entrega de documentos en las fechas pactadas (DOC_031, Comunicado, página 1, chunk_id DOC_031_RCHUNK_001).
+- Baja calidad de los productos elaborados y falta de capacidad para atender requerimientos a la velocidad requerida (DOC_018, Acta, página 1, chunk_id DOC_018_RCHUNK_018).
+
+Evidencia utilizada:
+- DOC_006 | Comunicado | página 26 | chunk_id DOC_006_RCHUNK_041 | Se mencionan falencias en la calidad y el incumplimiento de fechas.
+- DOC_031 | Comunicado | página 1 | chunk_id DOC_031_RCHUNK_001 | Se detallan incumplimientos en compromisos de mesas de trabajo.
+- DOC_018 | Acta | página 1 | chunk_id DOC_018_RCHUNK_018 | Se señala la baja calidad de productos y la falta de capacidad del Consorcio.
+
+Limitaciones:
+La evidencia es parcial y no proporciona un panorama completo de todos los incumplimientos, ya que algunos aspectos mencionados en los documentos no permiten declarar formalmente un incumplimiento contractual debido a falencias en el contrato mismo (DOC_018, Acta, página 1, chunk_id DOC_018_RCHUNK_020).",5,BAAI/bge-m3,True
+Q002,¿Qué compromisos aparecen como vencidos o no cumplidos?,incumplimientos,"Respuesta:
+Los compromisos que aparecen como vencidos o no cumplidos incluyen:
+
+- No se ha implementado el gobierno del proyecto, ya que no se ha socializado la composición del Comité de dirección Estratégica ni su frecuencia de reuniones (DOC_006, 40, DOC_006_RCHUNK_067).
+- Falta de fortalecimiento en el proceso de aseguramiento de la calidad de los entregables, lo que afecta su alineación con los requisitos contractuales (DOC_006, 40, DOC_006_RCHUNK_067).
+- Las fechas comprometidas no se han cumplido, a pesar de los seguimientos semanales realizados por la Interventoría (DOC_006, 26, DOC_006_RCHUNK_041).
+- No se están atendiendo las observaciones realizadas por la DIAN y la Interventoría, lo que ha generado reprocesos y el incumplimiento de los tiempos definidos para el cierre de los productos (DOC_006, 26, DOC_006_RCHUNK_041).
+
+Evidencia utilizada:
+- DOC_006 | 0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf | página 40 | chunk_id: DOC_006_RCHUNK_067 | Se menciona la falta de ejecución de mejoras con fechas de compromiso vencidas.
+- DOC_006 | 0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf | página 26 | chunk_id: DOC_006_RCHUNK_041 | Se indica que las fechas comprometidas no se cumplen y que no se están atendiendo observaciones críticas.
+
+Limitaciones:
+La información es parcial y se centra en compromisos específicos sin detallar todos los compromisos pendientes o su estado completo.",5,BAAI/bge-m3,True
+Q003,¿Qué riesgos de retraso se evidencian en el corpus?,riesgos,"Respuesta:
+Se evidencian varios riesgos de retraso en el corpus, que incluyen:
+
+- **Progreso insuficiente en la ejecución de tareas**: Durante las sesiones de sprint, el Consorcio no ha alcanzado el avance del 50% esperado, lo que indica un bajo rendimiento en la ejecución de las tareas asignadas (DOC_028, CNS-XXXX-24 INT-DATAR-Comunicado 58-Respuesta de interventoría-202405.docx, página 1, chunk_id: DOC_028_RCHUNK_002).
+  
+- **Incumplimiento de plazos de liberación de Historias de Usuario (HU)**: Las HU no se están liberando para revisión dentro de los plazos acordados, lo que genera un ciclo de reprocesos y devoluciones, afectando la fluidez del proyecto (DOC_028, CNS-XXXX-24 INT-DATAR-Comunicado 58-Respuesta de interventoría-202405.docx, página 1, chunk_id: DOC_028_RCHUNK_002).
+
+- **Atrasos acumulados en HU**: Existen HU abiertas desde los sprints 4 al 8, lo que pone en riesgo la ejecución del sprint 9 y la entrega del requerimiento programada para el 11/07/2024 (DOC_029, CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.docx, página 1, chunk_id: DOC_029_RCHUNK_005).
+
+- **Falta de un plan general para sprints futuros**: La ausencia de un plan que relacione las historias de usuario de los sprints restantes puede afectar la capacidad del equipo para anticipar necesidades y asignar recursos adecuadamente (DOC_029, CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.docx, página 1, chunk_id: DOC_029_RCHUNK_005).
+
+- **Baja calidad de los productos entregados**: La Interventoría ha advertido sobre la baja calidad de los productos elaborados por el Consorcio, lo que puede afectar la capacidad de cumplir con los requerimientos a la velocidad necesaria (DOC_018, INT_PC_AC_Acta Seguimiento Ejecutivo_20240227.docx, página 1, chunk_id: DOC_018_RCHUNK_018).
+
+Evidencia utilizada:
+- DOC_006 | 0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf | 37 | DOC_006_RCHUNK_063 | Se menciona el incumplimiento de obligaciones y compromisos que afectan el desarrollo del proyecto.
+- DOC_028 | CNS-XXXX-24 INT-DATAR-Comunicado 58-Respuesta de interventoría-202405.docx | 1 | DOC_028_RCHUNK_002 | Se identifican atrasos en la ejecución de tareas y problemas con la liberación de HU.
+- DOC_029 | CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.docx | 1 | DOC_029_RCHUNK_005 | Se reportan HU abiertas y falta de un plan general para sprints futuros.
+- DOC_018 | INT_PC_AC_Acta Seguimiento Ejecutivo_20240227.docx | 1 | DOC_018_RCHUNK_018 | Se menciona la baja calidad de los productos y la incapacidad del Consorcio para cumplir con los requerimientos.
+
+Limitaciones:
+La información presentada es suficiente para identificar los riesgos de retraso, pero no se proporciona un análisis detallado de las causas subyacentes de cada riesgo, lo que podría enriquecer la comprensión del contexto.",5,BAAI/bge-m3,True
+Q004,¿Qué riesgos asociados a despliegues fueron identificados?,despliegues,"Respuesta:
+Se han identificado varios riesgos asociados a los despliegues, que incluyen:
+
+- **Falta de estandarización y automatización**: La implementación de servicios para el despliegue presenta configuraciones manuales, lo que puede llevar a errores y retrasos. (Evidencia: DOC_002, CNS-0554-24 Agosto 5 2024 Mejoras despliegues DataR.pdf, página 2, chunk_id: DOC_002_RCHUNK_003)
+  
+- **Atrasos en los despliegues**: Existe un atraso de 9 semanas en el primer despliegue de los 3 proyectados, lo que puede afectar la planificación y ejecución del proyecto. (Evidencia: DOC_002, CNS-0554-24 Agosto 5 2024 Mejoras despliegues DataR.pdf, página 2, chunk_id: DOC_002_RCHUNK_003)
+
+- **Dificultad para reutilizar despliegues**: La falta de un proceso estandarizado dificulta la repetición de despliegues a demanda, lo que puede resultar en un enfoque de prueba y error. (Evidencia: DOC_002, CNS-0554-24 Agosto 5 2024 Mejoras despliegues DataR.pdf, página 2, chunk_id: DOC_002_RCHUNK_003)
+
+- **Falta de Infraestructura como Código (IaC)**: La ausencia de IaC para el aprovisionamiento de servicios puede generar dependencia de procesos manuales y aumentar el riesgo de errores. (Evidencia: DOC_002, CNS-0554-24 Agosto 5 2024 Mejoras despliegues DataR.pdf, página 2, chunk_id: DOC_002_RCHUNK_003)
+
+- **Retrasos por corrección de errores**: Se han reportado retrasos debido a la necesidad de corregir errores y realizar ajustes, lo que afecta la estabilidad y confiabilidad de los desarrollos. (Evidencia: DOC_002, CNS-0554-24 Agosto 5 2024 Mejoras despliegues DataR.pdf, página 3, chunk_id: DOC_002_RCHUNK_004)
+
+- **Fallos en la ejecución de pipelines**: Se han presentado fallos que interrumpen el flujo de trabajo y requieren intervención manual, lo que consume tiempo y recursos. (Evidencia: DOC_002, CNS-0554-24 Agosto 5 2024 Mejoras despliegues DataR.pdf, página 3, chunk_id: DOC_002_RCHUNK_004)
+
+Evidencia utilizada:
+- DOC_002 | CNS-0554-24 Agosto 5 2024 Mejoras despliegues DataR.pdf | página 2 | chunk_id: DOC_002_RCHUNK_003 | Identificación de falta de estandarización y automatización en despliegues.
+- DOC_002 | CNS-0554-24 Agosto 5 2024 Mejoras despliegues DataR.pdf | página 2 | chunk_id: DOC_002_RCHUNK_003 | Atraso en el primer despliegue.
+- DOC_002 | CNS-0554-24 Agosto 5 2024 Mejoras despliegues DataR.pdf | página 2 | chunk_id: DOC_002_RCHUNK_003 | Dificultad para reutilizar despliegues.
+- DOC_002 | CNS-0554-24 Agosto 5 2024 Mejoras despliegues DataR.pdf | página 2 | chunk_id: DOC_002_RCHUNK_003 | Falta de Infraestructura como Código.
+- DOC_002 | CNS-0554-24 Agosto 5 2024 Mejoras despliegues DataR.pdf | página 3 | chunk_id: DOC_002_RCHUNK_004 | Retrasos por corrección de errores.
+- DOC_002 | CNS-0554-24 Agosto 5 2024 Mejoras despliegues DataR.pdf | página 3 | chunk_id: DOC_002_RCHUNK_004 | Fallos en la ejecución de pipelines.
+
+Limitaciones:
+La información se basa en un solo documento (DOC_002) y no se han encontrado evidencias adicionales en otros documentos que complementen o amplíen los riesgos identificados.",5,BAAI/bge-m3,True
+Q020,¿Qué evidencia documental soporta la existencia de riesgos críticos?,evidencia,"Respuesta:
+La evidencia documental soporta la existencia de riesgos críticos en el proyecto, principalmente relacionados con la ejecución y cumplimiento de los compromisos contractuales, así como con la gestión de las actividades de desarrollo. Los riesgos identificados son:
+
+- Falencias en la ejecución del contrato que pueden llevar a un incumplimiento (DOC_017, INT_PC_AC_Acta Seguimiento Ejecutivo_20240430.docx, página 1, chunk_id: DOC_017_RCHUNK_013).
+- Riesgo de que el sprint 8 no pueda cerrarse según lo proyectado debido a la acumulación de historias de usuario abiertas (DOC_033, INT_PC_AC_Acta Seguimiento Interventoria_20240409.docx, página 1, chunk_id: DOC_033_RCHUNK_002).
+- La falta de adherencia a los acuerdos y plazos establecidos, lo que pone en riesgo la continuidad del proyecto (DOC_031, CNS-xxxx-24 INT-DATAR-Comunicado 63-Incumplimiento compromisos otrosí2-202407.docx, página 1, chunk_id: DOC_031_RCHUNK_002).
+
+Evidencia utilizada:
+- DOC_017 | INT_PC_AC_Acta Seguimiento Ejecutivo_20240430.docx | página 1 | chunk_id: DOC_017_RCHUNK_013 | Se menciona la viabilidad de la terminación del contrato por mutuo acuerdo debido a falencias en la ejecución.
+- DOC_033 | INT_PC_AC_Acta Seguimiento Interventoria_20240409.docx | página 1 | chunk_id: DOC_033_RCHUNK_002 | Se alerta sobre el riesgo de no cerrar el sprint 8 por la acumulación de historias de usuario.
+- DOC_031 | CNS-xxxx-24 INT-DATAR-Comunicado 63-Incumplimiento compromisos otrosí2-202407.docx | página 1 | chunk_id: DOC_031_RCHUNK_002 | Se enfatiza que la falta de cumplimiento de los compromisos contractuales pone en riesgo el proyecto.
+
+Limitaciones:
+La evidencia es parcial y se centra en aspectos específicos de la ejecución y cumplimiento del contrato, por lo que podría ser necesario un análisis más amplio para identificar todos los riesgos críticos presentes en el proyecto.",5,BAAI/bge-m3,True

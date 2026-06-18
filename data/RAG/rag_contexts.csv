@@ -1,0 +1,465 @@
+﻿rank,score,doc_id,filename,tipo_documento,page,chunk_id,chunk_text,question_id,question,categoria
+1,0.5526236891746521,DOC_018,INT_PC_AC_Acta Seguimiento Ejecutivo_20240227.docx,ACTA,1,DOC_018_RCHUNK_005,"Cierre de las fases activas del proyecto: prestación de los servicios de gestión (por demanda y fijos), transferencia de conocimiento y gestión y monitoreo.
+La Interventoría notificó al Consorcio, a través de comunicaciones escritas y reuniones con la gerencia del proyecto y los representantes legales, acerca de las falencias en la calidad de los entregables, en el cumplimiento y cierre de los compromisos, en la comunicación con sus equipos de desarrollo, en la planeación y seguimiento a los ciclos de desarrollo. En respuesta, el Consorcio estableció planes de acción que tampoco fueron cumplidos. 
+La Interventoría explicó que se realizaron sesiones ejecutivas con la DIAN (DIGIT - Supervisión del contrato de servicios de consultoría 92872-025-2022 - DataR) y el Consorcio para conminar el cumplimiento de las obligaciones y que se lograra recomponer el contrato, de acuerdo con lo conversado en el último seguimiento ejecutivo con esta mesa (el 25 de octubre de 2024). En estas sesiones se buscaba que el equipo directivo del Consorcio tomara acciones de fondo sobre la ejecución del contrato, pero además establecer acuerdos de modificación al contrato, teniendo en cuenta las debilidades que se encontraron, por ejemplo: (i) en la definición de los ANS aplicables a la etapa de operación y (ii) dada la falta de detalle en las actividades de los componentes por demanda y fijo. Las partes avanzaron en un otrosí para modificar el contrato y establecer las acciones requeridas para conminar el cumplimiento de las obligaciones, con el objetivo de reaccionar de forma anticipada y no de forma reactiva al final de las entregas del Consorcio, como está establecido hoy en el contrato. Las mesas de trabajo para la negociación del otrosí tomaron más de tres meses, entre octubre de 2023 y enero de 2024. Si bien se lograron acuerdos, en los temas álgidos de discusión como la mejora de los ANS definidos en la Solicitud de Propuestas (SdP) o la inclusión de nuevos ANS, no se llegó a un consenso.",Q001,¿Qué incumplimientos contractuales fueron identificados en los documentos?,incumplimientos
+2,0.5467413663864136,DOC_006,0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf,COMUNICADO,26,DOC_006_RCHUNK_041,"A member firm of Ernst & Young Global Limited 
+ 
+ 
+c. En sesiones de trabajo se ha indicado reiteradamente al Consorcio, sobre las 
+falencias evidenciadas en el proceso de calidad interno, lo cual ha generado 
+reprocesos en la revisión de la información asociada a temas de 
+entendimiento, redacción, ortografía, forma y alineación de los contenidos 
+mínimos con lo definido en el SDP. 
+ 
+d. Las fechas comprometidas no se cumplen, a pesar de que se reitera en los 
+seguimientos semanales y en los correos emitidos por la Interventoría. 
+Asimismo, actualmente no se tiene una herramienta de gestión (actas y 
+matriz de compromisos), que permita realizar seguimiento a aquellos 
+compromisos que impactan directamente la completitud y liberación de los 
+entregables, al igual que el alistamiento y puesta en producción de la 
+herramienta. 
+ 
+e. No se están atendiendo las observaciones realizadas por la DIAN y la 
+Interventoría, ya sea en sesiones virtuales o presenciales, generando 
+reprocesos y con ello, el incumplimiento de los tiempos definidos para el 
+cierre de los productos. 
+ 
+f. Los documentos aún no cuentan con el detalle técnico que se requiere para 
+poder dar su cierre, dado que no se han realizado las profundizaciones 
+requeridas por parte del Consorcio y la respectiva alineación de la 
+información del documento a las características de la DIAN. Igualmente, no se 
+tienen los insumos suficientes para dar cumplimiento al contenido mínimo 
+definido en el SPD para la habilitación de los pagos, según lo definido 
+contractualmente, ya que no se cuenta con la contratación de las 
+herramientas complementarias de Azure y la implementación de las nuevas 
+fuentes de información y la entrega de los dominios de información. 
+ 
+g. No tener un plan de trabajo que considere los tiempos de revisión y ajustes de 
+los entregables, generando tiempos limitados y desconocidos para la 
+validación y modificación de los productos. 
+ 
+h. Por parte del Consorcio no se han solicitado y desarrollado de manera 
+oportuna las sesiones de validación y alineación de los Ola ´s requeridos con 
+las áreas internas y los proyectos PETD (Multinube), lo cual ha implicado que",Q001,¿Qué incumplimientos contractuales fueron identificados en los documentos?,incumplimientos
+3,0.54640793800354,DOC_031,CNS-xxxx-24 INT-DATAR-Comunicado 63-Incumplimiento compromisos otrosí2-202407.docx,COMUNICADO,1,DOC_031_RCHUNK_001,"Señores CNS-XXXX-24
+Germán Morante / Édgar Arias 05 de julio 2024
+Representación legal del Consorcio para el proyecto DATAR 
+M&Q / PWC
+Bogotá, D.C.
+Oficio del Interventor del Contrato de Servicios 92872-025-2022, celebrado entre el Fondo DIAN para Colombia y el Consorcio M&Q – PWC – DATAR, relacionado con el incumplimiento de los compromisos acordados en las mesas de trabajo realizadas para la estructuración de la propuesta de otrosí 2 al contrato. 
+Estimados Germán y Édgar:
+De la manera más atenta, en calidad de Interventor del contrato de la referencia y en ejercicio de nuestras funciones, nos permitimos expresar nuestra seria preocupación y llamar su atención respecto al incumplimiento de los compromisos acordados como producto de las mesas de trabajo ejecutadas para realizar la estructuración de la propuesta de otrosí 2 del contrato, especialmente los compromisos relacionados con: 
+Asistencia a la mesa de trabajo presencial convocada por la DIAN el 27/06/2024.
+Entrega de documento con la propuesta actualizada para el componente de servicios fijos, acordada para el 3/07/2024, posterior acuerdo para el 04/07/2024 y entregada finalmente el 05/07/2024.
+Preparación previa de los temas a tratar en las mesas de trabajo por parte del Consorcio. Sobre este punto en especificó se evidenció una preparación deficiente, lo que resulto en que las sesiones se enfocarán más en resolver dudas del Consorcio que en alcanzar acuerdos para la propuesta de otrosí 2 del contrato. 
+Entrega de propuesta de definición de producto utilizable final y ANS para el 05/07/2024 en horas de la mañana, dado que se requería como insumo para la sesión “Virtual - Mesa de Trabajo DataR” convocada para el 5/07/2024.
+Por parte del Consorcio no se realizó la entrega oportuna y en el tiempo de los anteriores compromisos, los cuales son insumos que debían suministrarse a la Unidad Coordinadora del Programa - UCP el día de hoy 05/07/2024, para adelantar el borrador del otrosí 2 del Contrato. Este incumplimiento afectó directamente el flujo de trabajo toda vez que debió realizarse la cancelación de la mesa de trabajo del 05/07/2024, incumpliendo los compromisos de las sesiones de trabajo.",Q001,¿Qué incumplimientos contractuales fueron identificados en los documentos?,incumplimientos
+4,0.5438715815544128,DOC_018,INT_PC_AC_Acta Seguimiento Ejecutivo_20240227.docx,ACTA,1,DOC_018_RCHUNK_018,"Luego explicó que se avanzó en el análisis de la terminación anticipada del contrato por mutuo acuerdo porque no se cuenta con elementos desde ninguna circunstancia para decidir más allá. El Consorcio solicitó un plan de entrega de requerimientos para priorizar su entrega, respecto de lo cual la respuesta fue que eso no estaba contemplado así en el contrato. Adicionalmente, la Interventoría ha advertido acerca de la baja calidad de los productos elaborados por el Consorcio y de su falta de capacidad para atender los requerimientos por demanda a la velocidad requerida por la DIAN, por lo que no se alcanzarían a ejecutar todos los recursos en el tiempo que queda del contrato. Lograr la terminación permitiría mitigar el riesgo de incumplimiento del contrato.
+Reitera que los “incumplimientos” presentados por la Interventoría en el seguimiento no son elementos que permitan declarar un incumplimiento del contrato por parte del Consorcio, y que es necesario tener en cuenta las vulnerabilidades de la DIAN (la no adquisición de las herramientas complementarias o entrega de una justificación relacionada con la no adquisición, antes de julio de 2023 según lo acordado en el otrosí 1 del contrato; así como debilidades de la documentación contractual relacionadas con la definición de ANS aplicables a la etapa de operación y en la falta de detalle en las actividades de los componentes por demanda y fijo) y el esquema de ejecución que se asumió cuando se firmó el contrato. No es que existieran incumplimientos que no se hubieran declarado, sino que no se tenían los elementos para declarar un incumplimiento, de acuerdo con lo revisado con la Interventoría, el supervisor del contrato y el Contratista.
+Respecto de las inquietudes de qué pasará en adelante con el proyecto, explicó que para terminar un contrato se necesita: (i) el análisis interno del contrato, que se viene adelantando en mesas de trabajo con la DIGIT y la Interventoría, (ii) el análisis de la DIGIT que viene haciendo con el Consultor, para determinar las causales de la terminación por mutuo acuerdo, más allá de que las partes han convenido que es lo mejor, y (iii) el análisis de la UCP.",Q001,¿Qué incumplimientos contractuales fueron identificados en los documentos?,incumplimientos
+5,0.5410523414611816,DOC_018,INT_PC_AC_Acta Seguimiento Ejecutivo_20240227.docx,ACTA,1,DOC_018_RCHUNK_020,"Frente a la cesión del contrato, existen limitaciones desde el punto de vista jurídico que tendrían que ser analizados con la UCP, dadas las restricciones de la política del Banco, antes de que se tomen decisiones en ese sentido, la UCP solicita que se revise con la DIGIT este escenario.
+La Directora de la Interventoría expresó que la Interventoría no puede dejar de informar los aspectos en la ejecución que desde el punto de vista técnico no se cumplieron por parte del Contratista. También explicó que las razones por las cuales no se puede hablar de incumplimientos contractuales no es porque el contratista haya cumplido, sino porque existen falencias en el contrato (presentadas en seguimientos ejecutivos previos, así como en los informes, comunicados y concetos de la Interventoría) que no permiten declarar un incumplimiento. No se puede declarar el incumplimiento no porque el Contratista esté ejecutando correctamente el proyecto y se hayan cumplido los compromisos actividades planeadas, sino porque el contrato no cuenta con las herramientas para declararlo en esta etapa en particular. En la etapa anterior sí se contaba con elementos, pero no fue posible por definiciones que hizo la DIAN, como se explicó previamente. 
+La DIAN (DIGIT – Dirección y Supervisión del contrato de servicios de consultoría 92872-025-2022 - DataR) cuenta con la documentación del caso, con informes, conceptos y comunicados de la Interventoría, incluso desde abril de 2023, cuando se realizó una reunión, citada por la DIAN, en la que también se habló de la terminación del contrato. 
+La Interventoría puede participar en las mesas de trabajo planteadas por la Directora de Gestión Corporativa y Ordenadora del Gasto, si así es requerido. 
+La Directora de Gestión Corporativa y Ordenadora del Gasto preguntó cuál es la recomendación de la Interventoría.",Q001,¿Qué incumplimientos contractuales fueron identificados en los documentos?,incumplimientos
+1,0.5666815042495728,DOC_006,0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf,COMUNICADO,9,DOC_006_RCHUNK_017,"matriz de compromisos), que permita realizar seguimiento a aquellos 
+compromisos que impactan directamente la completitud y liberación de los 
+entregables, al igual que el alistamiento y puesta en producción de la 
+herramienta. 
+ 
+f. No se están atendiendo las observaciones realizadas por la DIAN y la 
+Interventoría, ya sea en sesiones virtuales o presenciales, generando",Q002,¿Qué compromisos aparecen como vencidos o no cumplidos?,incumplimientos
+2,0.5621060132980347,DOC_029,CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.docx,COMUNICADO,1,DOC_029_RCHUNK_004,"El Consorcio reportó 1 HU “resuelta” y 9 HU “abiertas”.
+Sobre el avance de las tareas, se reportaron 20 de 51 tareas en estado “cerrado”, representando el 39% de avance.
+Fuente: Estado de las HU al cierre del sprint 9 del 17/05/2024
+Considerando el no cierre del sprint, durante la sesión se acordaron los siguientes compromisos:
+Liberación de las HU asociadas con reglas de negocio EyS y script de pruebas el 02/05/2024 y 06/05/2024.
+Liberación de un plan con los pasos metodológicos y escenarios de validación de las reglas de negocio.
+Situaciones evidenciadas en el sprint 9:
+Falta de descripciones y criterios de aceptación completos: Se observó que no todas las historias de usuario comprometidas tenían descripciones y criterios de aceptación completos durante la reunión de planificación.
+Persisten las discrepancias entre lo comprometido y lo efectivamente finalizado: A pesar de que el consorcio garantizó la realización de una cantidad específica de Historias de Usuario (HU) durante la planeación del sprint 9, no se logró completar y entregar todas las HU antes del cierre del sprint para revisión de la DIAN e Interventoría.
+Tareas retrasadas y productividad baja: los hechos informados anteriormente reafirman el atraso en el cierre de las historias de usuario. Incluso en el punto medio de la ejecución del sprint 9, los avances no correspondían a lo esperado.
+Falencias en el cierre oportuno: persisten las falencias en la definición de una estrategia que permita lograr el cierre de las historias de usuario (HU), previa revisión y aprobación de la documentación y/o artefactos por parte de la DIAN e Interventoría.
+Inoportunidad en el cierre de compromisos: tras evidenciar la no entrega de las HU comprometidas, se establecieron compromisos finales de cierre por parte del Consorcio; esto incluía la entrega de las HU restantes al finalizar. Sin embargo, el Consorcio no dio cumplimiento al compromiso adquirido. 
+Posible incumplimiento de la fecha de cierre del requerimiento: a la fecha se cuenta con HU abiertas desde los sprints 4 al 8, representando atrasos que ponen en riesgo tanto la ejecución del sprint 9, como la entrega del requerimiento el 11/07/2024.",Q002,¿Qué compromisos aparecen como vencidos o no cumplidos?,incumplimientos
+3,0.5536223649978638,DOC_031,CNS-xxxx-24 INT-DATAR-Comunicado 63-Incumplimiento compromisos otrosí2-202407.docx,COMUNICADO,1,DOC_031_RCHUNK_002,"Es imperativo recordar que los acuerdos y plazos establecidos no son meramente indicativos, sino que constituyen obligaciones contractuales cuyo cumplimiento es esencial para la continuidad y el éxito del proyecto, la falta de adherencia a estos compromisos pone en riesgo la continuación del proyecto.
+Esperamos que este llamado de atención sea recibido con la seriedad que amerita y que se tomen las acciones necesarias para rectificar la situación de manera inmediata. La colaboración y el compromiso de todas las partes son fundamentales para mantener la confianza y asegurar el éxito conjunto.
+Agradecemos su atención al asunto.
+Cordialmente.
+Patricia Patiño
+Associate Partner
+Ernst & Young S.A.S.",Q002,¿Qué compromisos aparecen como vencidos o no cumplidos?,incumplimientos
+4,0.5502136945724487,DOC_006,0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf,COMUNICADO,40,DOC_006_RCHUNK_067,"A member firm of Ernst & Young Global Limited 
+ 
+ 
+6.4. Con relación al plan de choque propuesto por el Consorcio el 02/01/2023 y 
+ajustado el 11/01/2023, en respuesta a la sesión de requerimiento realizada 
+el 21/12/2022; se requiere que Consorcio informe las acciones a adelantar 
+para el cierre de los compromisos que se relacionan a continuación. 
+Considerando que, a la fecha no se evidencia la ejecución o cierre de las 
+siguientes mejoras y que estas cuentan con fechas de compromiso vencidas: 
+ 
+Mejora 
+Fecha esperada 
+de cierre 
+Estado 
+Observación 
+Hacer efectivo el gobierno del 
+proyecto, en el que se 
+promueven espacios de 
+seguimiento y control 
+a nivel estratégico de forma 
+oportuna 
+- 
+ 
+No se ha visto la mejora propuesta, toda vez que no se ha 
+socializado cuáles serán los integrantes que participarán, 
+cuál va a ser la frecuencia y en qué fecha será el inicio del 
+Comité de dirección Estratégica propuesto por el Consorcio. 
+Fortalecer como Consorcio los 
+aspectos relacionados con el 
+proceso de aseguramiento de la 
+calidad de los entregables a 
+liberar, con el fin de garantizar 
+su integralidad, profundidad y 
+alineación con los requisitos 
+contractuales y criterios de 
+aceptación de entregables. 
+- 
+ 
+Si bien se han asignado recursos específicos por parte del 
+Consorcio para asegurar la calidad de los productos, los 
+documentos continúan teniendo fallas en temas de forma, 
+ortografía, contenido, cumplimiento de lo definido en el SDP 
+y la matriz de entregables, forma, redacción, entre otros, al 
+igual que no se ha visto la aplicación efectiva de los 
+procedimientos de calidad del Consorcio, para los 
+documentos que han sido liberados 
+Reforzar la articulación entre 
+las empresas integrantes del 
+Consorcio, así como la 
+responsabilidad 
+solidaria y mancomunada de las 
+mismas. 
+11/01/2023 
+ 
+No se ha visto la mejora propuesta, toda vez que se percibe 
+que las firmas que hacen parte del Consorcio (M&Q y PWC), 
+trabajan de manera separada y no se ven como una única 
+representación de cara al proyecto, incluyendo la ejecución 
+de sus procesos internos de calidad. 
+Liberar los entregables en las 
+fechas establecidas en el 
+cronograma. 
+13/01/2023",Q002,¿Qué compromisos aparecen como vencidos o no cumplidos?,incumplimientos
+5,0.5497260093688965,DOC_006,0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf,COMUNICADO,26,DOC_006_RCHUNK_041,"A member firm of Ernst & Young Global Limited 
+ 
+ 
+c. En sesiones de trabajo se ha indicado reiteradamente al Consorcio, sobre las 
+falencias evidenciadas en el proceso de calidad interno, lo cual ha generado 
+reprocesos en la revisión de la información asociada a temas de 
+entendimiento, redacción, ortografía, forma y alineación de los contenidos 
+mínimos con lo definido en el SDP. 
+ 
+d. Las fechas comprometidas no se cumplen, a pesar de que se reitera en los 
+seguimientos semanales y en los correos emitidos por la Interventoría. 
+Asimismo, actualmente no se tiene una herramienta de gestión (actas y 
+matriz de compromisos), que permita realizar seguimiento a aquellos 
+compromisos que impactan directamente la completitud y liberación de los 
+entregables, al igual que el alistamiento y puesta en producción de la 
+herramienta. 
+ 
+e. No se están atendiendo las observaciones realizadas por la DIAN y la 
+Interventoría, ya sea en sesiones virtuales o presenciales, generando 
+reprocesos y con ello, el incumplimiento de los tiempos definidos para el 
+cierre de los productos. 
+ 
+f. Los documentos aún no cuentan con el detalle técnico que se requiere para 
+poder dar su cierre, dado que no se han realizado las profundizaciones 
+requeridas por parte del Consorcio y la respectiva alineación de la 
+información del documento a las características de la DIAN. Igualmente, no se 
+tienen los insumos suficientes para dar cumplimiento al contenido mínimo 
+definido en el SPD para la habilitación de los pagos, según lo definido 
+contractualmente, ya que no se cuenta con la contratación de las 
+herramientas complementarias de Azure y la implementación de las nuevas 
+fuentes de información y la entrega de los dominios de información. 
+ 
+g. No tener un plan de trabajo que considere los tiempos de revisión y ajustes de 
+los entregables, generando tiempos limitados y desconocidos para la 
+validación y modificación de los productos. 
+ 
+h. Por parte del Consorcio no se han solicitado y desarrollado de manera 
+oportuna las sesiones de validación y alineación de los Ola ´s requeridos con 
+las áreas internas y los proyectos PETD (Multinube), lo cual ha implicado que",Q002,¿Qué compromisos aparecen como vencidos o no cumplidos?,incumplimientos
+1,0.5315122604370117,DOC_006,0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf,COMUNICADO,37,DOC_006_RCHUNK_063,"17/02/2023 
+Con atraso 
+ 
+6. Desarrollo de proyecto 
+ 
+Durante la ejecución del proyecto, se han identificado en las diferentes sesiones 
+de trabajo, los siguientes temas transversales asociados al Consorcio, que han 
+contribuido al reiterado incumplimiento de las obligaciones y compromisos, 
+afectando el desarrollo y fluidez del proyecto: 
+ 
+6.1. De acuerdo con lo definido en la propuesta de servicios en el capítulo de 
+“INTRODUCCIÓN”, en el ítem de “Calidad”, se indica que: “Está demostrada",Q003,¿Qué riesgos de retraso se evidencian en el corpus?,riesgos
+2,0.5167412161827087,DOC_028,CNS-XXXX-24 INT-DATAR-Comunicado 58-Respuesta de interventoría-202405.docx,COMUNICADO,1,DOC_028_RCHUNK_002,"Identificación de acciones específicas para abordar las causas subyacentes de los atrasos recurrentes para cada uno de los sprints comprometidos y tareas asociadas por parte del Consorcio. En específico, la Interventoría se refiere a los siguientes aspectos: 
+Durante las sesiones de sprint Weekly se ha evidenciado progreso y avance insuficiente en la ejecución de tareas por parte del Consorcio, recordamos que en estas sesiones la DIAN e Interventoría esperan un avance del 50%.
+Se ha observado que, durante las sesiones de sprint review, el Consorcio no alcanza el avance del 100% esperado. Además, agrava la situación el hecho de que las Historias de Usuario (HU) no se están liberando para la revisión de la DIAN e Interventoría dentro de los plazos acordados de ejecución de cada sprint. Esta problemática se ve acentuada por la liberación repetida de HU que no cumplen con los criterios mínimos de aprobación, un hallazgo persistente y previamente identificado que el Consorcio se había comprometido a mejorar. La falta de una validación previa interna de QA por parte del Consorcio está generando un ciclo de reprocesos y devoluciones de las HU liberadas.
+Falencias en el registro de evidencias en DevOps de las tareas realizadas por parte del Consorcio, en donde se evidencian soportes incompletos y/o sin la actualización sobre los últimos ajustes realizados por el Consorcio.
+Soluciones tardías por parte del Consorcio sobre los hallazgos evidenciados en las HU.
+Formalización de la respuesta del Consorcio sobre cada una de las observaciones socializadas por la Interventoría en la reunión táctica del 17/04/2024, correspondientes a:
+…”
+¿Cuál es la proyección final de las HU restantes hasta el sprint 14?, ¿cuándo se realizará sesión de validación en conjunto con DIAN e Interventoría? 
+Confirmar si existe dependencia entre las HU en atraso y restantes, ¿cuál es la estrategia para mitigar impactos? 
+Se evidencian incumplimientos recurrentes en el cierre de las HU y tareas asociadas en los sprints review. ¿Cuál es el plan de acción por parte del Consorcio para subsanar estos incumplimientos?",Q003,¿Qué riesgos de retraso se evidencian en el corpus?,riesgos
+3,0.5115633010864258,DOC_029,CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.docx,COMUNICADO,1,DOC_029_RCHUNK_005,"Posible incumplimiento de la fecha de cierre del requerimiento: a la fecha se cuenta con HU abiertas desde los sprints 4 al 8, representando atrasos que ponen en riesgo tanto la ejecución del sprint 9, como la entrega del requerimiento el 11/07/2024.
+Ausencia de un plan general para sprints futuros: Se identificó la falta de un plan general que relacione las historias de usuario de los sprints restantes, lo que puede afectar la capacidad del equipo para anticipar necesidades y asignar recursos adecuadamente, esta solicitud se había realizado al Consorcio en reiteradas ocasiones sin obtener respuesta, solo hasta el 26/04/2024 se entregó a la DIAN e Interventoría una proyección del sprint 10 al 14.
+Por lo descrito en la comunicación, solicitamos al Consorcio tomar acción y entregar un plan de acción concreto y actualizado a la ejecución actual que permita mitigar y atender los atrasos que se tengan.
+Cordialmente,
+Patricia Patiño
+Associate Partner
+Ernst & Young S.A.S.",Q003,¿Qué riesgos de retraso se evidencian en el corpus?,riesgos
+4,0.5071591138839722,DOC_018,INT_PC_AC_Acta Seguimiento Ejecutivo_20240227.docx,ACTA,1,DOC_018_RCHUNK_018,"Luego explicó que se avanzó en el análisis de la terminación anticipada del contrato por mutuo acuerdo porque no se cuenta con elementos desde ninguna circunstancia para decidir más allá. El Consorcio solicitó un plan de entrega de requerimientos para priorizar su entrega, respecto de lo cual la respuesta fue que eso no estaba contemplado así en el contrato. Adicionalmente, la Interventoría ha advertido acerca de la baja calidad de los productos elaborados por el Consorcio y de su falta de capacidad para atender los requerimientos por demanda a la velocidad requerida por la DIAN, por lo que no se alcanzarían a ejecutar todos los recursos en el tiempo que queda del contrato. Lograr la terminación permitiría mitigar el riesgo de incumplimiento del contrato.
+Reitera que los “incumplimientos” presentados por la Interventoría en el seguimiento no son elementos que permitan declarar un incumplimiento del contrato por parte del Consorcio, y que es necesario tener en cuenta las vulnerabilidades de la DIAN (la no adquisición de las herramientas complementarias o entrega de una justificación relacionada con la no adquisición, antes de julio de 2023 según lo acordado en el otrosí 1 del contrato; así como debilidades de la documentación contractual relacionadas con la definición de ANS aplicables a la etapa de operación y en la falta de detalle en las actividades de los componentes por demanda y fijo) y el esquema de ejecución que se asumió cuando se firmó el contrato. No es que existieran incumplimientos que no se hubieran declarado, sino que no se tenían los elementos para declarar un incumplimiento, de acuerdo con lo revisado con la Interventoría, el supervisor del contrato y el Contratista.
+Respecto de las inquietudes de qué pasará en adelante con el proyecto, explicó que para terminar un contrato se necesita: (i) el análisis interno del contrato, que se viene adelantando en mesas de trabajo con la DIGIT y la Interventoría, (ii) el análisis de la DIGIT que viene haciendo con el Consultor, para determinar las causales de la terminación por mutuo acuerdo, más allá de que las partes han convenido que es lo mejor, y (iii) el análisis de la UCP.",Q003,¿Qué riesgos de retraso se evidencian en el corpus?,riesgos
+5,0.5018569231033325,DOC_002,CNS-0554-24 Agosto 5 2024 Mejoras despliegues DataR.pdf,MEJORA,3,DOC_002_RCHUNK_004,"A member firm of Ernst & Young Global Limited 
+ 
+ 
+ 
+ 
+ 
+Impacto: 
+• 
+Retrasos debido a la necesidad de corrección de errores y ajustes. 
+• 
+Falta de estabilidad y confiabilidad en los desarrollos entregados. 
+Recomendación: implementar un proceso riguroso de pruebas y QA internas de los 
+productos y/o desarrollos en ambiente de desarrollo por parte del Consorcio antes 
+de la entrega para el despliegue. Asegurarse de que los desarrollos cumplan con los 
+estándares de calidad y los requerimientos del proyecto. 
+ 
+4. Fallos en la Ejecución de Pipelines 
+ 
+Descripción: se han presentado fallos en la ejecución de pipelines, impactando la 
+migración de datos. 
+ 
+Impacto: 
+• 
+Interrupciones en el flujo de trabajo y retrasos en la migración de datos. 
+• 
+Necesidad de intervención manual para solucionar problemas, lo que 
+consume tiempo y recursos. 
+ 
+Recomendación: automatizar la gestión y ejecución de los pipelines utilizando 
+herramientas de DevOps. Automatización de despliegues, monitorización y alertas, 
+recuperación automática, pruebas automatizadas. Estas medidas asegurarán que los 
+procesos sean más eficientes, reducirán la necesidad de intervención manual y 
+minimizarán los tiempos de inactividad, permitiendo una migración de datos más 
+rápida. 
+ 
+5. Problemas con la Ejecución de Consultas en la DIAN 
+Descripción: se han presentado problemas en la ejecución de consultas que permiten 
+la extracción de datos desde las fuentes en la DIAN. 
+ 
+Impacto: 
+• 
+Retrasos en la obtención de datos necesarios para la migración. 
+• 
+Complicaciones adicionales en el proceso de integración de datos. 
+ 
+Recomendación: trabajar en estrecha colaboración con la DIAN para identificar y 
+resolver los problemas en la ejecución de consultas. Realizar pruebas de rendimiento 
+y optimización de consultas para asegurar una extracción de datos eficiente.",Q003,¿Qué riesgos de retraso se evidencian en el corpus?,riesgos
+1,0.4792754650115967,DOC_002,CNS-0554-24 Agosto 5 2024 Mejoras despliegues DataR.pdf,MEJORA,2,DOC_002_RCHUNK_003,"A member firm of Ernst & Young Global Limited 
+ 
+ 
+ 
+ 
+ 
+Impacto: 
+• 
+Se evidencia falta de estandarización y automatización en la implementación de 
+servicios para el despliegue. En donde se evidencia en las sesiones 
+configuraciones manuales de los recursos. 
+• 
+A la fecha, la presente actividad tiene un atraso preocupante de 9 semanas, solo 
+para realizar el primer despliegue de los 3 proyectados inicialmente. 
+• 
+Dificultad para reusar y repetir despliegues a demanda o necesidad de la DIAN, 
+en donde se evidencia que las sesiones de despliegue se avanza a prueba y error. 
+ 
+Recomendación: implementar completamente Blueprints (Template 
+Specs/Deployment Stacks), para garantizar una configuración estandarizada y 
+repetible de los recursos en Azure. 
+ 
+Hacer uso de las funciones de las herramientas de automatización de Azure DevOps 
+para evitar configuraciones manuales y/o a prueba y error. 
+ 
+2. Ausencia de Infraestructura como Código (IaC) 
+ 
+Descripción: El Consorcio entregó un Excel con la lista de servicios a implementar, 
+sin embargo, no se evidenció la utilización de Infraestructura como Código (IaC) para 
+el aprovisionamiento de los servicios. 
+ 
+Impacto: 
+• 
+Dependencia en la configuración manual, lo que lleva a errores y variabilidad en 
+los entornos. 
+• 
+Retrasos en la implementación debido a la falta de automatización. 
+ 
+Recomendación: adoptar herramientas de IaC para la implementación y gestión 
+automatizada de la infraestructura y aplicaciones. Así mismo se debe garantizar la 
+homologación de características de los ambientes del Consorcio con los ambientes 
+de la DIAN. 
+ 
+3. Falencias en los Desarrollos 
+ 
+Descripción: los desarrollos realizados por el Consorcio han requerido múltiples 
+ajustes para su correcta operación, en donde se espera que los desarrollos cumplan 
+con las revisiones de QA previas en ambiente de desarrollo.",Q004,¿Qué riesgos asociados a despliegues fueron identificados?,despliegues
+2,0.4591400921344757,DOC_030,CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.pdf,COMUNICADO,2,DOC_030_RCHUNK_002,"A member firm of Ernst & Young Global Limited 
+ 
+ 
+ 
+ 
+ 
+Fuente: HU declaradas en sprint planning del 17/04/2024 
+ 
+La Interventoría realizó las siguientes alertas y recomendaciones durante la sesión: 
+ 
+• 
+Se alertó sobre el incremento de historias de Usuario (HU) en el sprint, ya que 
+podría indicar un exceso de carga de trabajo para el equipo, lo que podría 
+afectar la calidad del trabajo realizado y la capacidad para cumplir con los 
+compromisos establecidos. Recordamos que, en la metodología ágil, es 
+importante mantener un equilibrio adecuado en la carga de trabajo para 
+garantizar la entrega de incrementos de producto de calidad al final de cada 
+sprint. 
+ 
+• 
+Dado el volumen de historias de usuario (HU) comprometidas, la Interventoría 
+recomendó al Consorcio la importancia de informar cualquier impedimento o 
+necesidad a través de los espacios diarios (daily) dispuestos en el proyecto. 
+Esto permitiría al Consorcio contar con todos los recursos y la información 
+necesaria para llevar a cabo las tareas planeadas. 
+ 
+• 
+Se solicitó y recomendó al Consorcio completar la descripción y los criterios 
+de aceptación para todas las historias de usuario comprometidas, no fueron 
+evidenciadas en su totalidad durante la reunión. 
+ 
+• 
+La Interventoría reiteró al Consorcio la necesidad de contar con un plan 
+general de las historias de usuario (HU) para los sprints restantes (10 al 14), 
+de manera que se logre contar con una visión global del requerimiento. La",Q004,¿Qué riesgos asociados a despliegues fueron identificados?,despliegues
+3,0.44470787048339844,DOC_002,CNS-0554-24 Agosto 5 2024 Mejoras despliegues DataR.pdf,MEJORA,3,DOC_002_RCHUNK_004,"A member firm of Ernst & Young Global Limited 
+ 
+ 
+ 
+ 
+ 
+Impacto: 
+• 
+Retrasos debido a la necesidad de corrección de errores y ajustes. 
+• 
+Falta de estabilidad y confiabilidad en los desarrollos entregados. 
+Recomendación: implementar un proceso riguroso de pruebas y QA internas de los 
+productos y/o desarrollos en ambiente de desarrollo por parte del Consorcio antes 
+de la entrega para el despliegue. Asegurarse de que los desarrollos cumplan con los 
+estándares de calidad y los requerimientos del proyecto. 
+ 
+4. Fallos en la Ejecución de Pipelines 
+ 
+Descripción: se han presentado fallos en la ejecución de pipelines, impactando la 
+migración de datos. 
+ 
+Impacto: 
+• 
+Interrupciones en el flujo de trabajo y retrasos en la migración de datos. 
+• 
+Necesidad de intervención manual para solucionar problemas, lo que 
+consume tiempo y recursos. 
+ 
+Recomendación: automatizar la gestión y ejecución de los pipelines utilizando 
+herramientas de DevOps. Automatización de despliegues, monitorización y alertas, 
+recuperación automática, pruebas automatizadas. Estas medidas asegurarán que los 
+procesos sean más eficientes, reducirán la necesidad de intervención manual y 
+minimizarán los tiempos de inactividad, permitiendo una migración de datos más 
+rápida. 
+ 
+5. Problemas con la Ejecución de Consultas en la DIAN 
+Descripción: se han presentado problemas en la ejecución de consultas que permiten 
+la extracción de datos desde las fuentes en la DIAN. 
+ 
+Impacto: 
+• 
+Retrasos en la obtención de datos necesarios para la migración. 
+• 
+Complicaciones adicionales en el proceso de integración de datos. 
+ 
+Recomendación: trabajar en estrecha colaboración con la DIAN para identificar y 
+resolver los problemas en la ejecución de consultas. Realizar pruebas de rendimiento 
+y optimización de consultas para asegurar una extracción de datos eficiente.",Q004,¿Qué riesgos asociados a despliegues fueron identificados?,despliegues
+4,0.443485826253891,DOC_008,INT_PC_AC_Acta Seguimiento Interventoria_20250812.pdf,ACTA,9,DOC_008_RCHUNK_016,"presentación, con su respectivas recomendaciones y acciones ejecutadas. Estas
+alertas tienen relación con: i) el bajo consumo de la nube de AWS, que podría implicar
+no ejecutar la totalidad de los recursos y ii) Kyndryl no asuman las obligaciones de
+administración y gestión de seguridad de las herramientas nativas de las nubes.
+5.2.2.1.8.
+Comunicados y conceptos",Q004,¿Qué riesgos asociados a despliegues fueron identificados?,despliegues
+5,0.4362879991531372,DOC_018,INT_PC_AC_Acta Seguimiento Ejecutivo_20240227.docx,ACTA,1,DOC_018_RCHUNK_026,"Se presentó la ejecución financiera del proyecto en dólares y en pesos, del 22,92% y 24,25%, respectivamente.
+Será necesaria una revisión del contrato en relación con el impacto por la salida de los proyectos NSGA y DataR, por los movimientos de las fechas de los PETD y la nueva estrategia de la Entidad.
+Respecto del riesgo de ejecución del proyecto, se presentan las siguientes situaciones:
+Adquisición de licencias para la operación del ServiceNow, como se expuso previamente.
+Dependencias de los terceros del Proveedor para resolución de incidentes. 
+Desplazamiento en el tiempo de los proyectos PETD.
+Como se ha presentado en seguimientos ejecutivos previos, este contrato tiene ANS por oportunidad y calidad de entregables y por operación, los cuales se revisan y concilian mes a mes con Kyndryl. Las deducciones van disminuyendo con el tiempo porque la intención es que el Proveedor mejore su ejecución y cumpla con los acuerdos establecidos por contrato, de tal forma que, en el futuro, no se tengan que aplicar ANS.
+Multinube híbrida - Lote 2 y Lote 3
+La Interventoría informó que los contratos de Lote 2 y Lote 3, objeto de Interventoría, hacen referencia a los consumos de las nubes primaria y secundaria, Azure y AWS, respectivamente.
+El contrato para la nube primaria de Azure se tiene con el Proveedor Controles Empresariales. En este caso se hizo un primer aprovisionamiento que estaba previsto por contrato por valor de 4.438.631,00 USD. Dado que se realizó un consumo de más del 85%, fue necesario solicitar un segundo aprovisionamiento por valor de 1.980.786,57 USD.",Q004,¿Qué riesgos asociados a despliegues fueron identificados?,despliegues
+1,0.4698305130004883,DOC_017,INT_PC_AC_Acta Seguimiento Ejecutivo_20240430.docx,ACTA,1,DOC_017_RCHUNK_013,"El primer análisis compartido a la DIAN estaba relacionado sobre las dificultades asociadas a la reformulación de la ruta crítica de lo que se requiere concretamente, y que si el mismo se adjudicara a otro se deberían hacer ajustes en las condiciones de ejecución respecto al cambio de la estrategia de la DIAN. 
+Por esto, el análisis que se hizo fue sobre la viabilidad de la terminación del contrato por mutuo acuerdo por situaciones exógenas pero que impactan el contrato. En ese momento se declara que es viable solo si existía acuerdo sobre este particular entre el consultor y la DIAN, junto con el concepto de la interventoría en su momento. La respuesta del consultor a este análisis es que estaba de acuerdo con la terminación por mutuo acuerdo.
+Cuando durante las presentaciones se evidencia que hay falencias en la ejecución del contrato y se empieza a desviar la causa real de la terminación del contrato, si es por riesgo de incumplimiento o por que se necesita una estrategia distinta y mejorada de acuerdo con la situación actual de los sistemas misionales de la DIAN. Esto hay que tenerlo en cuenta, ya que esto blinda jurídicamente la DIAN con las decisiones que se vayan a tomar en este sentido.
+Si la decisión es continuar, todos coinciden en que se deben hacer ajustes estructurales del contrato por la situación que se vive ahora y que incluye la revisión de las formas de pago entre otras.
+Se hace la claridad ya que parece que las soluciones planteadas son únicamente por la ejecución del contrato y esto tiene otros aspectos a considerar.
+La interventoría indica que los puntos planteados sobre la mesa de trabajo se han conversado con la supervisión del contrato y en las sesiones de seguimiento semanal con la DIAN, el último análisis mencionado no se conoce.
+La Directora de Gestión Corporativa, Luz Nayibe López, menciona que se ha revisado con la supervisión del contrato, en el marco de los diferentes escenarios y los análisis de todos los impactos de esta reformulación. Deben tener el soporte y una información clara sobre los escenarios y los riesgos a los que habrá que someterse en cualquiera de las decisiones que se tomen.",Q020,¿Qué evidencia documental soporta la existencia de riesgos críticos?,evidencia
+2,0.4367295503616333,DOC_007,INT_PC_AC_Acta Seguimiento Interventoria_20250902_.pdf,ACTA,5,DOC_007_RCHUNK_009,"Detalle en la diapositiva No. 24, dentro de los temas relevantes se mencionaron:
+Análisis de vulnerabilidades:
+
+Informe prueba de penetración Pen-test: Se propone sesión para el 3/09/2025
+con el fin de revisar el alcance y riesgos de la ejecución de las actividades.
+5.2.1.3
+Alertas
+
+Se continuará por parte de la Interventoría con el seguimiento a los REQ próximos
+a su cierre, con el fin de agilizar y evitar atrasos en estos.
+
+La Interventoría menciona que toda la documentación para el cierre tanto de REQ
+como de meses a facturar de SF debe quedar antes del 17 de septiembre de 2025,
+para que se puedan facturar y pasar la debida documentación a la UCP.
+
+Tener presente que la Interventoría proyecta el template para el informe de cierre
+y quien ejecuta realiza el informe de cierre es el Consorcio.
+5.2.1.4 Comunicados/Conceptos",Q020,¿Qué evidencia documental soporta la existencia de riesgos críticos?,evidencia
+3,0.43393635749816895,DOC_033,INT_PC_AC_Acta Seguimiento Interventoria_20240409.docx,ACTA,1,DOC_033_RCHUNK_002,"Para el sprint 6 y 7 se cuenta con doce (12) HU comprometidas, a la fecha del 09/04/2024 continúan abiertas. La imposibilidad de cerrarlas se debe a la etapa de verificación en la que se está corroborando la exactitud de los datos en los formatos 1188 (formato consolidado de bancos) y el formato 1105 (formato relativo a reglas de negocio para ajustes en la declaración de renta de los ciudadanos). Aunque el Consorcio ya ha implementado estas historias de usuario, durante las sesiones de validación se ha reconocido la necesidad de realizar revisiones adicionales tanto por parte de la DIAN, complementando y esclareciendo información; como por parte del Consorcio, encargándose de realizar las modificaciones requeridas. Se planea proseguir con las sesiones de validación, lo cual es una parte esperada del proceso en un proyecto de implementación de datos.
+Se alerta a la DIAN, porque adicional al sprint 6 y 7 se dio inicio al sprint 8; este tiene un total de 10 HU comprometidas, por lo que se tienen más de 20 HU abiertas, y teniendo en cuenta las actividades que aun se están cerrando del sprint 6 y 7, la interventoría ve un riesgo de que el sprint 8 no pueda cerrarse según lo proyectado. Adicionalmente, los sprint 9 en adelante genera una dependencia entre HU, lo que impacta el avance del proyecto.
+Se notifica a la DIAN sobre una situación de alerta relacionada con los Sprints en curso. Además de los Sprints 6 y 7 en ejecución, se inició el sprint 8, que tiene comprometidas diez (10) historias de usuario (HU). Esta carga acumulativa resulta en más de 20 HU que aún están pendientes de cierre. Dada esta situación y considerando que aún hay actividades en proceso de finalización correspondientes a los Sprints 6 y 7, la interventoría alerta un riesgo de no cumplimiento en el cierre del sprint 8. Por otro lado, a partir del sprint 9 en adelante, se observa que existe una dependencia entre HU, lo cual podría llegar a generar impactos adicionales en el progreso del requerimiento y afectar la fecha fin planeada de cierre (11/07/2024).",Q020,¿Qué evidencia documental soporta la existencia de riesgos críticos?,evidencia
+4,0.43238359689712524,DOC_008,INT_PC_AC_Acta Seguimiento Interventoria_20250812.pdf,ACTA,5,DOC_008_RCHUNK_009,"En la diapositiva 21 se tienen los puntos importantes y relevantes de la semana a
+presentar a continuación:
+
+Incidente INC0014853: Validación del proceso de ingesta diaria por parte de
+Consorcio.
+Fecha de cierre del incidente pendiente (Validación de datos en preproducción)
+
+Incidente INC0015240: Ajustes de formato de pruebas y formato 2180 para paso
+a comité de cambios.
+Fecha de cierre del incidente pendiente",Q020,¿Qué evidencia documental soporta la existencia de riesgos críticos?,evidencia
+5,0.4301658272743225,DOC_031,CNS-xxxx-24 INT-DATAR-Comunicado 63-Incumplimiento compromisos otrosí2-202407.docx,COMUNICADO,1,DOC_031_RCHUNK_002,"Es imperativo recordar que los acuerdos y plazos establecidos no son meramente indicativos, sino que constituyen obligaciones contractuales cuyo cumplimiento es esencial para la continuidad y el éxito del proyecto, la falta de adherencia a estos compromisos pone en riesgo la continuación del proyecto.
+Esperamos que este llamado de atención sea recibido con la seriedad que amerita y que se tomen las acciones necesarias para rectificar la situación de manera inmediata. La colaboración y el compromiso de todas las partes son fundamentales para mantener la confianza y asegurar el éxito conjunto.
+Agradecemos su atención al asunto.
+Cordialmente.
+Patricia Patiño
+Associate Partner
+Ernst & Young S.A.S.",Q020,¿Qué evidencia documental soporta la existencia de riesgos críticos?,evidencia
