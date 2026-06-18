@@ -1,0 +1,37 @@
+﻿doc_id,filename,tipo_documento,cantidad_chunks,total_palabras,promedio_palabras_chunk
+DOC_001,RTA-DIAN-Solicitud_de_Mejora_CNS-0554-24.pdf,MEJORA,5,1480,296.0
+DOC_002,CNS-0554-24 Agosto 5 2024 Mejoras despliegues DataR.pdf,MEJORA,3,917,305.6666666666667
+DOC_003,CNS-0866-23 INT_DATAR_Comunicado_14_09102023_VF.pdf,COMUNICADO,11,3859,350.8181818181818
+DOC_004,Solicitud cambio apoyo gerencia.pdf,OTRO,1,182,182.0
+DOC_005,INT_PC_AC_Acta Seguimiento Interventoria_20230621.pdf,ACTA,10,3360,336.0
+DOC_006,0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf,COMUNICADO,48,15653,326.1041666666667
+DOC_007,INT_PC_AC_Acta Seguimiento Interventoria_20250902_.pdf,ACTA,9,3123,347.0
+DOC_008,INT_PC_AC_Acta Seguimiento Interventoria_20250812.pdf,ACTA,12,4098,341.5
+DOC_009,INT_PC_AC_Acta Seguimiento Ejecutivo_20250829.pdf,ACTA,9,2448,272.0
+DOC_010,INT_PC_AC_Acta Seguimiento Ejecutivo_20250303.pdf,ACTA,11,3190,290.0
+DOC_011,INT_PC_AC_Acta Seguimiento Ejecutivo_20250130.pdf,ACTA,15,4560,304.0
+DOC_012,INT_PC_AC_Acta Seguimiento Ejecutivo_20241203.pdf,ACTA,7,2070,295.7142857142857
+DOC_013,INT_PC_AC_Acta Seguimiento Ejecutivo_20241203.docx,ACTA,5,2173,434.6
+DOC_014,INT_PC_AC_Acta Seguimiento Ejecutivo_20241024.docx,ACTA,6,2348,391.3333333333333
+DOC_015,INT_PC_AC_Acta Seguimiento Ejecutivo_20240827.docx,ACTA,9,3753,417.0
+DOC_016,INT_PC_AC_Acta Seguimiento Ejecutivo_20240709.docx,ACTA,12,5062,421.8333333333333
+DOC_017,INT_PC_AC_Acta Seguimiento Ejecutivo_20240430.docx,ACTA,16,7136,446.0
+DOC_018,INT_PC_AC_Acta Seguimiento Ejecutivo_20240227.docx,ACTA,20,8959,447.95
+DOC_019,DataR - Acta - Continuación Servicios Fijos - DataR v2.docx,ACTA,2,888,444.0
+DOC_020,CNS-0570-24 INT-DATAR-Comunicado 67-Incumplimiento tiempos plan de cierre-202407.docx,COMUNICADO,1,419,419.0
+DOC_021,CNS-0483-24_Incumplimiento_compromisos.pdf,INCUMPLIMIENTO,1,339,339.0
+DOC_022,INT_DATAR_20240105.pdf,OTRO,2,549,274.5
+DOC_023,INT_DATAR_Comunicado_2_20230124.pdf,COMUNICADO,3,896,298.6666666666667
+DOC_024,INT_DATAR_Comunicado_33_20231226.pdf,COMUNICADO,5,1504,300.8
+DOC_025,INT_DATAR_Comunicado_36_20140105.pdf,COMUNICADO,2,549,274.5
+DOC_026,INT_EJE_RV_Comunicado_3_DATAR_10042023_VF.pdf,COMUNICADO,6,2076,346.0
+DOC_027,INT_DATAR_Comunicado_12_20230929- V1.pdf,COMUNICADO,2,690,345.0
+DOC_028,CNS-XXXX-24 INT-DATAR-Comunicado 58-Respuesta de interventoría-202405.docx,COMUNICADO,7,3078,439.7142857142857
+DOC_029,CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.docx,COMUNICADO,4,1617,404.25
+DOC_030,CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.pdf,COMUNICADO,5,1515,303.0
+DOC_031,CNS-xxxx-24 INT-DATAR-Comunicado 63-Incumplimiento compromisos otrosí2-202407.docx,COMUNICADO,2,526,263.0
+DOC_032,0504-24_INT-DATAR-Comunicado 64-notificación aplicación ANS Cifras recaudo-202407.pdf,COMUNICADO,1,312,312.0
+DOC_033,INT_PC_AC_Acta Seguimiento Interventoria_20240409.docx,ACTA,5,1983,396.6
+DOC_034,INT_PC_AC_Acta Seguimiento Interventoria_20240402.docx,ACTA,4,1784,446.0
+DOC_035,RQ001 Acta Review Sprint 8_Firmada.pdf,ACTA,3,886,295.3333333333333
+DOC_036,CNS-0570-24 INT-DATAR-Comunicado 67-Incumplimiento tiempos plan de cierre-202407.pdf,COMUNICADO,1,414,414.0
