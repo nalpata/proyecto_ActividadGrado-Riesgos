@@ -1,0 +1,3 @@
+﻿model_alias,model_name,num_chunks,num_questions,embedding_dimension,top_k,mean_top1_score,mean_top5_score
+minilm,sentence-transformers/all-MiniLM-L6-v2,345,20,384,5,0.6300831198692322,0.6017157512903214
+bge_m3,BAAI/bge-m3,345,20,1024,5,0.5396674275398254,0.5254282855987549
