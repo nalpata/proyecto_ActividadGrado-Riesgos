@@ -1,0 +1,9 @@
+﻿risk_category,cantidad_riesgos,score_promedio,score_maximo
+Financiero,15,5.466666666666667,9
+Cronograma,11,5.545454545454546,9
+Calidad,9,6.111111111111111,9
+Gobierno del Proyecto,10,4.6,6
+Contractual,7,4.571428571428571,6
+Seguridad,7,6.0,6
+Operación,2,5.0,6
+Despliegues,1,4.0,4
