@@ -1,0 +1,21 @@
+﻿scenario,question_id,question,categoria,precision_at_1,precision_at_3,precision_at_5,hit_at_1,hit_at_3,hit_at_5,mrr
+retriever_only,Q001,¿Qué incumplimientos contractuales fueron identificados en los documentos?,incumplimientos,1.0,1.0,0.8,1,1,1,1.0
+retriever_only,Q002,¿Qué compromisos aparecen como vencidos o no cumplidos?,incumplimientos,1.0,1.0,1.0,1,1,1,1.0
+retriever_only,Q003,¿Qué riesgos de retraso se evidencian en el corpus?,riesgos,0.0,0.6666666666666666,0.6,0,1,1,0.5
+retriever_only,Q004,¿Qué riesgos asociados a despliegues fueron identificados?,despliegues,1.0,0.6666666666666666,0.4,1,1,1,1.0
+retriever_only,Q005,¿Qué ANS fueron reportados como incumplidos o afectados?,ans,0.0,0.0,0.4,0,0,1,0.25
+retriever_only,Q006,¿Qué acciones correctivas fueron solicitadas por la interventoría?,acciones_correctivas,1.0,1.0,1.0,1,1,1,1.0
+retriever_only,Q010,¿Qué documentos evidencian incumplimiento reiterado?,incumplimientos,1.0,1.0,1.0,1,1,1,1.0
+retriever_only,Q012,¿Qué señales tempranas de riesgo aparecen en los comunicados?,riesgos,1.0,0.3333333333333333,0.6,1,1,1,1.0
+retriever_only,Q013,¿Qué riesgos afectan el cumplimiento del proyecto?,riesgos,0.0,0.6666666666666666,0.4,0,1,1,0.5
+retriever_only,Q020,¿Qué evidencia documental soporta la existencia de riesgos críticos?,evidencia,1.0,1.0,1.0,1,1,1,1.0
+retriever_plus_reranker,Q001,¿Qué incumplimientos contractuales fueron identificados en los documentos?,incumplimientos,1.0,1.0,1.0,1,1,1,1.0
+retriever_plus_reranker,Q002,¿Qué compromisos aparecen como vencidos o no cumplidos?,incumplimientos,0.0,0.0,0.4,0,0,1,0.25
+retriever_plus_reranker,Q003,¿Qué riesgos de retraso se evidencian en el corpus?,riesgos,1.0,0.6666666666666666,0.6,1,1,1,1.0
+retriever_plus_reranker,Q004,¿Qué riesgos asociados a despliegues fueron identificados?,despliegues,0.0,0.3333333333333333,0.6,0,1,1,0.3333333333333333
+retriever_plus_reranker,Q005,¿Qué ANS fueron reportados como incumplidos o afectados?,ans,1.0,1.0,0.6,1,1,1,1.0
+retriever_plus_reranker,Q006,¿Qué acciones correctivas fueron solicitadas por la interventoría?,acciones_correctivas,1.0,0.3333333333333333,0.6,1,1,1,1.0
+retriever_plus_reranker,Q010,¿Qué documentos evidencian incumplimiento reiterado?,incumplimientos,1.0,1.0,1.0,1,1,1,1.0
+retriever_plus_reranker,Q012,¿Qué señales tempranas de riesgo aparecen en los comunicados?,riesgos,1.0,1.0,1.0,1,1,1,1.0
+retriever_plus_reranker,Q013,¿Qué riesgos afectan el cumplimiento del proyecto?,riesgos,0.0,0.6666666666666666,0.8,0,1,1,0.5
+retriever_plus_reranker,Q020,¿Qué evidencia documental soporta la existencia de riesgos críticos?,evidencia,1.0,0.6666666666666666,0.6,1,1,1,1.0

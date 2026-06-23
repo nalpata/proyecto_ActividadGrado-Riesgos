@@ -1,0 +1,2 @@
+﻿embedding_model,reranker_model,num_chunks,num_questions,top_n_retriever,top_k_final,scenarios
+BAAI/bge-m3,cross-encoder/ms-marco-MiniLM-L-6-v2,345,10,20,5,retriever_only; retriever_plus_reranker
