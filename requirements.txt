@@ -6,3 +6,5 @@ scikit-learn
 sentence-transformers
 chromadb
 rank-bm25
+plotly
+openpyxl
