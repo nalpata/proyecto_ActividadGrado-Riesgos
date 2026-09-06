@@ -8,3 +8,5 @@ chromadb
 rank-bm25
 plotly
 openpyxl
+openai
+pyarrow
