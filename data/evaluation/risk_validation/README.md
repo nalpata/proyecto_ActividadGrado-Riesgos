@@ -2,6 +2,8 @@
 
 Esta carpeta contiene los insumos y resultados utilizados para evaluar la extracción estructurada de riesgos.
 
+Si el archivo original de evaluación no está disponible, se debe reconstruir el baseline con `notebooks/09b_reconstruir_baseline_colab.ipynb`. La nueva ejecución se conserva como un experimento distinto del resultado histórico de junio.
+
 ## Día 1: diagnóstico de falsos positivos
 
 ### Entrada requerida
@@ -51,4 +53,3 @@ python src/evaluation/analyze_false_positives.py --input data/evaluation/risk_va
 ### Regla metodológica
 
 La columna `tipo_error_sugerido` es solamente una ayuda heurística. La clasificación válida para el trabajo de grado es `tipo_error_manual`, diligenciada mediante revisión humana de la evidencia.
-
