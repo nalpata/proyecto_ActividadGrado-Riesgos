@@ -16,6 +16,12 @@ Salidas principales:
 - `validator_metrics.json`: Precision, Recall, F1 y matriz de confusión sobre etiquetas humanas.
 - `validation_log.csv`: trazabilidad de las respuestas.
 
+### Selección del validador final
+
+Las versiones v1 y v2 se compararon sobre la misma muestra ciega de 35 casos, posteriormente adjudicada. Se seleccionó v2 porque alcanzó mayor recall (0,7879), F1 (0,8667) y accuracy (0,7714), manteniendo precision alta (0,9630). La muestra contiene 33 señales válidas y solo 2 negativas; por tanto, la especificidad debe reportarse como resultado preliminar y no generalizable.
+
+Los resultados consolidados se encuentran en `data/evaluation/risk_validation/validator_v2/final/`.
+
 ## Día 1: diagnóstico de falsos positivos
 
 ### Entrada requerida
