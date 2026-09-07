@@ -1,0 +1,9 @@
+category,risk_count,mean_score,max_score,high_or_critical,radar_score
+Seguridad,7,6.43,9,7,80.0
+Financiero,24,5.42,9,11,72.1
+Calidad,17,5.35,9,10,71.6
+Despliegues,1,6.0,6,1,66.7
+Cronograma,46,4.93,6,24,58.4
+Gobierno del Proyecto,22,4.91,6,11,58.2
+Operación,27,4.89,6,12,58.0
+Contractual,10,4.6,6,3,55.8
