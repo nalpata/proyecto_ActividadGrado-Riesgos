@@ -11,7 +11,8 @@ El notebook `notebooks/13_validacion_automatica_riesgos_colab.ipynb` ejecuta una
 Salidas principales:
 
 - `risk_validation_results.xlsx`: decisiones para los 156 candidatos.
-- `validation_review_sample.xlsx`: muestra dirigida de 35 casos.
+- `validation_review_sample_blind.xlsx`: muestra dirigida ciega de 35 casos no etiquetados.
+- `validation_review_sample_key.xlsx`: predicciones del agente; no debe abrirse antes de completar la muestra ciega.
 - `validator_metrics.json`: Precision, Recall, F1 y matriz de confusión sobre etiquetas humanas.
 - `validation_log.csv`: trazabilidad de las respuestas.
 
