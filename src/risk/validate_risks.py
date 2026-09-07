@@ -78,10 +78,11 @@ def build_prompt(chunk_text: str, candidates: pd.DataFrame) -> str:
 
 Evalúa cada candidato únicamente contra el fragmento documental. No uses conocimiento externo y no inventes hechos.
 
-Definición operacional:
-- Riesgo válido: condición incierta, amenaza, incumplimiento, desviación, debilidad o problema con consecuencias pendientes que puede afectar objetivos, plazo, costo, calidad, operación, seguridad, gobierno o contrato.
-- Un hecho ya ocurrido solo puede aceptarse si el texto demuestra consecuencias pendientes, recurrencia o exposición futura. Un hecho cerrado sin exposición pendiente no es riesgo.
-- Un compromiso normal, una agenda, una solicitud, una recomendación o una acción correctiva no es por sí mismo un riesgo.
+Definición operacional para vigilancia documental:
+- Riesgo o señal válida: condición incierta, amenaza, incumplimiento, desviación, vulnerabilidad, bloqueo, pendiente crítico o problema documentado que sea relevante para vigilar objetivos, plazo, costo, calidad, operación, seguridad, gobierno o contrato.
+- Una desviación o problema ya ocurrido puede aceptarse como señal de riesgo cuando evidencia deterioro, exposición, recurrencia, falta de cierre o necesidad de seguimiento. No exijas que el fragmento formule literalmente una consecuencia futura.
+- Un hecho completamente cerrado, neutral y sin valor para la vigilancia se rechaza.
+- Un compromiso, solicitud, recomendación o acción correctiva no es por sí mismo un riesgo; sin embargo, puede evidenciar una señal válida cuando revela una deficiencia, pendiente, vulnerabilidad, incumplimiento o condición adversa subyacente.
 - La descripción debe estar respaldada por el fragmento. Si exige supuestos no presentes, se rechaza.
 - Evalúa la validez y la categoría; no cambies severidad ni probabilidad.
 
@@ -108,7 +109,7 @@ Devuelve SOLO un objeto JSON válido con esta estructura:
 
 Reglas de formato:
 - is_valid_risk, evidence_sufficient y category_is_correct deben ser 0 o 1.
-- confidence debe estar entre 0 y 1.
+- confidence debe estar entre 0 y 1 y representa tu certeza sobre la clasificación tomada, no la probabilidad de que el candidato sea válido. Una decisión de rechazo muy segura debe tener confidence alto, por ejemplo 0.9.
 - Debe existir exactamente una validación por cada risk_id recibido.
 
 FRAGMENTO DOCUMENTAL:
@@ -195,7 +196,7 @@ def compute_metrics(results: pd.DataFrame) -> dict:
     }
 
 
-def select_review_sample(results: pd.DataFrame, size: int = 35) -> pd.DataFrame:
+def select_review_sample(results: pd.DataFrame, size: int = 35) -> tuple[pd.DataFrame, pd.DataFrame]:
     labeled = results["riesgo_valido_manual"].map(normalize_binary)
     results = results.copy()
     results["human_label_normalized"] = labeled
@@ -204,26 +205,42 @@ def select_review_sample(results: pd.DataFrame, size: int = 35) -> pd.DataFrame:
     ).astype(int)
     unlabeled = results[labeled.isna()].copy()
     chosen = []
-    disagreement = results[results["model_human_disagreement"] == 1]
-    chosen.extend(disagreement.index.tolist())
-    priority = unlabeled.sort_values(
-        ["validator_is_valid", "validator_confidence"], ascending=[True, True]
-    )
-    for idx in priority.index:
+    # 15 rechazos de mayor confianza: necesarios para enriquecer la clase negativa.
+    rejected = unlabeled[unlabeled["validator_is_valid"] == 0].sort_values("validator_confidence", ascending=False)
+    chosen.extend(rejected.head(15).index.tolist())
+    # 10 decisiones de menor confianza, sin repetir.
+    uncertain = unlabeled.sort_values("validator_confidence", ascending=True)
+    for idx in uncertain.index:
         if idx not in chosen:
             chosen.append(idx)
-        if len(chosen) >= size:
+        if len(chosen) >= 25:
             break
-    if len(chosen) < size:
-        for idx in unlabeled.sort_values("validator_confidence").index:
+    # 10 aceptados de control, distribuidos por categoría cuando sea posible.
+    accepted = unlabeled[unlabeled["validator_is_valid"] == 1].sort_values(["risk_category", "validator_confidence"])
+    for _, group in accepted.groupby("risk_category", sort=True):
+        for idx in group.head(2).index:
             if idx not in chosen:
                 chosen.append(idx)
             if len(chosen) >= size:
                 break
-    sample = results.loc[chosen[:size]].copy()
-    sample["control_humano_valido"] = ""
-    sample["control_humano_comentario"] = ""
-    return sample
+        if len(chosen) >= size:
+            break
+    if len(chosen) < size:
+        for idx in unlabeled.index:
+            if idx not in chosen:
+                chosen.append(idx)
+            if len(chosen) >= size:
+                break
+    key = results.loc[chosen[:size]].copy()
+    key["control_humano_valido"] = ""
+    key["control_humano_categoria_correcta"] = ""
+    key["control_humano_comentario"] = ""
+    blind_columns = [
+        "risk_id", "source_doc_id", "source_filename", "source_page", "source_chunk_id",
+        "risk_name", "risk_category", "risk_description", "evidence", "recommended_action",
+        "control_humano_valido", "control_humano_categoria_correcta", "control_humano_comentario",
+    ]
+    return key[blind_columns].copy(), key
 
 
 def validate(input_xlsx: Path, chunks_path: Path, output_dir: Path, sample_size: int = 35) -> dict:
@@ -266,17 +283,18 @@ def validate(input_xlsx: Path, chunks_path: Path, output_dir: Path, sample_size:
         subset=["source_chunk_id", "risk_category", "risk_description"], keep=False
     ).astype(int)
     metrics = compute_metrics(results)
-    sample = select_review_sample(results, sample_size)
+    blind_sample, sample_key = select_review_sample(results, sample_size)
     logs_df = pd.DataFrame(logs)
     results.to_csv(output_dir / "risk_validation_results.csv", index=False, encoding="utf-8-sig")
     results.to_excel(output_dir / "risk_validation_results.xlsx", index=False)
-    sample.to_excel(output_dir / "validation_review_sample.xlsx", index=False)
+    blind_sample.to_excel(output_dir / "validation_review_sample_blind.xlsx", index=False)
+    sample_key.to_excel(output_dir / "validation_review_sample_key.xlsx", index=False)
     logs_df.to_csv(output_dir / "validation_log.csv", index=False, encoding="utf-8-sig")
     (output_dir / "validator_metrics.json").write_text(json.dumps(metrics, ensure_ascii=False, indent=2), encoding="utf-8")
     metadata = {
         "model": MODEL, "temperature": 0.0, "candidates": int(len(results)),
         "chunks_evaluated": int(results["source_chunk_id"].nunique()),
-        "api_errors": int((logs_df["status"] == "error").sum()), "review_sample_size": int(len(sample)),
+        "api_errors": int((logs_df["status"] == "error").sum()), "review_sample_size": int(len(blind_sample)),
     }
     (output_dir / "validator_metadata.json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
     return {"metadata": metadata, "metrics": metrics}
@@ -294,4 +312,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
