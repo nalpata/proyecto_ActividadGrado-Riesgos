@@ -103,6 +103,8 @@ Criterio:
 - relevant=0 si solo comparte palabras, es contexto genérico o no ayuda a responder.
 - No penalices al fragmento por responder solo una parte de una pregunta transversal.
 - Evalúa únicamente el contenido recibido. No uses conocimiento externo.
+- confidence representa certeza sobre la decisión tomada, no probabilidad de relevancia.
+  Un rechazo muy seguro debe tener confidence alto, por ejemplo 0.9.
 
 Devuelve exactamente una decisión por chunk_id en JSON:
 {{"judgments":[{{"chunk_id":"...","relevant":0,"confidence":0.0,"justification":"máximo 25 palabras"}}]}}
