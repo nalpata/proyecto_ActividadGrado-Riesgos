@@ -280,6 +280,20 @@ Para fortalecer el proyecto antes de la entrega final, se recomienda:
 7. Incluir una sección de limitaciones del prototipo.
 8. Preparar una versión sintética del corpus si el repositorio se mantiene público.
 
+## Plan intensivo de cierre
+
+### Día 1: diagnóstico de falsos positivos
+
+El primer paso del cierre final consiste en analizar los falsos positivos de la extracción estructurada de riesgos. Los recursos reproducibles se encuentran en:
+
+```text
+notebooks/12_diagnostico_falsos_positivos.ipynb
+src/evaluation/analyze_false_positives.py
+data/evaluation/risk_validation/README.md
+```
+
+El objetivo es establecer el baseline, clasificar las causas de error y producir los insumos para diseñar la etapa posterior de validación de riesgos.
+
 ## Consideraciones de confidencialidad
 
 Este proyecto fue desarrollado con fines académicos. Si se utilizan documentos reales de proyectos, contratos, interventorías o comunicaciones empresariales, se debe validar previamente que su publicación esté permitida.
