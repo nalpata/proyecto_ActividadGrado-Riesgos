@@ -4,6 +4,17 @@ Esta carpeta contiene los insumos y resultados utilizados para evaluar la extrac
 
 Si el archivo original de evaluación no está disponible, se debe reconstruir el baseline con `notebooks/09b_reconstruir_baseline_colab.ipynb`. La nueva ejecución se conserva como un experimento distinto del resultado histórico de junio.
 
+## Agente validador
+
+El notebook `notebooks/13_validacion_automatica_riesgos_colab.ipynb` ejecuta una segunda etapa independiente. El validador contrasta cada candidato con el chunk fuente, decide su validez, revisa la categoría, determina suficiencia de evidencia y explica su decisión. Las etiquetas humanas disponibles se reservan para evaluación y no se incluyen en el prompt.
+
+Salidas principales:
+
+- `risk_validation_results.xlsx`: decisiones para los 156 candidatos.
+- `validation_review_sample.xlsx`: muestra dirigida de 35 casos.
+- `validator_metrics.json`: Precision, Recall, F1 y matriz de confusión sobre etiquetas humanas.
+- `validation_log.csv`: trazabilidad de las respuestas.
+
 ## Día 1: diagnóstico de falsos positivos
 
 ### Entrada requerida
