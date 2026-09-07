@@ -1,0 +1,14 @@
+{
+  "total_candidates": 156,
+  "human_adjudicated": 35,
+  "validator_only": 121,
+  "operational_included": 154,
+  "operational_excluded": 2,
+  "primary_signals_for_radar": 154,
+  "possible_duplicate_rows": 0,
+  "review_queue": 0,
+  "similarity_threshold": 0.92,
+  "decision_rule": "human_final overrides validator_v2 only for adjudicated risk_id",
+  "radar_formula": "100 * (0.70 * mean_score/9 + 0.30 * max_score/9)",
+  "academic_limitation": "Las decisiones no adjudicadas son automáticas; el catálogo es insumo de un prototipo académico y requiere supervisión humana para uso operativo real."
+}
