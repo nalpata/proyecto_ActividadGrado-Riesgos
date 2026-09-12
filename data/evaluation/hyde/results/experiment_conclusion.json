@@ -1,0 +1,13 @@
+{
+  "questions": 20,
+  "recommended_method": "normal",
+  "recommend_hyde": false,
+  "selection_rule": "improve MRR and Hit@3, with Precision@5 deterioration no greater than 0.02",
+  "finding": "HyDE no supera el retrieval normal con BGE-M3 en este corpus.",
+  "limitations": [
+    "La relevancia fue etiquetada inicialmente mediante LLM-as-judge.",
+    "La confianza del juez en esta corrida no es interpretable: varios rechazos recibieron confianza 0.",
+    "Se requiere consolidar la muestra ciega de auditoría humana antes del cierre definitivo.",
+    "Los intervalos bootstrap describen variabilidad entre 20 preguntas; no prueban generalización a otros corpus."
+  ]
+}

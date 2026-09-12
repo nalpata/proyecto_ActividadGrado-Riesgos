@@ -1,0 +1,19 @@
+{
+  "llm_model": "gpt-4o-mini",
+  "embedding_model": "BAAI/bge-m3",
+  "questions": 20,
+  "chunks": 345,
+  "top_k": 5,
+  "pooled_unique_pairs": 178,
+  "prompt_tokens": 68018,
+  "completion_tokens": 14658,
+  "total_tokens": 82676,
+  "input_cost_per_million_usd": 0.15,
+  "output_cost_per_million_usd": 0.6,
+  "estimated_cost_usd": 0.018998,
+  "hyde_seconds": 48.305,
+  "retrieval_seconds": 1.899,
+  "judge_seconds": 97.447,
+  "total_seconds": 295.778,
+  "relevance_protocol": "LLM-as-judge blind to retrieval method, with human audit sample"
+}
