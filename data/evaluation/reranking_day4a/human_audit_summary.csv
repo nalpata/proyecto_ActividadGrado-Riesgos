@@ -1,0 +1,3 @@
+method,reviewed_pairs,human_relevant,human_not_relevant,relevance_rate,human_atomic,human_not_atomic,atomic_rate
+normal,12,11,1,0.916667,10,2,0.833333
+hyde_rerank,12,7,5,0.583333,3,9,0.250000
