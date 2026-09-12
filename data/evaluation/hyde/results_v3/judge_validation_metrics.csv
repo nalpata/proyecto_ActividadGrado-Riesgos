@@ -1,0 +1,2 @@
+tp,tn,fp,fn,accuracy,precision,recall,f1,specificity,kappa
+13,15,1,1,0.933333,0.928571,0.928571,0.928571,0.937500,0.866071
