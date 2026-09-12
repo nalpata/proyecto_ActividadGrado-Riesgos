@@ -294,6 +294,12 @@ data/evaluation/risk_validation/README.md
 
 El objetivo es establecer el baseline, clasificar las causas de error y producir los insumos para diseñar la etapa posterior de validación de riesgos.
 
+### Día 4A: reranking multilingüe
+
+Se compararon BGE-M3 normal, HyDE y ambas consultas con `BAAI/bge-reranker-v2-m3`. Aunque `hyde_rerank` obtuvo el mayor MRR automático, la auditoría humana ciega favoreció al retrieval normal tanto en relevancia (91,7 % frente a 58,3 %) como en atomicidad de los fragmentos (83,3 % frente a 25,0 %).
+
+La configuración seleccionada es **BGE-M3 normal, sin HyDE ni reranking**. Los resultados agregados y las limitaciones están documentados en `docs/resultados_dia_04a.md`. El siguiente experimento evaluará chunking estructural sin cambiar la estrategia de recuperación.
+
 ## Consideraciones de confidencialidad
 
 Este proyecto fue desarrollado con fines académicos. Si se utilizan documentos reales de proyectos, contratos, interventorías o comunicaciones empresariales, se debe validar previamente que su publicación esté permitida.
