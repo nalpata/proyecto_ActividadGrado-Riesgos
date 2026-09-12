@@ -1,0 +1,17 @@
+{
+  "selected_method": "normal_bge_m3",
+  "hyde_recommended": false,
+  "questions": 20,
+  "pooled_unique_pairs": 178,
+  "top_k": 5,
+  "judge_model": "gpt-4o-mini",
+  "judge_validation": {
+    "accuracy": 0.933333,
+    "f1": 0.928571,
+    "kappa": 0.866071
+  },
+  "decision_basis": "Normal supera a HyDE en Precision@1, Precision@3, Precision@5 y MRR. En Precision@5 gana 13 preguntas, empata 5 y pierde 2; el IC bootstrap pareado del delta HyDE-normal es [-0.31, -0.09].",
+  "chunking_finding": "La auditoría humana identificó chunks extensos y con múltiples riesgos; la atomicidad debe evaluarse como mejora separada.",
+  "limitation": "El juez v3 fue calibrado y validado sobre la misma muestra adjudicada de 30 pares; se requiere una muestra independiente futura para estimar generalización.",
+  "full_document_text_published": false
+}
