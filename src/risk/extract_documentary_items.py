@@ -14,6 +14,7 @@ import pandas as pd
 
 
 MODEL = "gpt-4o-mini"
+EXTRACTION_VERSION = "v2"
 ITEM_TYPES = [
     "RIESGO", "HECHO_OCURRIDO", "COMPROMISO", "ACCION_CORRECTIVA",
     "HALLAZGO", "INFORMACION_CONTEXTUAL",
@@ -42,6 +43,7 @@ RESPONSE_SCHEMA = {
                             "title": {"type": "string"},
                             "statement": {"type": "string"},
                             "evidence_quote": {"type": "string"},
+                            "evidence_sufficient": {"type": "integer", "enum": [0, 1]},
                             "surveillance_candidate": {"type": "integer", "enum": [0, 1]},
                             "exposure_status": {"type": "string", "enum": EXPOSURE_STATUS},
                             "risk_category": {"type": "string", "enum": CATEGORIES},
@@ -51,7 +53,7 @@ RESPONSE_SCHEMA = {
                             "justification": {"type": "string"},
                         },
                         "required": [
-                            "item_type", "title", "statement", "evidence_quote",
+                            "item_type", "title", "statement", "evidence_quote", "evidence_sufficient",
                             "surveillance_candidate", "exposure_status", "risk_category",
                             "responsible", "explicit_date", "confidence", "justification",
                         ],
@@ -80,7 +82,7 @@ def evidence_is_verbatim(evidence: str, chunk_text: str) -> bool:
 def build_prompt(row: pd.Series) -> str:
     return f"""Actúa como analista documental de interventoría y gestión de proyectos tecnológicos.
 
-Extrae de este fragmento hasta seis elementos atómicos y clasifica cada uno por su función principal. No uses conocimiento externo, no completes vacíos y no inventes consecuencias, responsables, fechas ni acciones.
+Extrae de este fragmento un máximo de cuatro elementos sustantivos y atómicos. Clasifica cada uno por su función principal. No uses conocimiento externo, no completes vacíos y no inventes consecuencias, responsables, fechas ni acciones.
 
 DEFINICIONES EXCLUYENTES:
 - RIESGO: condición incierta o exposición que podría afectar objetivos, plazo, costo, calidad, operación, seguridad, gobierno o contrato.
@@ -91,14 +93,17 @@ DEFINICIONES EXCLUYENTES:
 - INFORMACION_CONTEXTUAL: descripción neutral, estado administrativo, reunión, cifra o antecedente que no constituye por sí mismo ninguna clase anterior.
 
 REGLAS:
-1. Clasifica la frase por lo que documentalmente es. Una acción no se convierte en riesgo. Si el texto contiene además la condición adversa, extráela como elemento separado.
-2. surveillance_candidate = 1 cuando el elemento merece vigilancia: riesgo, hecho/hallazgo adverso abierto, compromiso vencido o pendiente crítico, o acción correctiva aún necesaria. No significa que item_type sea RIESGO.
-3. exposure_status = ABIERTA cuando el texto muestra pendiente, continuidad, falta de cierre o seguimiento; CERRADA cuando confirma solución o cierre; INDETERMINADA si no permite decidir; NO_APLICA para contexto neutral.
-4. evidence_quote debe ser una cita literal continua de máximo 45 palabras tomada del fragmento. Sin paráfrasis.
-5. responsible y explicit_date deben quedar vacíos si no están explícitos.
-6. Usa risk_category = No aplica para información contextual sin tema de riesgo.
-7. confidence representa certeza sobre la clasificación, no gravedad ni probabilidad.
-8. Evita duplicar la misma afirmación. Si no existe ningún elemento sustantivo, devuelve items = [].
+1. Omite encabezados, firmas, nombres aislados, fechas de reunión, referencias a diapositivas, títulos de tabla y frases administrativas sin valor analítico.
+2. Clasifica por lo que la frase documentalmente es. Futuro posible = RIESGO; evento ya ocurrido = HECHO_OCURRIDO; obligación prometida = COMPROMISO; medida para corregir = ACCION_CORRECTIVA; deficiencia constatada = HALLAZGO.
+3. Una solicitud o verbo futuro como “validará”, “entregará” o “se realizará” suele ser COMPROMISO. Solo es ACCION_CORRECTIVA cuando el texto declara que busca corregir o mitigar una condición adversa explícita.
+4. Una cifra, reunión o actividad realizada es INFORMACION_CONTEXTUAL si no expresa por sí misma una condición adversa, obligación o exposición.
+5. surveillance_candidate = 1 únicamente para: RIESGO abierto; HECHO_OCURRIDO o HALLAZGO adverso y no resuelto; COMPROMISO explícitamente vencido, incumplido o crítico pendiente. Una acción correctiva, recomendación o compromiso normal vale 0; extrae por separado la condición adversa que sí requiera vigilancia.
+6. Si el texto confirma cierre, solución o ausencia de pendientes, surveillance_candidate debe ser 0 y exposure_status = CERRADA.
+7. evidence_quote debe ser una cita literal continua de máximo 45 palabras y debe contener suficiente información para demostrar statement sin depender de otra frase. evidence_sufficient = 1 solo cuando cumple ambas condiciones; en caso contrario no extraigas el elemento.
+8. responsible y explicit_date deben quedar vacíos si no están explícitos.
+9. risk_category es obligatoria para todas las clases excepto INFORMACION_CONTEXTUAL. Usa No aplica exclusivamente para contexto neutral.
+10. confidence representa certeza sobre la clasificación, no gravedad ni probabilidad.
+11. Evita duplicar afirmaciones. Si no existe ningún elemento sustantivo, devuelve items = [].
 
 METADATOS:
 - doc_id: {row['doc_id']}
@@ -133,11 +138,17 @@ def sanitize_item(item: dict, row: pd.Series) -> dict | None:
     if item_type not in ITEM_TYPES:
         return None
     evidence = str(item.get("evidence_quote", "")).strip()
-    if not evidence_is_verbatim(evidence, str(row["chunk_text"])):
+    if item.get("evidence_sufficient") not in {1, True}:
+        return None
+    if len(evidence.split()) < 4 or not evidence_is_verbatim(evidence, str(row["chunk_text"])):
         return None
     category = str(item.get("risk_category", "No aplica")).strip()
     if category not in CATEGORIES:
         category = "Otro"
+    if item_type != "INFORMACION_CONTEXTUAL" and category == "No aplica":
+        category = "Otro"
+    if item_type == "INFORMACION_CONTEXTUAL":
+        category = "No aplica"
     status = str(item.get("exposure_status", "INDETERMINADA")).strip().upper()
     if status not in EXPOSURE_STATUS:
         status = "INDETERMINADA"
@@ -158,7 +169,7 @@ def sanitize_item(item: dict, row: pd.Series) -> dict | None:
         "explicit_date": str(item.get("explicit_date", "")).strip(),
         "confidence": confidence,
         "justification": str(item.get("justification", "")).strip(),
-        "llm_model": MODEL,
+        "llm_model": MODEL, "extraction_version": EXTRACTION_VERSION,
     }
 
 
@@ -203,7 +214,7 @@ def extract(chunks_path: Path, output_dir: Path) -> dict:
     from openai import OpenAI
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    checkpoint = output_dir / "documentary_extraction_checkpoint.jsonl"
+    checkpoint = output_dir / "documentary_extraction_checkpoint_v2.jsonl"
     chunks = pd.read_parquet(chunks_path).sort_values(["doc_id", "page", "chunk_id"])
     completed, records, prior_logs = load_checkpoint(checkpoint)
     client = OpenAI()
@@ -245,7 +256,8 @@ def extract(chunks_path: Path, output_dir: Path) -> dict:
     )
     logs_df.to_csv(output_dir / "documentary_extraction_log.csv", index=False, encoding="utf-8-sig")
     metadata = {
-        "model": MODEL, "chunks_total": int(len(chunks)), "chunks_completed": int((logs_df.status == "ok").sum()),
+        "model": MODEL, "extraction_version": EXTRACTION_VERSION,
+        "chunks_total": int(len(chunks)), "chunks_completed": int((logs_df.status == "ok").sum()),
         "api_errors": int((logs_df.status == "error").sum()), "items": int(len(items)),
         "surveillance_candidates": int(items.surveillance_candidate.sum()) if not items.empty else 0,
         "rejected_nonverbatim_evidence": int(logs_df.rejected_evidence.fillna(0).sum()),
