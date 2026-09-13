@@ -6,12 +6,13 @@
   "candidate_k": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
   "random_seeds": [17, 29, 42, 71, 101],
   "selection_metrics": ["silhouette_cosine", "calinski_harabasz", "davies_bouldin", "stability_ari"],
-  "recurrence_rubric_by_distinct_documents": {
-    "1": "1 document",
-    "2": "2 documents",
-    "3": "3-4 documents",
-    "4": "5-7 documents",
-    "5": "8 or more documents"
+  "recurrence_method": "Count other documents with at least one semantic neighbor at cosine similarity >= 0.70",
+  "recurrence_rubric_by_other_documents": {
+    "1": "0 other documents",
+    "2": "1 other document",
+    "3": "2-3 other documents",
+    "4": "4-6 other documents",
+    "5": "7 or more other documents"
   },
   "privacy": "Raw statements, evidence and item-level assignments are not published"
 }
