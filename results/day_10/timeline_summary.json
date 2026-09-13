@@ -1,0 +1,16 @@
+{
+  "signals": 649,
+  "source_documents": 35,
+  "signals_with_document_date": 614,
+  "signals_without_document_date": 35,
+  "documents_with_date": 29,
+  "documents_without_date": 6,
+  "signals_with_persistence": 638,
+  "persistence_level_counts": {"1": 304, "2": 31, "3": 38, "4": 24, "5": 241},
+  "temporal_role_counts": {"APARICION": 396, "RECURRENCIA": 218, "SIN_FECHA_PROPIA": 24, "PENDIENTE_FECHA": 11},
+  "pird_calculated": 0,
+  "pird_pending": 649,
+  "pird_missing_components": ["severity", "probability"],
+  "decision": "Timeline and persistence are usable; escalation and PIRD remain pending until severity and probability are standardized",
+  "privacy": "Item-level timeline and document filenames are not published"
+}
