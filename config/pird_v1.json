@@ -1,0 +1,12 @@
+{
+  "version": "pird_design_v1",
+  "status": "DESIGN_VALIDATED_PENDING_CLUSTER_AND_TIMELINE",
+  "scale": {"minimum": 0, "maximum": 100},
+  "input_rubric": {"minimum": 1, "maximum": 5},
+  "exposure_weights": {"severity": 0.40, "probability": 0.25, "recurrence": 0.20, "persistence": 0.15},
+  "reliability_weights": {"evidence": 0.60, "confidence": 0.40},
+  "formula": "100 * exposure_index * (0.70 + 0.30 * reliability_index)",
+  "thresholds": {"BAJO": [0, 25], "MEDIO": [25, 50], "ALTO": [50, 75], "CRITICO": [75, 100]},
+  "missing_policy": "Do not calculate PIRD when any component is missing",
+  "final_calculation_dependency": ["semantic_clustering_day_09", "timeline_day_10"]
+}
