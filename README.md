@@ -322,6 +322,12 @@ Sobre 1.049 elementos, aceptó 649 y rechazó 400: 282 por no requerir vigilanci
 
 El componente reproducible se encuentra en `src/risk/run_validation_agent.py` y su metodología en `docs/plan_dia_06.md`.
 
+### Día 7: evaluación del núcleo
+
+Se compararon el prompt mejorado v2 y la extracción con validación sobre las mismas 29 etiquetas humanas. La validación mantuvo Precision de 81,8 %, aumentó Recall de 42,9 % a 85,7 % y elevó F1 de 56,3 % a 83,7 %. Por tanto, se seleccionó la configuración de extracción + validación.
+
+El núcleo final combina consulta original, BGE-M3 y chunking recursivo, sin HyDE ni reranking, con extracción documental v2, clasificación calibrada y agente validador. El 64,6 % de Precision de la extracción inicial se conserva como referencia histórica no comparable porque no dispone de muestra ni matriz de confusión reproducible.
+
 ## Consideraciones de confidencialidad
 
 Este proyecto fue desarrollado con fines académicos. Si se utilizan documentos reales de proyectos, contratos, interventorías o comunicaciones empresariales, se debe validar previamente que su publicación esté permitida.
