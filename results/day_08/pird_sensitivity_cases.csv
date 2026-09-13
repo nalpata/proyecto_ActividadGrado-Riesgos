@@ -1,0 +1,17 @@
+weight_scenario,case_id,pird,risk_level
+proposed,C1_LIMITADO,15.03,BAJO
+proposed,C2_MODERADO,42.78,MEDIO
+proposed,C3_PERSISTENTE,71.54,ALTO
+proposed,C4_CRITICO,91.25,CRITICO
+equal,C1_LIMITADO,11.56,BAJO
+equal,C2_MODERADO,40.47,MEDIO
+equal,C3_PERSISTENTE,78.81,CRITICO
+equal,C4_CRITICO,87.50,CRITICO
+severity_heavy,C1_LIMITADO,18.50,BAJO
+severity_heavy,C2_MODERADO,43.94,MEDIO
+severity_heavy,C3_PERSISTENTE,64.26,ALTO
+severity_heavy,C4_CRITICO,95.00,CRITICO
+temporal_heavy,C1_LIMITADO,11.56,BAJO
+temporal_heavy,C2_MODERADO,40.47,MEDIO
+temporal_heavy,C3_PERSISTENTE,77.60,CRITICO
+temporal_heavy,C4_CRITICO,87.50,CRITICO

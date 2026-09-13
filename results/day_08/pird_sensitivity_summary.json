@@ -1,0 +1,8 @@
+{
+  "weight_scenarios": 4,
+  "control_cases": 4,
+  "maximum_score_spread": 14.55,
+  "cases_changing_level": 1,
+  "monotonic_order_preserved": true,
+  "interpretation": "Resultados de diseño sobre casos controlados; no son scores de riesgos reales"
+}

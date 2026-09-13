@@ -328,6 +328,14 @@ Se compararon el prompt mejorado v2 y la extracción con validación sobre las m
 
 El núcleo final combina consulta original, BGE-M3 y chunking recursivo, sin HyDE ni reranking, con extracción documental v2, clasificación calibrada y agente validador. El 64,6 % de Precision de la extracción inicial se conserva como referencia histórica no comparable porque no dispone de muestra ni matriz de confusión reproducible.
 
+### Día 8: diseño del índice compuesto de riesgo
+
+Se definió el PIRD en una escala de 0 a 100 separando exposición —severidad, probabilidad, recurrencia y persistencia— de confiabilidad —calidad de evidencia y confianza de extracción—. Los pesos son una hipótesis metodológica explícita y no parámetros aprendidos.
+
+El motor no calcula un score cuando falta cualquiera de los seis componentes: devuelve `PENDIENTE_ENRIQUECIMIENTO`. Por ello, todavía no se asignaron puntajes a las 649 señales; la recurrencia será derivada del clustering del Día 9 y la persistencia del timeline del Día 10.
+
+La sensibilidad sobre cuatro casos controlados y cuatro escenarios conservó el orden de prioridad en todos los escenarios. La máxima variación fue de 14,55 puntos y un caso cambió entre alto y crítico, por lo que el análisis de sensibilidad se conserva como limitación y evidencia metodológica. El diseño está documentado en `docs/diseno_pird_dia_08.md` y es reproducible mediante `src/risk/pird.py` y el notebook 24.
+
 ## Consideraciones de confidencialidad
 
 Este proyecto fue desarrollado con fines académicos. Si se utilizan documentos reales de proyectos, contratos, interventorías o comunicaciones empresariales, se debe validar previamente que su publicación esté permitida.
