@@ -1,0 +1,13 @@
+{
+  "version": "intelligent_risk_profile_day_11_v1",
+  "exposure_model": "gpt-4o-mini",
+  "severity_scale": [1, 5],
+  "probability_scale": [1, 5],
+  "unsupported_policy": "Leave component null and do not calculate item PIRD",
+  "anti_circularity": "Severity and probability prompts exclude recurrence and persistence",
+  "evidence_level": "5 when calibrated evidence is sufficient; otherwise missing",
+  "confidence_mapping": "1 + 4 * calibrated_confidence",
+  "category_score": "0.70 * mean PIRD + 0.30 * P90 PIRD",
+  "global_score": "0.70 * mean category score + 0.30 * maximum category score",
+  "limitation": "Severity and probability require validation because no independent human gold standard exists"
+}
