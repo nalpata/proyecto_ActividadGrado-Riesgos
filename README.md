@@ -300,6 +300,12 @@ Se compararon BGE-M3 normal, HyDE y ambas consultas con `BAAI/bge-reranker-v2-m3
 
 La configuración seleccionada es **BGE-M3 normal, sin HyDE ni reranking**. Los resultados agregados y las limitaciones están documentados en `docs/resultados_dia_04a.md`. El siguiente experimento evaluará chunking estructural sin cambiar la estrategia de recuperación.
 
+### Día 4B: chunking estructural
+
+Se comparó el chunking recursivo actual con una variante que respeta páginas, títulos, párrafos, listas y oraciones. Aunque la variante redujo el tamaño máximo de 378 a 210 palabras, no mejoró la relevancia humana y obtuvo menor atomicidad (41,7 % frente a 58,3 %). También redujo Precision@1 de 0,75 a 0,50 y MRR de 0,846 a 0,717.
+
+Se conserva el **chunking recursivo actual**. La estrategia final de recuperación es consulta original + BGE-M3 + chunking actual, sin HyDE y sin reranking. Los resultados están documentados en `docs/resultados_dia_04b.md`.
+
 ## Consideraciones de confidencialidad
 
 Este proyecto fue desarrollado con fines académicos. Si se utilizan documentos reales de proyectos, contratos, interventorías o comunicaciones empresariales, se debe validar previamente que su publicación esté permitida.
