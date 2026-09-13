@@ -344,6 +344,14 @@ La recurrencia del PIRD se deriva del número de documentos distintos donde apar
 
 La ejecución seleccionó seis familias exploratorias, con Silhouette 0,077 y estabilidad ARI 0,776. La baja alineación con las categorías existentes (ARI 0,050; NMI 0,140; pureza 0,414) indica que los clusters no deben reemplazar la taxonomía. La recurrencia final utiliza vecinos semánticos en otros documentos con similitud coseno mínima de 0,70 y distribuye las señales en los cinco niveles: 266, 157, 128, 55 y 43.
 
+### Día 10: timeline y persistencia
+
+Se normalizaron fechas documentales desde nombres de archivo con trazabilidad de fuente y precisión. Se fecharon 29 de 35 documentos y 614 de 649 señales. Una fecha fuera del periodo permitido fue marcada como anomalía y no se corrigió automáticamente.
+
+La persistencia semántica pudo calcularse para 638 señales: 304 en nivel 1, 31 en nivel 2, 38 en nivel 3, 24 en nivel 4 y 241 en nivel 5. El timeline diferencia aparición y recurrencia; el escalamiento permanece pendiente porque requiere severidad temporal.
+
+El PIRD no se calculó para ninguna señal porque el catálogo no contiene severidad ni probabilidad estandarizadas. El sistema devuelve este estado de forma explícita. La metodología y los resultados agregados están en `docs/plan_dia_10.md`, `src/risk/build_risk_timeline.py` y `results/day_10/`.
+
 ## Consideraciones de confidencialidad
 
 Este proyecto fue desarrollado con fines académicos. Si se utilizan documentos reales de proyectos, contratos, interventorías o comunicaciones empresariales, se debe validar previamente que su publicación esté permitida.

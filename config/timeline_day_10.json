@@ -1,0 +1,16 @@
+{
+  "version": "timeline_day_10_v1",
+  "valid_document_years": [2020, 2030],
+  "date_precedence": ["filename_exact_day", "filename_month", "unavailable"],
+  "month_precision_rule": "Normalize to first day and retain MONTH precision flag",
+  "semantic_similarity_threshold": 0.70,
+  "persistence_rubric_days": {
+    "1": "single dated document or zero-day span",
+    "2": "1-30 days",
+    "3": "31-90 days",
+    "4": "91-180 days",
+    "5": "more than 180 days"
+  },
+  "escalation_policy": "Do not infer without standardized temporal severity",
+  "pird_policy": "Do not calculate without standardized severity and probability"
+}
