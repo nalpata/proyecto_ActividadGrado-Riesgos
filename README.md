@@ -306,6 +306,14 @@ Se comparó el chunking recursivo actual con una variante que respeta páginas, 
 
 Se conserva el **chunking recursivo actual**. La estrategia final de recuperación es consulta original + BGE-M3 + chunking actual, sin HyDE y sin reranking. Los resultados están documentados en `docs/resultados_dia_04b.md`.
 
+### Día 5: extracción documental mejorada
+
+Se implementó una extracción estructurada que diferencia riesgo, hecho ocurrido, compromiso, acción correctiva, hallazgo e información contextual, exige evidencia literal y separa el tipo documental de la decisión de vigilancia.
+
+La configuración seleccionada usa un clasificador calibrado con 29 decisiones humanas y evaluación leave-one-out. Obtuvo Precision 0,818, Recall 0,857 y F1 0,837 para vigilancia, y 0,828 de exactitud en suficiencia de evidencia. Reclasificó 1.049 elementos y seleccionó 649 señales documentales.
+
+La exactitud del tipo documental fue 0,345. Por ello, la taxonomía y la categoría se mantienen como atributos auxiliares; la señal operativa principal es `calibrated_watch`. Los resultados completos no se publican porque contienen fragmentos de documentos fuente. La metodología, las métricas agregadas y el código reproducible están disponibles en `docs/plan_dia_05.md`, `results/day_05/` y `src/risk/`.
+
 ## Consideraciones de confidencialidad
 
 Este proyecto fue desarrollado con fines académicos. Si se utilizan documentos reales de proyectos, contratos, interventorías o comunicaciones empresariales, se debe validar previamente que su publicación esté permitida.
