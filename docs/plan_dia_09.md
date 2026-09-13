@@ -15,17 +15,19 @@ Identificar familias semánticas exploratorias entre las 649 señales aceptadas 
 
 ## Recurrencia para el PIRD
 
-La recurrencia no se define por el número bruto de frases. Se utiliza el número de documentos independientes en los que aparece la familia:
+La primera ejecución mostró que los clusters globales aparecían en 11 o más documentos y asignaban nivel 5 a todas las señales. La recurrencia se corrigió para usar vecindarios semánticos locales: cuenta cuántos **otros documentos** contienen al menos una señal con similitud coseno igual o superior a 0,70.
 
 | Nivel | Documentos distintos |
 |---:|---:|
-| 1 | 1 |
-| 2 | 2 |
-| 3 | 3–4 |
-| 4 | 5–7 |
-| 5 | 8 o más |
+| 1 | 0 |
+| 2 | 1 |
+| 3 | 2–3 |
+| 4 | 4–6 |
+| 5 | 7 o más |
 
 Esta variable expresa propagación documental de una familia, no probabilidad ni severidad.
+
+El umbral 0,70 es una hipótesis operacional explícita. Se reportará su sensibilidad entre 0,68 y 0,72 antes de congelar el Día 9.
 
 ## Controles metodológicos
 
@@ -42,3 +44,13 @@ Esta variable expresa propagación documental de una familia, no probabilidad ni
 - Resumen agregado por cluster.
 - Comparación frente a categorías.
 - Nivel de recurrencia por señal para integrarlo posteriormente al PIRD.
+
+## Resultado del experimento
+
+La regla combinada seleccionó `k=6`. La estabilidad fue 0,776, pero la separación absoluta fue baja (Silhouette coseno 0,077). La correspondencia con las categorías existentes también fue baja: ARI 0,050, NMI 0,140 y pureza 0,414.
+
+Los seis grupos se interpretan como temas exploratorios asociados a cronograma y entregas; requerimientos e interventoría; incumplimientos y cierre; gestión contractual; planeación y operación; y recursos financieros. No sustituyen la taxonomía actual.
+
+Con el vecindario semántico local y umbral 0,70, los niveles de recurrencia fueron: 266 señales en nivel 1, 157 en nivel 2, 128 en nivel 3, 55 en nivel 4 y 43 en nivel 5. Esta distribución sí discrimina señales y se utilizará como entrada del PIRD.
+
+La sensibilidad entre 0,68 y 0,72 confirma que el umbral afecta la distribución. Por tanto, 0,70 se conserva como parámetro operacional explícito y constituye una limitación del modelo.
