@@ -352,6 +352,12 @@ La persistencia semántica pudo calcularse para 638 señales: 304 en nivel 1, 31
 
 El PIRD no se calculó para ninguna señal porque el catálogo no contiene severidad ni probabilidad estandarizadas. El sistema devuelve este estado de forma explícita. La metodología y los resultados agregados están en `docs/plan_dia_10.md`, `src/risk/build_risk_timeline.py` y `results/day_10/`.
 
+### Día 11: Perfil Inteligente de Riesgo
+
+La etapa final estandariza severidad y probabilidad mediante una rúbrica de cinco niveles aplicada únicamente a la descripción y evidencia. Recurrencia y persistencia se excluyen del prompt para evitar circularidad. Cuando un componente no está sustentado, permanece nulo y el PIRD no se calcula.
+
+El perfil por categoría combina 70 % del PIRD promedio y 30 % del percentil 90. El score global combina 70 % del promedio simple de las categorías y 30 % del mayor score de categoría, evitando que el volumen documental determine por sí solo el resultado. La metodología y el código se encuentran en `docs/plan_dia_11.md`, `src/risk/build_intelligent_risk_profile.py` y el notebook 27.
+
 ## Consideraciones de confidencialidad
 
 Este proyecto fue desarrollado con fines académicos. Si se utilizan documentos reales de proyectos, contratos, interventorías o comunicaciones empresariales, se debe validar previamente que su publicación esté permitida.
