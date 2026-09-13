@@ -1,0 +1,7 @@
+cluster_id,exploratory_theme,signal_count,document_count,median_recurrence_level,dominant_existing_category
+0,Cronograma y entregas,66,25,2.0,Cronograma
+1,Requerimientos e interventoria,77,24,2.0,Operacion
+2,Incumplimientos y cierre,151,28,2.0,Operacion
+3,Gestion contractual,122,21,3.0,Contractual
+4,Planeacion y operacion,184,27,1.0,Operacion
+5,Recursos financieros,49,11,2.0,Financiero

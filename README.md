@@ -336,6 +336,14 @@ El motor no calcula un score cuando falta cualquiera de los seis componentes: de
 
 La sensibilidad sobre cuatro casos controlados y cuatro escenarios conservó el orden de prioridad en todos los escenarios. La máxima variación fue de 14,55 puntos y un caso cambió entre alto y crítico, por lo que el análisis de sensibilidad se conserva como limitación y evidencia metodológica. El diseño está documentado en `docs/diseno_pird_dia_08.md` y es reproducible mediante `src/risk/pird.py` y el notebook 24.
 
+### Día 9: clustering semántico y recurrencia
+
+El experimento representa las 649 señales aceptadas con BGE-M3 y compara entre 2 y 12 clusters mediante Silhouette coseno, Calinski-Harabasz, Davies-Bouldin y estabilidad ARI en cinco semillas. Las categorías existentes no intervienen en la construcción de los grupos; se utilizan posteriormente para medir alineación mediante ARI, NMI y pureza.
+
+La recurrencia del PIRD se deriva del número de documentos distintos donde aparece cada familia, no del número bruto de frases. El código y la metodología están en `src/risk/semantic_clustering.py`, `docs/plan_dia_09.md` y el notebook 25. Las descripciones, evidencias, embeddings y asignaciones por señal se mantienen fuera del repositorio público.
+
+La ejecución seleccionó seis familias exploratorias, con Silhouette 0,077 y estabilidad ARI 0,776. La baja alineación con las categorías existentes (ARI 0,050; NMI 0,140; pureza 0,414) indica que los clusters no deben reemplazar la taxonomía. La recurrencia final utiliza vecinos semánticos en otros documentos con similitud coseno mínima de 0,70 y distribuye las señales en los cinco niveles: 266, 157, 128, 55 y 43.
+
 ## Consideraciones de confidencialidad
 
 Este proyecto fue desarrollado con fines académicos. Si se utilizan documentos reales de proyectos, contratos, interventorías o comunicaciones empresariales, se debe validar previamente que su publicación esté permitida.
