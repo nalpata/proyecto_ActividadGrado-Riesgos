@@ -1,11 +1,18 @@
 import numpy as np
 import pandas as pd
 
-from src.risk.semantic_clustering import analyze, evaluate_k, recurrence_level
+from src.risk.semantic_clustering import analyze, evaluate_k, recurrence_level, semantic_recurrence
 
 
 def test_recurrence_rubric():
-    assert [recurrence_level(x) for x in [1, 2, 3, 5, 8]] == [1, 2, 3, 4, 5]
+    assert [recurrence_level(x) for x in [0, 1, 2, 4, 7]] == [1, 2, 3, 4, 5]
+
+
+def test_recurrence_uses_other_documents():
+    embeddings = np.array([[1, 0], [0.99, 0.01], [0, 1]], dtype=float)
+    counts, levels = semantic_recurrence(embeddings, pd.Series(["D1", "D2", "D3"]), threshold=0.90)
+    assert counts.tolist() == [1, 1, 0]
+    assert levels.tolist() == [2, 2, 1]
 
 
 def test_k_selection_and_assignments():
