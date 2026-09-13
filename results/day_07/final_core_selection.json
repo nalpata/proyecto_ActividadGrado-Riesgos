@@ -1,0 +1,22 @@
+{
+  "paired_sample_size": 29,
+  "human_positive": 21,
+  "human_negative": 8,
+  "selected_risk_configuration": "extraccion_mas_validacion",
+  "selection_basis": "Mayor F1 y recall en la comparación pareada, con igual precision",
+  "additional_true_positives_vs_prompt_v2": 9,
+  "additional_false_positives_vs_prompt_v2": 2,
+  "final_retrieval_configuration": {
+    "query": "original",
+    "embedding_model": "BAAI/bge-m3",
+    "chunking": "recursive_character_splitter",
+    "hyde": false,
+    "reranking": false
+  },
+  "final_risk_configuration": {
+    "extraction": "documentary_extraction_v2",
+    "classification": "calibrated_leave_one_out_validated",
+    "final_gate": "watch=1, evidence_sufficient=1, verified_evidence_present"
+  },
+  "historical_baseline_limitation": "Precision 0.646 conservada solo como referencia; Recall y F1 no son calculables"
+}
