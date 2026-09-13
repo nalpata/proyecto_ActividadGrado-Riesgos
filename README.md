@@ -314,6 +314,14 @@ La configuración seleccionada usa un clasificador calibrado con 29 decisiones h
 
 La exactitud del tipo documental fue 0,345. Por ello, la taxonomía y la categoría se mantienen como atributos auxiliares; la señal operativa principal es `calibrated_watch`. Los resultados completos no se publican porque contienen fragmentos de documentos fuente. La metodología, las métricas agregadas y el código reproducible están disponibles en `docs/plan_dia_05.md`, `results/day_05/` y `src/risk/`.
 
+### Día 6: agente validador
+
+La salida calibrada del Día 5 se integró en una puerta final, determinista y explicable. El agente acepta únicamente elementos con vigilancia positiva, evidencia suficiente y evidencia textual verificada. La confianza se registra, pero no se utiliza como umbral automático.
+
+Sobre 1.049 elementos, aceptó 649 y rechazó 400: 282 por no requerir vigilancia y 118 por evidencia insuficiente. Esta reducción operativa de 38,1 % no implica que todos los rechazos sean falsos positivos confirmados. La evaluación humana sigue siendo la documentada en el Día 5.
+
+El componente reproducible se encuentra en `src/risk/run_validation_agent.py` y su metodología en `docs/plan_dia_06.md`.
+
 ## Consideraciones de confidencialidad
 
 Este proyecto fue desarrollado con fines académicos. Si se utilizan documentos reales de proyectos, contratos, interventorías o comunicaciones empresariales, se debe validar previamente que su publicación esté permitida.
