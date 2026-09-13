@@ -1,0 +1,17 @@
+{
+  "version": "semantic_clustering_day_09_v1",
+  "input": "649 surveillance candidates calibrated",
+  "embedding_model": "BAAI/bge-m3",
+  "algorithm": "KMeans on L2-normalized embeddings",
+  "candidate_k": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+  "random_seeds": [17, 29, 42, 71, 101],
+  "selection_metrics": ["silhouette_cosine", "calinski_harabasz", "davies_bouldin", "stability_ari"],
+  "recurrence_rubric_by_distinct_documents": {
+    "1": "1 document",
+    "2": "2 documents",
+    "3": "3-4 documents",
+    "4": "5-7 documents",
+    "5": "8 or more documents"
+  },
+  "privacy": "Raw statements, evidence and item-level assignments are not published"
+}
