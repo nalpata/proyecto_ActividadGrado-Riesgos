@@ -1,0 +1,19 @@
+{
+  "items_received": 1049,
+  "items_accepted": 649,
+  "items_rejected": 400,
+  "acceptance_rate": 0.6187,
+  "rejection_rate": 0.3813,
+  "decision_reasons": {
+    "ACEPTADO": 649,
+    "NO_REQUIERE_VIGILANCIA": 282,
+    "EVIDENCIA_INSUFICIENTE": 118
+  },
+  "confidence_bands": {
+    "ALTA": 901,
+    "MEDIA": 96,
+    "BAJA": 52
+  },
+  "decision_rule": "Aceptar solo cuando vigilancia=1, evidencia_suficiente=1 y evidencia verificada presente",
+  "confidence_policy": "La confianza se informa, pero no actúa como umbral de rechazo"
+}
