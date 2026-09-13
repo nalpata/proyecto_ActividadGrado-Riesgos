@@ -1,0 +1,14 @@
+{
+  "signals": 649,
+  "embedding_model": "BAAI/bge-m3",
+  "selected_k": 6,
+  "silhouette_cosine_selected_k": 0.077332,
+  "stability_ari_selected_k": 0.776348,
+  "adjusted_rand_index_vs_existing_categories": 0.050065,
+  "normalized_mutual_information_vs_existing_categories": 0.139666,
+  "cluster_purity_vs_existing_categories": 0.414484,
+  "recurrence_similarity_threshold": 0.70,
+  "recurrence_level_counts": {"1": 266, "2": 157, "3": 128, "4": 55, "5": 43},
+  "decision": "Retain existing categories; use clusters only as exploratory patterns and semantic neighborhoods for PIRD recurrence",
+  "privacy": "Raw statements, embeddings and item-level assignments are not published"
+}
