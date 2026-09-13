@@ -342,6 +342,8 @@ El experimento representa las 649 señales aceptadas con BGE-M3 y compara entre 
 
 La recurrencia del PIRD se deriva del número de documentos distintos donde aparece cada familia, no del número bruto de frases. El código y la metodología están en `src/risk/semantic_clustering.py`, `docs/plan_dia_09.md` y el notebook 25. Las descripciones, evidencias, embeddings y asignaciones por señal se mantienen fuera del repositorio público.
 
+La ejecución seleccionó seis familias exploratorias, con Silhouette 0,077 y estabilidad ARI 0,776. La baja alineación con las categorías existentes (ARI 0,050; NMI 0,140; pureza 0,414) indica que los clusters no deben reemplazar la taxonomía. La recurrencia final utiliza vecinos semánticos en otros documentos con similitud coseno mínima de 0,70 y distribuye las señales en los cinco niveles: 266, 157, 128, 55 y 43.
+
 ## Consideraciones de confidencialidad
 
 Este proyecto fue desarrollado con fines académicos. Si se utilizan documentos reales de proyectos, contratos, interventorías o comunicaciones empresariales, se debe validar previamente que su publicación esté permitida.
