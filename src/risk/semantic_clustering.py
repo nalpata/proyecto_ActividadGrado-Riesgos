@@ -22,21 +22,43 @@ from sklearn.preprocessing import normalize
 
 DEFAULT_K_RANGE = range(2, 13)
 SEEDS = (17, 29, 42, 71, 101)
+SPANISH_STOP_WORDS = {
+    "a", "al", "algo", "ante", "bajo", "cada", "como", "con", "contra", "cual", "cuando",
+    "de", "del", "desde", "donde", "durante", "e", "el", "ella", "ellas", "ellos", "en",
+    "entre", "era", "es", "esa", "ese", "eso", "esta", "este", "esto", "fue", "ha", "hacia",
+    "hasta", "hay", "la", "las", "le", "lo", "los", "más", "mediante", "muy", "ni", "no",
+    "o", "para", "pero", "por", "porque", "que", "se", "según", "ser", "si", "sin", "sobre",
+    "son", "su", "sus", "también", "un", "una", "uno", "y", "ya",
+}
 
 
-def recurrence_level(document_count: int) -> int:
-    """Rúbrica 1–5 basada en documentos independientes de la familia."""
-    if document_count < 1:
-        raise ValueError("document_count debe ser positivo")
-    if document_count == 1:
+def recurrence_level(other_document_count: int) -> int:
+    """Rúbrica 1–5 basada en otros documentos con una señal semánticamente cercana."""
+    if other_document_count < 0:
+        raise ValueError("other_document_count no puede ser negativo")
+    if other_document_count == 0:
         return 1
-    if document_count == 2:
+    if other_document_count == 1:
         return 2
-    if document_count <= 4:
+    if other_document_count <= 3:
         return 3
-    if document_count <= 7:
+    if other_document_count <= 6:
         return 4
     return 5
+
+
+def semantic_recurrence(embeddings: np.ndarray, source_docs: pd.Series, threshold: float = 0.70) -> tuple[np.ndarray, np.ndarray]:
+    """Cuenta documentos distintos con al menos un vecino cuya similitud supera el umbral."""
+    x = normalize(np.asarray(embeddings), norm="l2")
+    similarities = x @ x.T
+    docs = source_docs.astype(str).to_numpy()
+    counts = []
+    for row in range(len(x)):
+        mask = (similarities[row] >= threshold) & (docs != docs[row])
+        counts.append(len(set(docs[mask])))
+    counts = np.asarray(counts, dtype=int)
+    levels = np.asarray([recurrence_level(value) for value in counts], dtype=int)
+    return counts, levels
 
 
 def evaluate_k(embeddings: np.ndarray, k_values=DEFAULT_K_RANGE) -> pd.DataFrame:
@@ -75,7 +97,7 @@ def evaluate_k(embeddings: np.ndarray, k_values=DEFAULT_K_RANGE) -> pd.DataFrame
 
 
 def cluster_keywords(texts: pd.Series, labels: np.ndarray, top_n: int = 4) -> dict[int, str]:
-    vectorizer = TfidfVectorizer(stop_words=None, ngram_range=(1, 2), min_df=2, max_df=0.90, max_features=8000)
+    vectorizer = TfidfVectorizer(stop_words=list(SPANISH_STOP_WORDS), ngram_range=(1, 2), min_df=2, max_df=0.85, max_features=8000)
     matrix = vectorizer.fit_transform(texts.fillna("").astype(str))
     terms = np.asarray(vectorizer.get_feature_names_out())
     names = {}
@@ -114,14 +136,14 @@ def analyze(items: pd.DataFrame, embeddings: np.ndarray) -> tuple[pd.DataFrame, 
     assignments = items[["item_id", "source_doc_id", "calibrated_category"]].copy()
     assignments["cluster_id"] = labels
     assignments["cluster_label_auto"] = assignments.cluster_id.map(names)
-    doc_counts = assignments.groupby("cluster_id").source_doc_id.nunique()
-    assignments["cluster_document_count"] = assignments.cluster_id.map(doc_counts)
-    assignments["recurrence_level"] = assignments.cluster_document_count.map(recurrence_level)
+    recurrence_docs, recurrence_levels = semantic_recurrence(embeddings, items.source_doc_id, threshold=0.70)
+    assignments["recurrence_other_document_count"] = recurrence_docs
+    assignments["recurrence_level"] = recurrence_levels
 
     summary = assignments.groupby(["cluster_id", "cluster_label_auto"], as_index=False).agg(
         signal_count=("item_id", "size"),
         document_count=("source_doc_id", "nunique"),
-        recurrence_level=("recurrence_level", "first"),
+        median_recurrence_level=("recurrence_level", "median"),
     )
     dominant = (assignments.groupby("cluster_id").calibrated_category
                 .agg(lambda x: x.fillna("SIN_CATEGORIA").value_counts().index[0]))
@@ -132,8 +154,10 @@ def analyze(items: pd.DataFrame, embeddings: np.ndarray) -> tuple[pd.DataFrame, 
         "selected_k": selected_k, "selection_rule": "lowest mean rank across silhouette, Calinski-Harabasz, Davies-Bouldin and stability ARI",
         "cluster_size_min": int(summary.signal_count.min()), "cluster_size_max": int(summary.signal_count.max()),
         "documents_per_cluster_min": int(summary.document_count.min()), "documents_per_cluster_max": int(summary.document_count.max()),
+        "recurrence_similarity_threshold": 0.70,
+        "recurrence_level_counts": {str(k): int(v) for k, v in assignments.recurrence_level.value_counts().sort_index().items()},
         **alignment,
-        "interpretation": "Clusters are exploratory semantic families; recurrence measures independent-document spread, not event probability.",
+        "interpretation": "Clusters are exploratory semantic families. Recurrence counts other documents containing a close semantic neighbor; it is not event probability.",
     }
     return assignments, summary, metrics, result_summary
 
