@@ -1,0 +1,16 @@
+{
+  "profile_status": "PROVISIONAL",
+  "signals_total": 649,
+  "signals_scored": 372,
+  "signals_pending": 277,
+  "scoring_coverage": 0.5732,
+  "global_pird": 52.16,
+  "global_level": "ALTO",
+  "top_categories": ["Cronograma", "Contractual", "Financiero"],
+  "critical_signals": 22,
+  "high_signals": 132,
+  "sensitivity_global_min": 51.69,
+  "sensitivity_global_max": 55.17,
+  "limitation": "Severity and probability are LLM rubric assessments without an independent human gold standard; category coverage is uneven.",
+  "privacy": "Individual assessments, statements and evidence are not published"
+}
