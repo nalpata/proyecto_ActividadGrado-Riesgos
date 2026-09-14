@@ -1,0 +1,9 @@
+category,total_signals,scored_signals,scoring_coverage,category_score,category_level
+Cronograma,89,52,0.5843,55.3342,ALTO
+Contractual,156,75,0.4808,55.1582,ALTO
+Financiero,54,21,0.3889,54.0080,ALTO
+Operacion,228,144,0.6316,52.5023,ALTO
+Gobierno del Proyecto,5,5,1.0000,50.7982,ALTO
+Calidad,88,60,0.6818,50.0375,ALTO
+Seguridad,1,1,1.0000,48.1700,MEDIO
+Otro,28,14,0.5000,40.4154,MEDIO

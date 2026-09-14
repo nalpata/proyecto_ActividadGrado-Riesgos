@@ -23,3 +23,9 @@ extracción/validación de riesgos del Día 1 con el radar y la aplicación fina
 - Ningún posible duplicado se elimina silenciosamente.
 - El radar usa únicamente señales incluidas y registros primarios.
 - Las limitaciones metodológicas quedan documentadas.
+
+## Alcance del Gold Standard humano
+
+La adjudicación humana consolidada en esta etapa constituye el Gold Standard para decidir si un candidato es una señal documental válida, si requiere vigilancia y si la evidencia disponible es suficiente. También aporta una referencia para la categoría documental.
+
+Este Gold Standard no contiene niveles humanos de severidad o probabilidad en escala de 1 a 5. Esas variables se definieron posteriormente con el PIRD del Día 8. Por tanto, el Gold Standard del Día 2 valida la selección de señales, pero no valida automáticamente los componentes cuantitativos incorporados después.
