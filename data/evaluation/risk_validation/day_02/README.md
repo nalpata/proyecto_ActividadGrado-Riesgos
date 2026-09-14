@@ -40,3 +40,8 @@ Solo 35 de los 156 registros fueron adjudicados por una persona y la muestra
 contiene pocos negativos. Las demás decisiones proceden del validador v2. Este
 resultado es apropiado para el prototipo académico, no para decisiones
 productivas autónomas.
+
+La adjudicación funciona como Gold Standard humano para validez, vigilancia y
+suficiencia de evidencia. No incluye etiquetas humanas de severidad ni
+probabilidad en escala 1–5, componentes que fueron definidos posteriormente en
+el PIRD.
