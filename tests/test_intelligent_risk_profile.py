@@ -27,4 +27,6 @@ def test_global_profile_uses_categories():
     categories, profile = build_profile(scored)
     assert len(categories) == 2
     assert profile["signals_scored"] == 4
+    assert profile["profile_status"] == "CALCULADO"
+    assert categories.scoring_coverage.eq(1.0).all()
     assert 0 <= profile["global_pird"] <= 100
