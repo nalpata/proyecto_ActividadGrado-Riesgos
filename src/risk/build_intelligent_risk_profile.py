@@ -147,26 +147,31 @@ def build_profile(scored: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
     valid = scored[scored.pird_status == "CALCULADO"].copy()
     if valid.empty:
         return pd.DataFrame(), {"profile_status": "PENDIENTE", "reason": "No calculated PIRD values"}
+    totals = scored.groupby("calibrated_category", as_index=False).agg(total_signals=("item_id", "size"))
     categories = valid.groupby("calibrated_category", as_index=False).agg(
-        signal_count=("item_id", "size"), mean_pird=("pird", "mean"),
+        scored_signals=("item_id", "size"), mean_pird=("pird", "mean"),
         median_pird=("pird", "median"), p90_pird=("pird", lambda x: x.quantile(0.90)),
         max_pird=("pird", "max"), persistent_signals=("persistence_level", lambda x: int((x >= 4).sum())),
     )
+    categories = totals.merge(categories, on="calibrated_category", how="left", validate="one_to_one")
+    categories["scoring_coverage"] = categories.scored_signals / categories.total_signals
     categories["category_score"] = 0.70 * categories.mean_pird + 0.30 * categories.p90_pird
     categories["category_level"] = categories.category_score.map(risk_level)
     categories = categories.sort_values("category_score", ascending=False).reset_index(drop=True)
     global_score = round(float(0.70 * categories.category_score.mean() + 0.30 * categories.category_score.max()), 2)
+    overall_coverage = float(len(valid) / len(scored))
     profile = {
-        "profile_status": "CALCULADO",
+        "profile_status": "CALCULADO" if overall_coverage >= 0.80 else "PROVISIONAL",
         "signals_total": int(len(scored)), "signals_scored": int(len(valid)),
         "signals_pending": int(len(scored) - len(valid)),
+        "scoring_coverage": round(overall_coverage, 4),
         "global_pird": global_score, "global_level": risk_level(global_score),
         "global_formula": "70% mean of category scores + 30% maximum category score",
         "category_formula": "70% mean PIRD + 30% category P90",
         "top_categories": categories.head(3).calibrated_category.tolist(),
         "critical_signals": int((valid.pird_level == "CRITICO").sum()),
         "high_signals": int((valid.pird_level == "ALTO").sum()),
-        "limitation": "Severity and probability are LLM rubric assessments without an independent human gold standard.",
+        "limitation": "Severity and probability are LLM rubric assessments without an independent human gold standard; category coverage is uneven.",
     }
     return categories, profile
 
