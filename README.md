@@ -360,6 +360,10 @@ El perfil por categoría combina 70 % del PIRD promedio y 30 % del percentil 90.
 
 La ejecución calculó 372 de 649 señales (57,3 %) y produjo un score global provisional de 52,16, nivel alto. Cronograma, Contractual y Financiero obtuvieron los mayores scores de categoría. La sensibilidad de pesos mantuvo el score entre 51,69 y 55,17, pero la cobertura desigual entre categorías exige conservar la etiqueta provisional.
 
+#### Alcance del Gold Standard
+
+El Gold Standard humano construido en los Días 1, 2 y 5 valida la inclusión de señales, la necesidad de vigilancia y la suficiencia de evidencia. No contiene etiquetas humanas de severidad y probabilidad en escala 1–5, pues estos componentes se definieron posteriormente con el PIRD del Día 8. En consecuencia, la evaluación humana existente sigue siendo válida para la detección, mientras que severidad y probabilidad se reportan como evaluaciones estructuradas asistidas por IA.
+
 ## Consideraciones de confidencialidad
 
 Este proyecto fue desarrollado con fines académicos. Si se utilizan documentos reales de proyectos, contratos, interventorías o comunicaciones empresariales, se debe validar previamente que su publicación esté permitida.
