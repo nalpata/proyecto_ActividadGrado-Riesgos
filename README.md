@@ -358,6 +358,8 @@ La etapa final estandariza severidad y probabilidad mediante una rúbrica de cin
 
 El perfil por categoría combina 70 % del PIRD promedio y 30 % del percentil 90. El score global combina 70 % del promedio simple de las categorías y 30 % del mayor score de categoría, evitando que el volumen documental determine por sí solo el resultado. La metodología y el código se encuentran en `docs/plan_dia_11.md`, `src/risk/build_intelligent_risk_profile.py` y el notebook 27.
 
+La ejecución calculó 372 de 649 señales (57,3 %) y produjo un score global provisional de 52,16, nivel alto. Cronograma, Contractual y Financiero obtuvieron los mayores scores de categoría. La sensibilidad de pesos mantuvo el score entre 51,69 y 55,17, pero la cobertura desigual entre categorías exige conservar la etiqueta provisional.
+
 ## Consideraciones de confidencialidad
 
 Este proyecto fue desarrollado con fines académicos. Si se utilizan documentos reales de proyectos, contratos, interventorías o comunicaciones empresariales, se debe validar previamente que su publicación esté permitida.
