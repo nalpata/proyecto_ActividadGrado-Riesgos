@@ -171,7 +171,8 @@ def build_profile(scored: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
         "top_categories": categories.head(3).calibrated_category.tolist(),
         "critical_signals": int((valid.pird_level == "CRITICO").sum()),
         "high_signals": int((valid.pird_level == "ALTO").sum()),
-        "limitation": "Severity and probability are LLM rubric assessments without an independent human gold standard; category coverage is uneven.",
+        "gold_standard_scope": "Human labels validate signal inclusion, surveillance relevance and evidence sufficiency.",
+        "limitation": "The existing human Gold Standard does not include 1-5 severity and probability labels; category coverage is uneven.",
     }
     return categories, profile
 
