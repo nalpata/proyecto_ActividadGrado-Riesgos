@@ -25,9 +25,11 @@ Este diseño evita que una categoría domine solo por contener más documentos o
 - Señales altas, críticas y persistentes.
 - Base para recomendaciones y visualización ejecutiva.
 
-## Limitación
+## Alcance de la validación humana
 
-No existe todavía un Gold Standard humano independiente para severidad y probabilidad. Los resultados deben presentarse como evaluación estructurada asistida por IA, no como estimación probabilística observada.
+El proyecto sí cuenta con un Gold Standard humano para validar la inclusión de señales, la necesidad de vigilancia y la suficiencia de la evidencia. Ese conjunto se consolidó durante los Días 1, 2 y 5.
+
+El Gold Standard existente no incluye etiquetas humanas de severidad y probabilidad en escala 1–5, porque estos componentes se definieron posteriormente con el PIRD. Por ello, los niveles del Día 11 deben presentarse como una evaluación estructurada asistida por IA y no como una estimación probabilística observada o una calificación humana validada.
 
 ## Resultado real y decisión
 
