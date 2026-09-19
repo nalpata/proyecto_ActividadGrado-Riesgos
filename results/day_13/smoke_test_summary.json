@@ -1,0 +1,18 @@
+{
+  "request_id": "SMOKE-DIA-13",
+  "status": "COMPLETED",
+  "stages": [
+    "retrieval",
+    "risk_extraction",
+    "risk_validation",
+    "risk_profile"
+  ],
+  "evidence_available": true,
+  "source_count": 1,
+  "validated_signals_count": 1,
+  "profile_status": "PROVISIONAL",
+  "global_pird": 52.16,
+  "scoring_coverage": 0.5732,
+  "private_payload_included": false,
+  "data_policy": "synthetic_smoke_test"
+}
