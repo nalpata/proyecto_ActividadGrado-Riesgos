@@ -106,6 +106,16 @@ Extracción y priorización de riesgos
 Dashboard Streamlit
 ```
 
+## Arquitectura multiagente del Día 12
+
+El procesamiento se coordina mediante un grafo LangGraph con cuatro funciones delimitadas:
+
+```text
+Retrieval Agent -> Risk Extractor Agent -> Risk Validator Agent -> Risk Profiler Agent
+```
+
+La orquestación se encuentra en `src/agents/risk_graph.py`. El retrieval conserva consulta original, BGE-M3 y chunking recursivo; HyDE y reranking permanecen descartados. El validador reutiliza la puerta determinista del Día 6 y no añade una llamada LLM. Las operaciones con modelos o artefactos privados se inyectan como dependencias para permitir pruebas reproducibles sin publicar información sensible.
+
 ## Preguntas de evaluación
 
 Se construyó un conjunto de preguntas tipo gold standard para evaluar la capacidad del sistema de recuperar evidencia documental relevante. Las preguntas cubren temas como:

@@ -1,0 +1,24 @@
+{
+  "day": 12,
+  "status": "IMPLEMENTED",
+  "framework": "LangGraph",
+  "graph_type": "coordinated_deterministic_flow",
+  "nodes": [
+    "retrieval_agent",
+    "risk_extractor_agent",
+    "risk_validator_agent",
+    "risk_profiler_agent"
+  ],
+  "retrieval_configuration": {
+    "query": "original",
+    "embedding_model": "BAAI/bge-m3",
+    "chunking": "recursive_character_splitter",
+    "hyde": false,
+    "reranking": false
+  },
+  "validation": {
+    "type": "deterministic_gate",
+    "additional_llm_call": false
+  },
+  "private_data_published": false
+}

@@ -10,3 +10,4 @@ plotly
 openpyxl
 openai
 pyarrow
+langgraph>=0.2,<2
