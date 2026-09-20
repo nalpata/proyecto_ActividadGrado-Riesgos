@@ -42,6 +42,8 @@ st.markdown(
     .stApp { background: #F6F7FA; }
     [data-testid="stSidebar"] { background: #111827; }
     [data-testid="stSidebar"] * { color: #F9FAFB; }
+    [data-testid="stSidebar"] [data-baseweb="select"] > div { background: #F9FAFB; }
+    [data-testid="stSidebar"] [data-baseweb="select"] * { color: #111827 !important; }
     .hero { padding: 1.3rem 1.5rem; border-radius: 16px; color: white;
             background: linear-gradient(110deg, #111827 0%, #173B63 62%, #147D92 100%); margin-bottom: 1rem; }
     .hero h1 { margin: 0; font-size: 2rem; }
