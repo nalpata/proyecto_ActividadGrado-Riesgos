@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import sys
+import os
 from pathlib import Path
 
 import pandas as pd
@@ -27,6 +28,8 @@ from src.frontend.visualizations import (  # noqa: E402
     build_temporal_role_figure,
     filter_categories,
 )
+from src.frontend.chat_service import ConversationalRagService, append_history  # noqa: E402
+from src.pipeline.end_to_end import BgeM3Retriever, OpenAIRagAnswerer  # noqa: E402
 
 st.set_page_config(page_title="Radar de Riesgos Documentales", page_icon="◈", layout="wide", initial_sidebar_state="expanded")
 st.markdown(
@@ -59,6 +62,24 @@ def get_snapshot() -> dict:
 @st.cache_data
 def get_timeline_summary() -> dict:
     return load_public_timeline_summary(ROOT / "results/day_10/timeline_summary.json")
+
+
+def get_openai_api_key() -> str | None:
+    """Obtiene la clave del servidor; nunca desde un campo visible del front."""
+
+    try:
+        return st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
+    except Exception:
+        return os.getenv("OPENAI_API_KEY")
+
+
+@st.cache_resource
+def get_chat_service(api_key: str) -> ConversationalRagService:
+    from openai import OpenAI
+
+    retriever = BgeM3Retriever(ROOT / "data/processed/embedding/embeddings_bge_m3.parquet", top_k=5)
+    answerer = OpenAIRagAnswerer(model="gpt-4o-mini", client=OpenAI(api_key=api_key))
+    return ConversationalRagService(retriever=retriever, answerer=answerer)
 
 
 snapshot = get_snapshot()
@@ -244,20 +265,55 @@ elif selected_page == "Perfil del proyecto":
     st.dataframe(pd.DataFrame(snapshot["sensitivity"]), width="stretch", hide_index=True)
 
 elif selected_page == "Pregunte a sus documentos":
-    st.info("La interfaz conversacional se conectará al pipeline congelado en el Día 17.")
-    st.text_input("Escriba una pregunta", disabled=True, placeholder="Ej.: ¿Qué retrasos requieren vigilancia?")
-    st.button("Consultar documentos", disabled=True, type="primary")
-    st.caption("Las respuestas exigirán evidencia y mostrarán sus fuentes; no se responderá cuando no exista soporte documental.")
+    st.subheader("Asistente documental")
+    st.write("Consulte el corpus del proyecto activo. Las respuestas se generan únicamente con evidencia recuperada mediante BGE-M3.")
+    if active_project != DEMO_PROJECT:
+        st.warning("Este proyecto aún no tiene un índice documental. Cargue y procese sus documentos para habilitar las consultas.")
+    api_key = get_openai_api_key()
+    if not api_key:
+        st.warning("El asistente está listo, pero la clave del modelo aún no está configurada como secreto del servidor.")
+        st.caption("Configure `OPENAI_API_KEY` en Streamlit Secrets. La clave no debe escribirse en la aplicación ni publicarse en GitHub.")
+    st.markdown("**Preguntas sugeridas**")
+    st.caption("• ¿Qué retrasos requieren vigilancia?  ·  ¿Qué incumplimientos aparecen en los documentos?  ·  ¿Qué compromisos continúan pendientes?")
+
+    history_key = f"chat_history::{active_project}"
+    if history_key not in st.session_state:
+        st.session_state[history_key] = []
+    for exchange in st.session_state[history_key]:
+        with st.chat_message("user"):
+            st.write(exchange["question"])
+        with st.chat_message("assistant"):
+            st.write(exchange["answer"])
+            if exchange["sources"]:
+                with st.expander(f"Fuentes utilizadas ({len(exchange['sources'])})"):
+                    for source in exchange["sources"]:
+                        page = source.get("page") if source.get("page") is not None else "N/D"
+                        score = source.get("score")
+                        score_label = f" · similitud {score:.3f}" if isinstance(score, (int, float)) else ""
+                        st.markdown(f"**[{source['rank']}]** {source.get('filename') or 'Documento'} · página {page}{score_label}")
+            elif exchange.get("response_status") != "ERROR":
+                st.caption("No se encontraron fuentes suficientes para sustentar una respuesta.")
+
+    question = st.chat_input(
+        "Escriba una pregunta sobre los documentos",
+        disabled=not api_key or active_project != DEMO_PROJECT,
+    )
+    if question:
+        with st.spinner("Recuperando evidencia y preparando la respuesta…"):
+            exchange = get_chat_service(api_key).ask(question)
+        st.session_state[history_key] = append_history(st.session_state[history_key], exchange)
+        st.rerun()
+    st.caption("El asistente no usa conocimiento externo. Verifique siempre la respuesta en las fuentes citadas.")
 
 else:
     st.subheader("Metodología")
     st.write("Consulta original → BGE-M3 → extracción calibrada → validación determinista → perfil PIRD.")
     c1, c2, c3 = st.columns(3)
-    c1.metric("Pruebas aprobadas", "62")
+    c1.metric("Pruebas aprobadas", "68")
     c2.metric("Contrato backend", snapshot["schema_version"])
     c3.metric("Estado", snapshot["contract_status"])
     st.subheader("Controles vigentes")
     st.markdown("- HyDE y reranking permanecen descartados.\n- No se imputan fechas, severidad ni probabilidad.\n- El Gold Standard humano no cubre severidad/probabilidad 1–5.\n- El front público consume únicamente agregados sin evidencia privada.")
 
 st.divider()
-st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo · Día 16")
+st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo · Día 17")
