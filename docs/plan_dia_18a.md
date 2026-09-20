@@ -34,3 +34,13 @@ Las asignaciones individuales son privadas. El repositorio y el front reciben ú
 - La aplicación no expone textos, evidencia ni asignaciones individuales.
 - GitHub no contiene nombres, valores ni perfiles reales por proyecto.
 - La suite automatizada y todas las vistas Streamlit finalizan sin excepciones.
+
+## Evidencia académica publicable
+
+Para que el informe y la sustentación puedan demostrar la separación por proyecto sin revelar el corpus, el front incluye un modo explícito de demostración con cuatro proyectos sintéticos (A–D). Sus conteos, coberturas, PIRD, niveles, radares y timelines son fabricados y reproducibles; no son una anonimización de los valores reales.
+
+La evidencia se divide en tres capas:
+
+1. GitHub y aplicación pública: código, pruebas y demostración sintética.
+2. Informe académico: capturas y resultados del modo sintético, claramente rotulados.
+3. Paquete confidencial: catálogo, asignaciones y agregados reales, conservados fuera de GitHub.

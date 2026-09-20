@@ -83,6 +83,14 @@ def get_project_scope() -> dict | None:
 
 
 @st.cache_data
+def get_academic_demo_scope() -> dict:
+    """Carga datos fabricados y publicables para demostrar el flujo multiproyecto."""
+
+    path = ROOT / "results/day_18/academic_project_demo.json"
+    return validate_project_scope_summary(json.loads(path.read_text(encoding="utf-8")))
+
+
+@st.cache_data
 def get_private_project_catalog() -> dict:
     try:
         raw = st.secrets.get("PROJECT_CATALOG_JSON") or os.getenv("PROJECT_CATALOG_JSON")
@@ -136,11 +144,23 @@ def get_chat_service(api_key: str, project_id: str = "", project_name: str = "")
 
 
 snapshot = get_snapshot()
-project_scope = get_project_scope()
+private_project_scope = get_project_scope()
+academic_project_scope = get_academic_demo_scope()
 st.sidebar.markdown("## ◈ Radar de riesgos")
 st.sidebar.caption("Vigilancia documental · prototipo académico")
-private_project_names = [item["display_name"] for item in project_scope["catalog"]] if project_scope else []
-project_options = [DEMO_PROJECT, *private_project_names, "Nuevo proyecto"]
+scope_options = ["Consolidado público", "Demostración académica sintética"]
+if private_project_scope:
+    scope_options.append("Entorno privado por proyecto")
+selected_scope = st.sidebar.radio("Modo de datos", scope_options)
+is_academic_demo = selected_scope == "Demostración académica sintética"
+if is_academic_demo:
+    project_scope = academic_project_scope
+elif selected_scope == "Entorno privado por proyecto":
+    project_scope = private_project_scope
+else:
+    project_scope = None
+scoped_project_names = [item["display_name"] for item in project_scope["catalog"]] if project_scope else []
+project_options = [*scoped_project_names, "Nuevo proyecto"] if project_scope else [DEMO_PROJECT, "Nuevo proyecto"]
 selected_project = st.sidebar.selectbox("Proyecto", project_options)
 if selected_project == "Nuevo proyecto":
     project_name = st.sidebar.text_input("Nombre del proyecto", placeholder="Ej.: Contrato de infraestructura")
@@ -163,6 +183,8 @@ else:
 st.sidebar.caption(f"Proyecto activo: {active_project}")
 if selected_project_view:
     st.sidebar.caption(f"{profile['signals_total']} señales asignadas · cobertura PIRD {profile['scoring_coverage']:.1%}")
+if is_academic_demo:
+    st.sidebar.warning("Datos 100 % sintéticos · no representan el corpus confidencial")
 st.sidebar.divider()
 selected_page = st.sidebar.radio("Navegación", NAVIGATION, label_visibility="collapsed")
 st.sidebar.divider()
@@ -176,6 +198,8 @@ if selected_page != "Portada":
         <h1>{selected_page}</h1><p>Monitoreo ejecutivo con trazabilidad, cobertura visible y privacidad por diseño.</p></div>""",
         unsafe_allow_html=True,
     )
+    if is_academic_demo:
+        st.info("Demostración académica con valores sintéticos. La estructura reproduce el flujo del sistema; los resultados no pertenecen a proyectos reales.")
 
 
 def provisional_notice() -> None:
@@ -347,7 +371,9 @@ elif selected_page == "Perfil del proyecto":
 elif selected_page == "Pregunte a sus documentos":
     st.subheader("Asistente documental")
     st.write("Consulte el corpus del proyecto activo. Las respuestas se generan únicamente con evidencia recuperada mediante BGE-M3.")
-    if not is_processed_project:
+    if is_academic_demo:
+        st.info("El modo sintético demuestra los perfiles y radares. El asistente se desactiva porque no existe un corpus documental sintético asociado.")
+    elif not is_processed_project:
         st.warning("Este proyecto aún no tiene un índice documental. Cargue y procese sus documentos para habilitar las consultas.")
     elif selected_project_view:
         st.info(f"La recuperación está limitada a evidencia asignada explícitamente al proyecto {selected_project_view['display_name']}.")
@@ -378,7 +404,7 @@ elif selected_page == "Pregunte a sus documentos":
 
     question = st.chat_input(
         "Escriba una pregunta sobre los documentos",
-        disabled=not api_key or not is_processed_project,
+        disabled=not api_key or not is_processed_project or is_academic_demo,
     )
     if question:
         with st.spinner("Recuperando evidencia y preparando la respuesta…"):
@@ -391,11 +417,31 @@ else:
     st.subheader("Metodología")
     st.write("Consulta original → BGE-M3 → extracción calibrada → validación determinista → perfil PIRD.")
     c1, c2, c3 = st.columns(3)
-    c1.metric("Pruebas aprobadas", "74")
+    c1.metric("Suite automatizada", "APROBADA")
     c2.metric("Contrato backend", snapshot["schema_version"])
     c3.metric("Estado", snapshot["contract_status"])
     st.subheader("Controles vigentes")
     st.markdown("- HyDE y reranking permanecen descartados.\n- No se imputan fechas, severidad ni probabilidad.\n- El Gold Standard humano no cubre severidad/probabilidad 1–5.\n- El front público consume únicamente agregados sin evidencia privada.")
+    st.subheader("Evidencia académica del Día 18A")
+    assignment = academic_project_scope["assignment"]
+    e1, e2, e3 = st.columns(3)
+    e1.metric("Señales sintéticas", assignment["signals_total"])
+    e2.metric("Asignación explícita", f"{assignment['assignment_coverage']:.1%}")
+    e3.metric("Pendientes o ambiguas", assignment["signals_pending_or_ambiguous"])
+    comparison = pd.DataFrame([
+        {
+            "Proyecto": item["display_name"].split(" · ")[0],
+            "Señales": item["profile"]["signals_total"],
+            "Puntuadas": item["profile"]["signals_scored"],
+            "Cobertura PIRD": item["profile"]["scoring_coverage"],
+            "PIRD global": item["profile"]["global_pird"],
+            "Nivel": item["profile"]["global_level"],
+        }
+        for item in academic_project_scope["projects"]
+    ])
+    comparison["Cobertura PIRD"] = comparison["Cobertura PIRD"].map(lambda value: f"{value:.1%}")
+    st.dataframe(comparison, width="stretch", hide_index=True)
+    st.caption("Valores fabricados exclusivamente para demostrar la separación, comparación y visualización por proyecto.")
 
 st.divider()
 st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo · Día 18A")

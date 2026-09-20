@@ -11,8 +11,14 @@ La ejecución privada procesó y concilió todas las señales disponibles. El ca
 - Los agregados y las asignaciones por señal permanecen fuera del repositorio.
 - El front solo activa los proyectos cuando recibe el catálogo y el resumen mediante secretos del servidor.
 - El asistente filtra por chunks asignados explícitamente al proyecto seleccionado.
-- 74 pruebas automatizadas aprobadas.
-- Las 9 vistas públicas y las vistas privadas por proyecto renderizaron sin excepciones.
+- 76 pruebas automatizadas aprobadas.
+- 45 combinaciones de renderizado aprobadas: 9 vistas del consolidado y 9 vistas para cada proyecto sintético A–D.
+
+## Demostración académica reproducible
+
+Se incorporó `results/day_18/academic_project_demo.json`, un contrato agregado con cuatro proyectos ficticios. La aplicación permite seleccionar cada proyecto y revisar su resumen, radar, filtros, timeline, priorización y perfil. También muestra una comparación metodológica en la vista de métricas.
+
+Los valores son completamente sintéticos y están marcados en el selector, el contenido de la vista y la política del archivo. No replican, escalan ni enmascaran los resultados reales; por ello pueden utilizarse en GitHub, capturas del informe y sustentación sin divulgar la correspondencia confidencial.
 
 ## Limitación
 

@@ -1,4 +1,8 @@
+from pathlib import Path
+
 import pandas as pd
+
+from src.frontend.dashboard_data import load_project_scope_summary
 
 from src.risk.project_resolution import (
     assign_projects,
@@ -16,6 +20,8 @@ CATALOG = {
     "unassigned_project_id": "PENDIENTE_PROYECTO",
     "multi_project_id": "MULTIPROYECTO",
 }
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_explicit_signal_assignment_wins():
@@ -64,3 +70,20 @@ def test_public_snapshot_reconciles_and_contains_only_aggregates():
     serialized = str(snapshot)
     assert "demora" not in serialized
     assert "I1" not in serialized
+
+
+def test_academic_demo_is_synthetic_reconciled_and_has_four_projects():
+    demo = load_project_scope_summary(ROOT / "results/day_18/academic_project_demo.json")
+    assert demo["scope_status"] == "SYNTHETIC_ACADEMIC_DEMONSTRATION"
+    assert demo["data_policy"]["synthetic"] is True
+    assert len(demo["projects"]) == 4
+    assert demo["assignment"]["signals_assigned_single_project"] == 100
+    assert sum(item["profile"]["signals_total"] for item in demo["projects"]) == 100
+    assert all("Demostración sintética" in item["display_name"] for item in demo["projects"])
+
+
+def test_academic_demo_contains_no_confidential_payload_fields():
+    demo = load_project_scope_summary(ROOT / "results/day_18/academic_project_demo.json")
+    serialized = str(demo).lower()
+    forbidden = ("evidence_quote", "chunk_text", "source_filename", "document_name", "item_id")
+    assert all(field not in serialized for field in forbidden)

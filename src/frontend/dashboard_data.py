@@ -65,6 +65,11 @@ def validate_project_scope_summary(summary: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("El resumen por proyecto no concilia")
     if summary["data_policy"].get("contains_source_text") is not False:
         raise ValueError("El resumen por proyecto no cumple la política de privacidad")
+    if summary["data_policy"].get("contains_individual_signals") is not False:
+        raise ValueError("El resumen por proyecto no puede contener señales individuales")
+    project_total = sum(int(item["profile"]["signals_total"]) for item in summary["projects"])
+    if project_total != int(assignment["signals_assigned_single_project"]):
+        raise ValueError("Los proyectos no concilian con las señales asignadas")
     return summary
 
 
