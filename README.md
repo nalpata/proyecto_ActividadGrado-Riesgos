@@ -116,6 +116,10 @@ Retrieval Agent -> Risk Extractor Agent -> Risk Validator Agent -> Risk Profiler
 
 La orquestación se encuentra en `src/agents/risk_graph.py`. El retrieval conserva consulta original, BGE-M3 y chunking recursivo; HyDE y reranking permanecen descartados. El validador reutiliza la puerta determinista del Día 6 y no añade una llamada LLM. Las operaciones con modelos o artefactos privados se inyectan como dependencias para permitir pruebas reproducibles sin publicar información sensible.
 
+## Automatización de extremo a extremo del Día 13
+
+`src/pipeline/end_to_end.py` conecta el grafo con los embeddings BGE-M3, el catálogo calibrado privado, la respuesta RAG, el perfil agregado aprobado y checkpoints reanudables. Los archivos por señal y los checkpoints se suministran fuera de Git. La función `public_execution_summary` genera métricas publicables sin respuestas, fragmentos ni evidencia.
+
 ## Preguntas de evaluación
 
 Se construyó un conjunto de preguntas tipo gold standard para evaluar la capacidad del sistema de recuperar evidencia documental relevante. Las preguntas cubren temas como:

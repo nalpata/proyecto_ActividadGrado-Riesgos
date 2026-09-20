@@ -1,0 +1,17 @@
+{
+  "day": 13,
+  "status": "IMPLEMENTED",
+  "flow": [
+    "bge_m3_retrieval",
+    "rag_answer_with_sources",
+    "calibrated_private_catalog",
+    "deterministic_validation",
+    "frozen_day_11_profile",
+    "private_checkpoint"
+  ],
+  "hyde": false,
+  "reranking": false,
+  "tests_passed": 47,
+  "public_tests_use_synthetic_data": true,
+  "private_payload_published": false
+}
