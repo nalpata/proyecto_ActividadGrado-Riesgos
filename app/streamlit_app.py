@@ -44,6 +44,9 @@ st.markdown(
     [data-testid="stSidebar"] * { color: #F9FAFB; }
     [data-testid="stSidebar"] [data-baseweb="select"] > div { background: #F9FAFB; }
     [data-testid="stSidebar"] [data-baseweb="select"] * { color: #111827 !important; }
+    [data-testid="stSidebar"] input[role="combobox"] {
+        color: #111827 !important; -webkit-text-fill-color: #111827 !important; caret-color: #111827;
+    }
     .hero { padding: 1.3rem 1.5rem; border-radius: 16px; color: white;
             background: linear-gradient(110deg, #111827 0%, #173B63 62%, #147D92 100%); margin-bottom: 1rem; }
     .hero h1 { margin: 0; font-size: 2rem; }
