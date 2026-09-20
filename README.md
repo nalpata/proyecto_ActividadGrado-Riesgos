@@ -168,6 +168,12 @@ El resultado público contiene solo conteos y agregados por categoría. Los text
 
 Los 29 ejemplos humanos usados para calibrar el clasificador del Día 5 no están publicados en el repositorio. Un despliegue privado puede suministrarlos mediante `CALIBRATION_EXAMPLES_JSON`. Si no están disponibles, el sistema aplica la misma taxonomía y reglas en modo `PROVISIONAL_NO_PRIVATE_EXAMPLES` y lo informa en pantalla; nunca presenta ese resultado como calibrado con ejemplos humanos.
 
+## Vistas dinámicas del Día 19C
+
+`build_session_project_view` transforma el resultado privado del Día 19B en un contrato agregado `SESSION-19C`. Mientras la sesión permanece activa, el resumen ejecutivo, radar, timeline, riesgos priorizados y perfil utilizan exclusivamente los resultados del proyecto recién procesado. Al cerrar la sesión, no queda información persistida y la aplicación vuelve al snapshot público congelado.
+
+El adaptador descarta textos, citas y señales individuales antes de alimentar las vistas. El asistente documental permanece desactivado para el proyecto nuevo hasta implementar una recuperación aislada sobre los embeddings de sesión; así se evita responder con evidencia perteneciente al corpus consolidado.
+
 ## Preguntas de evaluación
 
 Se construyó un conjunto de preguntas tipo gold standard para evaluar la capacidad del sistema de recuperar evidencia documental relevante. Las preguntas cubren temas como:

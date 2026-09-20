@@ -32,3 +32,7 @@ La aplicación incorpora la acción `Analizar riesgos · Día 19B` después de u
 ## Salida para el Día 19C
 
 La sesión conserva un contrato con `summary`, `classification`, `validation`, `timeline`, `categories`, `usage` y un bloque `private` no renderizado. El Día 19C podrá convertir los agregados del proyecto recién procesado en las vistas de radar, timeline, priorización y perfil, sustituyendo el snapshot consolidado solo dentro de esa sesión.
+
+## Validación real controlada
+
+El flujo publicado se ejecutó con un PDF completamente sintético: 1 documento, 1 página, 1 chunk y vector BGE-M3 de 1.024 dimensiones. Se obtuvieron 2 señales extraídas, 2 validadas y 2 puntuadas, cobertura de 100 % y PIRD global de 44,51 (MEDIO, CALCULADO). La interfaz mostró correctamente el estado `PROVISIONAL_NO_PRIVATE_EXAMPLES`. No se transmitió información real ni de clientes.

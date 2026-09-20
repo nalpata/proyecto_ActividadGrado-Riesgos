@@ -1,0 +1,35 @@
+{
+  "day": "19C",
+  "status": "IMPLEMENTED",
+  "session_contract": "SESSION-19C",
+  "views_updated": [
+    "executive_summary",
+    "risk_radar",
+    "timeline",
+    "prioritized_risks",
+    "project_profile"
+  ],
+  "contains_source_text": false,
+  "contains_individual_signals": false,
+  "session_only": true,
+  "session_chat_enabled": false,
+  "tests_passed": 93,
+  "base_render_combinations": 18,
+  "dynamic_render_combinations": 6,
+  "render_status": "PASSED",
+  "live_validation": {
+    "data": "fully_synthetic",
+    "documents": 1,
+    "pages": 1,
+    "chunks": 1,
+    "embedding_dimensions": 1024,
+    "signals_extracted": 2,
+    "signals_validated": 2,
+    "signals_scored": 2,
+    "pird_coverage": 1.0,
+    "global_pird": 44.51,
+    "global_level": "MEDIO",
+    "profile_status": "CALCULADO",
+    "classification_status": "PROVISIONAL_NO_PRIVATE_EXAMPLES"
+  }
+}

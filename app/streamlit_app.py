@@ -18,6 +18,7 @@ from src.frontend.dashboard_data import (  # noqa: E402
     DEMO_PROJECT,
     NAVIGATION,
     SUPPORTED_DOCUMENT_TYPES,
+    build_session_project_view,
     load_front_snapshot,
     load_public_timeline_summary,
     project_by_name,
@@ -210,28 +211,34 @@ if selected_project == "Nuevo proyecto":
 else:
     active_project = selected_project
 selected_project_view = project_by_name(project_scope, selected_project) if project_scope else None
-active_project_id = selected_project_view["project_id"] if selected_project_view else ""
-is_processed_project = selected_project != "Nuevo proyecto"
-if selected_project_view:
-    profile = selected_project_view["profile"]
-    view_categories = selected_project_view["categories"]
-    view_distribution = selected_project_view["level_distribution"]
-    view_timeline = selected_project_view["timeline"]
+session_analysis = st.session_state.get(f"project_risk_analysis::{active_project}")
+session_project_view = (
+    build_session_project_view(session_analysis, active_project)
+    if session_analysis and not is_academic_demo else None
+)
+current_project_view = session_project_view or selected_project_view
+active_project_id = current_project_view["project_id"] if current_project_view else ""
+is_processed_project = selected_project != "Nuevo proyecto" or session_project_view is not None
+if current_project_view:
+    profile = current_project_view["profile"]
+    view_categories = current_project_view["categories"]
+    view_distribution = current_project_view["level_distribution"]
+    view_timeline = current_project_view["timeline"]
 else:
     profile = snapshot["profile"]
     view_categories = snapshot["categories"]
     view_distribution = snapshot["level_distribution"]
     view_timeline = get_timeline_summary()
 st.sidebar.caption(f"Proyecto activo: {active_project}")
-if selected_project_view:
+if current_project_view:
     st.sidebar.caption(f"{profile['signals_total']} señales asignadas · cobertura PIRD {profile['scoring_coverage']:.1%}")
 if is_academic_demo:
     st.sidebar.warning("Datos 100 % sintéticos · no representan el corpus confidencial")
 st.sidebar.divider()
 selected_page = st.sidebar.radio("Navegación", NAVIGATION, label_visibility="collapsed")
 st.sidebar.divider()
-st.sidebar.markdown(f"**Contrato de datos:** `{snapshot['schema_version']}`")
-st.sidebar.markdown(f"**Backend:** {snapshot['contract_status']}")
+st.sidebar.markdown(f"**Contrato de datos:** `{'SESSION-19C' if session_project_view else snapshot['schema_version']}`")
+st.sidebar.markdown(f"**Backend:** {'RECALCULADO EN SESIÓN' if session_project_view else snapshot['contract_status']}")
 st.sidebar.caption("Solo se cargan resultados agregados y publicables.")
 
 if selected_page != "Portada":
@@ -400,7 +407,7 @@ elif selected_page == "Proyectos y documentos":
                     st.dataframe(pd.DataFrame(analysis["categories"]), width="stretch", hide_index=True)
                 st.caption(
                     "Vista agregada en memoria. La evidencia, los textos y las señales individuales no "
-                    "se muestran ni se escriben en el repositorio. La incorporación al radar general corresponde al Día 19C."
+                    "se muestran ni se escriben en el repositorio. Las demás vistas del proyecto se actualizan en esta sesión."
                 )
     else:
         st.info("Seleccione uno o varios archivos PDF/DOCX. No se enviarán al repositorio público.")
@@ -418,7 +425,8 @@ elif selected_page == "Resumen ejecutivo":
     provisional_notice()
     st.write("")
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("PIRD global", f"{profile['global_pird']:.2f}", profile["global_level"])
+    pird_label = f"{profile['global_pird']:.2f}" if profile["global_pird"] is not None else "Pendiente"
+    col1.metric("PIRD global", pird_label, profile["global_level"])
     col2.metric("Cobertura", f"{profile['scoring_coverage']:.1%}")
     col3.metric("Señales puntuadas", f"{profile['signals_scored']:,}")
     col4.metric("Pendientes", f"{profile['signals_pending']:,}")
@@ -430,9 +438,16 @@ elif selected_page == "Resumen ejecutivo":
             <h3>{profile['global_level']} · {profile['profile_status']}</h3>
             <p>El perfil consolida {profile['signals_scored']} señales completas de un total de
             {profile['signals_total']}. Las categorías que requieren mayor atención agregada son
-            {', '.join(profile['top_categories'])}.</p></div>""", unsafe_allow_html=True)
+            {', '.join(profile['top_categories']) or 'pendientes de puntuación'}.</p></div>""", unsafe_allow_html=True)
     with right:
-        if selected_project_view:
+        if session_project_view:
+            st.markdown(
+                f"""<div class="section-card"><div class="eyebrow">Recálculo de sesión · Día 19C</div>
+                <h3>{session_project_view['display_name']}</h3>
+                <p>Las vistas utilizan únicamente los agregados producidos por los documentos recién procesados para este proyecto.</p></div>""",
+                unsafe_allow_html=True,
+            )
+        elif selected_project_view:
             st.markdown(
                 f"""<div class="section-card"><div class="eyebrow">Alcance por proyecto</div>
                 <h3>{selected_project_view['display_name']}</h3>
@@ -451,29 +466,32 @@ elif selected_page == "Radar de riesgos":
     provisional_notice()
     st.subheader("Radar PIRD por categoría")
     categories = pd.DataFrame(view_categories)
-    with st.container(border=True):
-        f1, f2, f3 = st.columns([1.4, 1, 1])
-        chosen_categories = f1.multiselect("Categorías", categories["category"].tolist(), default=categories["category"].tolist())
-        available_levels = [level for level in LEVEL_ORDER if level in categories["category_level"].unique()]
-        chosen_levels = f2.multiselect("Niveles", available_levels, default=available_levels)
-        minimum_coverage = f3.slider("Cobertura mínima", 0, 100, 0, 5, format="%d %%") / 100
-    filtered = filter_categories(view_categories, chosen_categories, chosen_levels, minimum_coverage)
-    if filtered.empty:
-        st.warning("No existen categorías que cumplan los filtros seleccionados.")
+    if categories.empty:
+        st.warning("El proyecto no tiene categorías con PIRD calculado todavía.")
     else:
-        left, right = st.columns([1.45, 1])
-        with left:
-            st.plotly_chart(build_radar_figure(filtered), width="stretch", key="category_radar")
-        with right:
-            st.markdown("#### Lectura del radar")
-            st.metric("Categorías visibles", len(filtered))
-            st.metric("Mayor PIRD", f"{filtered.iloc[0]['category_score']:.2f}", filtered.iloc[0]["category"])
-            low_coverage = int((filtered["scoring_coverage"] < 0.5).sum())
-            st.metric("Cobertura inferior a 50 %", low_coverage)
-            st.caption("El eje radial representa PIRD de 0 a 100. Una mayor extensión indica mayor prioridad relativa, no una probabilidad de ocurrencia.")
-        display = filtered.copy()
-        display["scoring_coverage"] = display["scoring_coverage"].map(lambda value: f"{value:.1%}")
-        st.dataframe(display.rename(columns={"category": "Categoría", "category_score": "PIRD", "category_level": "Nivel", "scoring_coverage": "Cobertura", "scored_signals": "Puntuadas", "total_signals": "Total"}), width="stretch", hide_index=True)
+        with st.container(border=True):
+            f1, f2, f3 = st.columns([1.4, 1, 1])
+            chosen_categories = f1.multiselect("Categorías", categories["category"].tolist(), default=categories["category"].tolist())
+            available_levels = [level for level in LEVEL_ORDER if level in categories["category_level"].unique()]
+            chosen_levels = f2.multiselect("Niveles", available_levels, default=available_levels)
+            minimum_coverage = f3.slider("Cobertura mínima", 0, 100, 0, 5, format="%d %%") / 100
+        filtered = filter_categories(view_categories, chosen_categories, chosen_levels, minimum_coverage)
+        if filtered.empty:
+            st.warning("No existen categorías que cumplan los filtros seleccionados.")
+        else:
+            left, right = st.columns([1.45, 1])
+            with left:
+                st.plotly_chart(build_radar_figure(filtered), width="stretch", key="category_radar")
+            with right:
+                st.markdown("#### Lectura del radar")
+                st.metric("Categorías visibles", len(filtered))
+                st.metric("Mayor PIRD", f"{filtered.iloc[0]['category_score']:.2f}", filtered.iloc[0]["category"])
+                low_coverage = int((filtered["scoring_coverage"] < 0.5).sum())
+                st.metric("Cobertura inferior a 50 %", low_coverage)
+                st.caption("El eje radial representa PIRD de 0 a 100. Una mayor extensión indica mayor prioridad relativa, no una probabilidad de ocurrencia.")
+            display = filtered.copy()
+            display["scoring_coverage"] = display["scoring_coverage"].map(lambda value: f"{value:.1%}")
+            st.dataframe(display.rename(columns={"category": "Categoría", "category_score": "PIRD", "category_level": "Nivel", "scoring_coverage": "Cobertura", "scored_signals": "Puntuadas", "total_signals": "Total"}), width="stretch", hide_index=True)
 
 elif selected_page == "Timeline":
     if not is_processed_project:
@@ -489,10 +507,16 @@ elif selected_page == "Timeline":
     left, right = st.columns(2)
     with left:
         st.markdown("#### Rol temporal")
-        st.plotly_chart(build_temporal_role_figure(temporal["temporal_role_counts"]), width="stretch")
+        if temporal["temporal_role_counts"]:
+            st.plotly_chart(build_temporal_role_figure(temporal["temporal_role_counts"]), width="stretch")
+        else:
+            st.warning("No hay roles temporales calculados.")
     with right:
         st.markdown("#### Nivel de persistencia")
-        st.plotly_chart(build_persistence_figure(temporal["persistence_level_counts"]), width="stretch")
+        if temporal["persistence_level_counts"]:
+            st.plotly_chart(build_persistence_figure(temporal["persistence_level_counts"]), width="stretch")
+        else:
+            st.warning("No hay niveles de persistencia calculados.")
     st.caption("Los nombres de archivo, fechas por documento y señales individuales no forman parte del front público.")
 
 elif selected_page == "Riesgos priorizados":
@@ -501,15 +525,21 @@ elif selected_page == "Riesgos priorizados":
     provisional_notice()
     st.subheader("Priorización agregada")
     categories = pd.DataFrame(view_categories)
-    selected_priority_levels = st.multiselect(
-        "Nivel de riesgo", [level for level in LEVEL_ORDER if level in categories["category_level"].unique()],
-        default=[level for level in LEVEL_ORDER if level in categories["category_level"].unique()], key="priority_levels",
-    )
-    prioritized = filter_categories(view_categories, selected_levels=selected_priority_levels)
-    st.plotly_chart(build_category_priority_figure(prioritized), width="stretch")
-    table = prioritized[["category", "category_score", "category_level", "scoring_coverage", "scored_signals", "total_signals"]].copy()
-    table["scoring_coverage"] = table["scoring_coverage"].map(lambda value: f"{value:.1%}")
-    st.dataframe(table.rename(columns={"category": "Categoría", "category_score": "PIRD", "category_level": "Nivel", "scoring_coverage": "Cobertura", "scored_signals": "Puntuadas", "total_signals": "Total"}), width="stretch", hide_index=True)
+    if categories.empty:
+        st.warning("El proyecto no tiene riesgos con PIRD calculado todavía.")
+    else:
+        selected_priority_levels = st.multiselect(
+            "Nivel de riesgo", [level for level in LEVEL_ORDER if level in categories["category_level"].unique()],
+            default=[level for level in LEVEL_ORDER if level in categories["category_level"].unique()], key="priority_levels",
+        )
+        prioritized = filter_categories(view_categories, selected_levels=selected_priority_levels)
+        if prioritized.empty:
+            st.warning("No existen riesgos que cumplan el filtro seleccionado.")
+        else:
+            st.plotly_chart(build_category_priority_figure(prioritized), width="stretch")
+            table = prioritized[["category", "category_score", "category_level", "scoring_coverage", "scored_signals", "total_signals"]].copy()
+            table["scoring_coverage"] = table["scoring_coverage"].map(lambda value: f"{value:.1%}")
+            st.dataframe(table.rename(columns={"category": "Categoría", "category_score": "PIRD", "category_level": "Nivel", "scoring_coverage": "Cobertura", "scored_signals": "Puntuadas", "total_signals": "Total"}), width="stretch", hide_index=True)
     st.caption("Priorización por categoría. Las señales y evidencias individuales permanecen en el entorno privado autorizado.")
 
 elif selected_page == "Perfil del proyecto":
@@ -519,7 +549,9 @@ elif selected_page == "Perfil del proyecto":
     st.bar_chart(distribution.set_index("pird_level")["signal_count"])
     st.dataframe(distribution, width="stretch", hide_index=True)
     st.subheader("Escenarios de sensibilidad")
-    if selected_project_view:
+    if session_project_view:
+        st.info("La sensibilidad no se recalcula para documentos nuevos en esta fase; se conservan los pesos PIRD aprobados.")
+    elif selected_project_view:
         st.info("La sensibilidad de pesos continúa reportándose para la vista consolidada; el PIRD por proyecto conserva los pesos aprobados.")
     else:
         st.dataframe(pd.DataFrame(snapshot["sensitivity"]), width="stretch", hide_index=True)
@@ -529,6 +561,8 @@ elif selected_page == "Pregunte a sus documentos":
     st.write("Consulte el corpus del proyecto activo. Las respuestas se generan únicamente con evidencia recuperada mediante BGE-M3.")
     if is_academic_demo:
         st.info("El modo sintético demuestra los perfiles y radares. El asistente se desactiva porque no existe un corpus documental sintético asociado.")
+    elif session_project_view:
+        st.warning("El perfil nuevo ya está actualizado. La consulta conversacional sobre estos documentos se conectará en una fase posterior para evitar recuperar evidencia del corpus consolidado.")
     elif not is_processed_project:
         st.warning("Este proyecto aún no tiene un índice documental. Cargue y procese sus documentos para habilitar las consultas.")
     elif selected_project_view:
@@ -563,7 +597,7 @@ elif selected_page == "Pregunte a sus documentos":
             elif exchange.get("response_status") != "ERROR":
                 st.caption("No se encontraron fuentes suficientes para sustentar una respuesta.")
 
-    assistant_disabled = not api_key or not is_processed_project or is_academic_demo
+    assistant_disabled = not api_key or not is_processed_project or is_academic_demo or session_project_view is not None
     demo_question = None
     question_columns = st.columns(len(DEMONSTRATION_QUESTIONS))
     for index, prompt in enumerate(DEMONSTRATION_QUESTIONS):
@@ -618,4 +652,4 @@ else:
     st.caption("Valores fabricados exclusivamente para demostrar la separación, comparación y visualización por proyecto.")
 
 st.divider()
-st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo · Día 19B")
+st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo · Día 19C")
