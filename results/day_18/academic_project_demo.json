@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "scope_status": "SYNTHETIC_ACADEMIC_DEMONSTRATION",
+  "catalog": [
+    {"project_id": "PROJECT_A", "display_name": "Proyecto A · Demostración sintética"},
+    {"project_id": "PROJECT_B", "display_name": "Proyecto B · Demostración sintética"},
+    {"project_id": "PROJECT_C", "display_name": "Proyecto C · Demostración sintética"},
+    {"project_id": "PROJECT_D", "display_name": "Proyecto D · Demostración sintética"}
+  ],
+  "assignment": {
+    "signals_total": 120,
+    "signals_assigned_single_project": 100,
+    "signals_pending_or_ambiguous": 20,
+    "assignment_coverage": 0.8333,
+    "status_counts": {
+      "ASSIGNED_SIGNAL_EXPLICIT": 72,
+      "ASSIGNED_CONTEXT_NEAREST": 18,
+      "ASSIGNED_CHUNK_EXPLICIT": 10,
+      "AMBIGUOUS_CONTEXT": 8,
+      "PENDING_NO_EVIDENCE": 12
+    }
+  },
+  "projects": [
+    {
+      "project_id": "PROJECT_A",
+      "display_name": "Proyecto A · Demostración sintética",
+      "profile": {"profile_status": "PROVISIONAL", "signals_total": 32, "signals_scored": 24, "signals_pending": 8, "scoring_coverage": 0.75, "global_pird": 58.6, "global_level": "ALTO", "top_categories": ["Cronograma", "Contractual", "Calidad"], "critical_signals": 2, "high_signals": 11},
+      "categories": [
+        {"category": "Cronograma", "total_signals": 10, "scored_signals": 8, "scoring_coverage": 0.8, "category_score": 62.0, "category_level": "ALTO"},
+        {"category": "Contractual", "total_signals": 8, "scored_signals": 6, "scoring_coverage": 0.75, "category_score": 58.0, "category_level": "ALTO"},
+        {"category": "Calidad", "total_signals": 7, "scored_signals": 5, "scoring_coverage": 0.7143, "category_score": 54.0, "category_level": "ALTO"},
+        {"category": "Operacion", "total_signals": 7, "scored_signals": 5, "scoring_coverage": 0.7143, "category_score": 49.0, "category_level": "MEDIO"}
+      ],
+      "level_distribution": [{"pird_level": "BAJO", "signal_count": 3, "percentage_of_scored": 12.5}, {"pird_level": "MEDIO", "signal_count": 8, "percentage_of_scored": 33.33}, {"pird_level": "ALTO", "signal_count": 11, "percentage_of_scored": 45.83}, {"pird_level": "CRITICO", "signal_count": 2, "percentage_of_scored": 8.33}],
+      "timeline": {"signals": 32, "source_documents": 6, "signals_with_document_date": 28, "temporal_role_counts": {"APARICION": 19, "RECURRENCIA": 9, "SIN_FECHA_PROPIA": 3, "PENDIENTE_FECHA": 1}, "persistence_level_counts": {"1": 13, "2": 5, "3": 4, "4": 3, "5": 5}, "privacy": "Synthetic aggregates; no source documents or real projects."}
+    },
+    {
+      "project_id": "PROJECT_B",
+      "display_name": "Proyecto B · Demostración sintética",
+      "profile": {"profile_status": "PROVISIONAL", "signals_total": 28, "signals_scored": 18, "signals_pending": 10, "scoring_coverage": 0.6429, "global_pird": 48.4, "global_level": "MEDIO", "top_categories": ["Operacion", "Cronograma", "Financiero"], "critical_signals": 1, "high_signals": 5},
+      "categories": [
+        {"category": "Operacion", "total_signals": 9, "scored_signals": 6, "scoring_coverage": 0.6667, "category_score": 52.0, "category_level": "ALTO"},
+        {"category": "Cronograma", "total_signals": 8, "scored_signals": 5, "scoring_coverage": 0.625, "category_score": 49.0, "category_level": "MEDIO"},
+        {"category": "Financiero", "total_signals": 6, "scored_signals": 4, "scoring_coverage": 0.6667, "category_score": 46.0, "category_level": "MEDIO"},
+        {"category": "Calidad", "total_signals": 5, "scored_signals": 3, "scoring_coverage": 0.6, "category_score": 42.0, "category_level": "MEDIO"}
+      ],
+      "level_distribution": [{"pird_level": "BAJO", "signal_count": 5, "percentage_of_scored": 27.78}, {"pird_level": "MEDIO", "signal_count": 7, "percentage_of_scored": 38.89}, {"pird_level": "ALTO", "signal_count": 5, "percentage_of_scored": 27.78}, {"pird_level": "CRITICO", "signal_count": 1, "percentage_of_scored": 5.56}],
+      "timeline": {"signals": 28, "source_documents": 5, "signals_with_document_date": 25, "temporal_role_counts": {"APARICION": 17, "RECURRENCIA": 8, "SIN_FECHA_PROPIA": 2, "PENDIENTE_FECHA": 1}, "persistence_level_counts": {"1": 12, "2": 4, "3": 3, "4": 3, "5": 4}, "privacy": "Synthetic aggregates; no source documents or real projects."}
+    },
+    {
+      "project_id": "PROJECT_C",
+      "display_name": "Proyecto C · Demostración sintética",
+      "profile": {"profile_status": "PROVISIONAL", "signals_total": 24, "signals_scored": 15, "signals_pending": 9, "scoring_coverage": 0.625, "global_pird": 43.2, "global_level": "MEDIO", "top_categories": ["Calidad", "Contractual", "Seguridad"], "critical_signals": 0, "high_signals": 3},
+      "categories": [
+        {"category": "Calidad", "total_signals": 7, "scored_signals": 5, "scoring_coverage": 0.7143, "category_score": 47.0, "category_level": "MEDIO"},
+        {"category": "Contractual", "total_signals": 7, "scored_signals": 4, "scoring_coverage": 0.5714, "category_score": 44.0, "category_level": "MEDIO"},
+        {"category": "Seguridad", "total_signals": 5, "scored_signals": 3, "scoring_coverage": 0.6, "category_score": 41.0, "category_level": "MEDIO"},
+        {"category": "Operacion", "total_signals": 5, "scored_signals": 3, "scoring_coverage": 0.6, "category_score": 38.0, "category_level": "MEDIO"}
+      ],
+      "level_distribution": [{"pird_level": "BAJO", "signal_count": 6, "percentage_of_scored": 40.0}, {"pird_level": "MEDIO", "signal_count": 6, "percentage_of_scored": 40.0}, {"pird_level": "ALTO", "signal_count": 3, "percentage_of_scored": 20.0}, {"pird_level": "CRITICO", "signal_count": 0, "percentage_of_scored": 0.0}],
+      "timeline": {"signals": 24, "source_documents": 4, "signals_with_document_date": 21, "temporal_role_counts": {"APARICION": 16, "RECURRENCIA": 5, "SIN_FECHA_PROPIA": 2, "PENDIENTE_FECHA": 1}, "persistence_level_counts": {"1": 12, "2": 3, "3": 3, "4": 2, "5": 2}, "privacy": "Synthetic aggregates; no source documents or real projects."}
+    },
+    {
+      "project_id": "PROJECT_D",
+      "display_name": "Proyecto D · Demostración sintética",
+      "profile": {"profile_status": "PROVISIONAL", "signals_total": 16, "signals_scored": 8, "signals_pending": 8, "scoring_coverage": 0.5, "global_pird": 36.8, "global_level": "MEDIO", "top_categories": ["Financiero", "Gobierno del Proyecto", "Cronograma"], "critical_signals": 0, "high_signals": 1},
+      "categories": [
+        {"category": "Financiero", "total_signals": 5, "scored_signals": 3, "scoring_coverage": 0.6, "category_score": 41.0, "category_level": "MEDIO"},
+        {"category": "Gobierno del Proyecto", "total_signals": 4, "scored_signals": 2, "scoring_coverage": 0.5, "category_score": 37.0, "category_level": "MEDIO"},
+        {"category": "Cronograma", "total_signals": 4, "scored_signals": 2, "scoring_coverage": 0.5, "category_score": 34.0, "category_level": "BAJO"},
+        {"category": "Operacion", "total_signals": 3, "scored_signals": 1, "scoring_coverage": 0.3333, "category_score": 31.0, "category_level": "BAJO"}
+      ],
+      "level_distribution": [{"pird_level": "BAJO", "signal_count": 4, "percentage_of_scored": 50.0}, {"pird_level": "MEDIO", "signal_count": 3, "percentage_of_scored": 37.5}, {"pird_level": "ALTO", "signal_count": 1, "percentage_of_scored": 12.5}, {"pird_level": "CRITICO", "signal_count": 0, "percentage_of_scored": 0.0}],
+      "timeline": {"signals": 16, "source_documents": 3, "signals_with_document_date": 13, "temporal_role_counts": {"APARICION": 10, "RECURRENCIA": 3, "SIN_FECHA_PROPIA": 2, "PENDIENTE_FECHA": 1}, "persistence_level_counts": {"1": 8, "2": 2, "3": 2, "4": 1, "5": 1}, "privacy": "Synthetic aggregates; no source documents or real projects."}
+    }
+  ],
+  "data_policy": {
+    "aggregate_only": true,
+    "contains_source_text": false,
+    "contains_individual_signals": false,
+    "synthetic": true,
+    "publication_purpose": "Academic demonstration of the project-scoped workflow; values do not represent the confidential corpus.",
+    "assignment_rule": "Explicit project evidence only; ambiguous and missing cases remain pending."
+  }
+}

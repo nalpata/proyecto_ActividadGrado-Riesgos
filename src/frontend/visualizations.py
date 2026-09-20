@@ -33,6 +33,7 @@ def filter_categories(
     if chosen_levels:
         frame = frame[frame["category_level"].isin(chosen_levels)]
     frame = frame[frame["scoring_coverage"] >= minimum_coverage]
+    frame = frame[frame["category_score"].notna()]
     return frame.sort_values(["category_score", "scoring_coverage"], ascending=False).reset_index(drop=True)
 
 

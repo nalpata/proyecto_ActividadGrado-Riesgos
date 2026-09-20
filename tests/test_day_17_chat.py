@@ -1,4 +1,4 @@
-from src.frontend.chat_service import ConversationalRagService, append_history, normalize_question, public_sources
+from src.frontend.chat_service import ConversationalRagService, ProjectScopedRetriever, append_history, normalize_question, public_sources
 
 
 def test_question_is_normalized_and_limited():
@@ -65,3 +65,21 @@ def test_public_sources_assigns_missing_rank_without_text():
     assert public_sources([{"filename": "a.pdf", "chunk_text": "x"}]) == [
         {"rank": 1, "filename": "a.pdf", "page": None, "score": None}
     ]
+
+
+def test_project_scoped_retriever_excludes_other_projects_and_reranks():
+    queries = []
+
+    def retrieve(question, document_ids):
+        queries.append(question)
+        return [
+            {"rank": 1, "chunk_id": "OTHER", "score": 0.95},
+            {"rank": 2, "chunk_id": "ALPHA-2", "score": 0.90},
+            {"rank": 3, "chunk_id": "ALPHA-1", "score": 0.85},
+        ]
+
+    scoped = ProjectScopedRetriever(retrieve, "Alpha", {"ALPHA-1", "ALPHA-2"}, top_k=2)
+    result = scoped("¿Qué retrasos existen?", [])
+    assert queries == ["Proyecto Alpha. ¿Qué retrasos existen?"]
+    assert [item["chunk_id"] for item in result] == ["ALPHA-2", "ALPHA-1"]
+    assert [item["rank"] for item in result] == [1, 2]
