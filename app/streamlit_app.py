@@ -498,4 +498,4 @@ else:
     st.caption("Valores fabricados exclusivamente para demostrar la separación, comparación y visualización por proyecto.")
 
 st.divider()
-st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo · Día 18A")
+st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo · Día 18")
