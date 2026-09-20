@@ -124,6 +124,10 @@ La orquestación se encuentra en `src/agents/risk_graph.py`. El retrieval conser
 
 `src/pipeline/backend_contract.py` valida y congela el contrato público `1.0.0` que consumirá el front. La salida canónica es `results/day_14/backend_snapshot_v1.json`, compuesta únicamente por agregados conciliados: perfil, categorías, distribución PIRD, sensibilidad y resumen sintético de ejecución. El pipeline maneja respuestas vacías y fallos del generador, y admite un registro JSONL privado sin payload documental. El cierre aprobó 51 pruebas.
 
+## Estructura del front del Día 15
+
+`app/streamlit_app.py` implementa la navegación de siete secciones acordadas y carga únicamente el contrato público congelado del Día 14. El resumen ejecutivo y el perfil muestran agregados aprobados; radar, timeline y riesgos priorizados quedan preparados para el Día 16, mientras que la interfaz conversacional permanece deshabilitada hasta el Día 17. La aplicación no lee evidencia ni datasets por señal.
+
 ## Preguntas de evaluación
 
 Se construyó un conjunto de preguntas tipo gold standard para evaluar la capacidad del sistema de recuperar evidencia documental relevante. Las preguntas cubren temas como:
