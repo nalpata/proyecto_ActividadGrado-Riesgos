@@ -1,0 +1,20 @@
+{
+  "day": "18B",
+  "status": "IMPLEMENTED",
+  "assistant_entrypoint": "EndToEndPipeline.run_qa",
+  "flow": [
+    "original_query",
+    "bge_m3_retrieval",
+    "rag_answer_with_sources"
+  ],
+  "recalculates_pird": false,
+  "loading_message": true,
+  "controlled_no_evidence": true,
+  "controlled_error": true,
+  "clickable_demo_questions": 3,
+  "upload_scope": "session_validation_only",
+  "automatic_reindexing": false,
+  "tests_passed": 80,
+  "streamlit_render_status": "PASSED",
+  "data_policy": "aggregate_public_outputs_and_source_metadata_only"
+}

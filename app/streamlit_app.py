@@ -31,9 +31,15 @@ from src.frontend.visualizations import (  # noqa: E402
     build_temporal_role_figure,
     filter_categories,
 )
-from src.frontend.chat_service import ConversationalRagService, ProjectScopedRetriever, append_history  # noqa: E402
-from src.pipeline.end_to_end import BgeM3Retriever, OpenAIRagAnswerer  # noqa: E402
+from src.frontend.chat_service import FinalPipelineChatService, ProjectScopedRetriever, append_history  # noqa: E402
+from src.pipeline.end_to_end import BgeM3Retriever, EndToEndPipeline, OpenAIRagAnswerer  # noqa: E402
 from src.risk.project_resolution import assign_chunks, validate_project_catalog  # noqa: E402
+
+DEMONSTRATION_QUESTIONS = (
+    "¿Qué retrasos requieren vigilancia?",
+    "¿Qué incumplimientos aparecen en los documentos?",
+    "¿Qué compromisos continúan pendientes?",
+)
 
 st.set_page_config(page_title="Radar de Riesgos Documentales", page_icon="◈", layout="wide", initial_sidebar_state="expanded")
 st.markdown(
@@ -136,7 +142,7 @@ def get_openai_api_key() -> str | None:
 
 
 @st.cache_resource
-def get_chat_service(api_key: str, project_id: str = "", project_name: str = "") -> ConversationalRagService:
+def get_chat_service(api_key: str, project_id: str = "", project_name: str = "") -> FinalPipelineChatService:
     from openai import OpenAI
 
     retrieval_depth = 50 if project_id else 5
@@ -149,7 +155,13 @@ def get_chat_service(api_key: str, project_id: str = "", project_name: str = "")
             top_k=5,
         )
     answerer = OpenAIRagAnswerer(model="gpt-4o-mini", client=OpenAI(api_key=api_key))
-    return ConversationalRagService(retriever=retriever, answerer=answerer)
+    pipeline = EndToEndPipeline(
+        retriever=retriever,
+        extractor=lambda chunks: [],
+        profiler=lambda signals: {},
+        answerer=answerer,
+    )
+    return FinalPipelineChatService(pipeline=pipeline)
 
 
 snapshot = get_snapshot()
@@ -254,12 +266,24 @@ elif selected_page == "Proyectos y documentos":
     )
     if uploaded_files:
         inventory = pd.DataFrame([
-            {"Documento": item.name, "Formato": Path(item.name).suffix.upper().lstrip("."), "Tamaño (KB)": round(item.size / 1024, 1), "Estado": "Listo para procesar"}
+            {
+                "Documento": item.name,
+                "Formato": Path(item.name).suffix.upper().lstrip("."),
+                "Tamaño (KB)": round(item.size / 1024, 1),
+                "Estado": "Recibido y validado" if item.size > 0 else "Archivo vacío",
+            }
             for item in uploaded_files
         ])
-        st.success(f"{len(uploaded_files)} documento(s) recibido(s) para {active_project}.")
+        valid_documents = int((inventory["Estado"] == "Recibido y validado").sum())
+        if valid_documents == len(uploaded_files):
+            st.success(f"{valid_documents} documento(s) recibido(s) y validado(s) para {active_project}.")
+        else:
+            st.error("Uno o más archivos están vacíos. Corríjalos antes de continuar.")
         st.dataframe(inventory, width="stretch", hide_index=True)
-        st.info("La extracción, indexación y actualización del perfil se conectarán al pipeline en el Día 18.")
+        st.info(
+            "En el prototipo académico, esta carga valida la entrada documental. "
+            "La actualización del radar utiliza el corpus previamente procesado y aprobado."
+        )
     else:
         st.info("Seleccione uno o varios archivos PDF/DOCX. No se enviarán al repositorio público.")
     st.subheader("Estado del proyecto")
@@ -394,7 +418,7 @@ elif selected_page == "Pregunte a sus documentos":
         st.warning("El asistente está listo, pero la clave del modelo aún no está configurada como secreto del servidor.")
         st.caption("Configure `OPENAI_API_KEY` en Streamlit Secrets. La clave no debe escribirse en la aplicación ni publicarse en GitHub.")
     st.markdown("**Preguntas sugeridas**")
-    st.caption("• ¿Qué retrasos requieren vigilancia?  ·  ¿Qué incumplimientos aparecen en los documentos?  ·  ¿Qué compromisos continúan pendientes?")
+    st.caption("Seleccione una pregunta demostrativa o escriba una consulta propia.")
 
     history_key = f"chat_history::{active_project}"
     if history_key not in st.session_state:
@@ -403,7 +427,12 @@ elif selected_page == "Pregunte a sus documentos":
         with st.chat_message("user"):
             st.write(exchange["question"])
         with st.chat_message("assistant"):
-            st.write(exchange["answer"])
+            if exchange.get("response_status") == "ERROR":
+                st.error(exchange["answer"])
+            elif not exchange.get("evidence_available"):
+                st.warning(exchange["answer"])
+            else:
+                st.write(exchange["answer"])
             if exchange["sources"]:
                 with st.expander(f"Fuentes utilizadas ({len(exchange['sources'])})"):
                     for source in exchange["sources"]:
@@ -414,10 +443,23 @@ elif selected_page == "Pregunte a sus documentos":
             elif exchange.get("response_status") != "ERROR":
                 st.caption("No se encontraron fuentes suficientes para sustentar una respuesta.")
 
-    question = st.chat_input(
+    assistant_disabled = not api_key or not is_processed_project or is_academic_demo
+    demo_question = None
+    question_columns = st.columns(len(DEMONSTRATION_QUESTIONS))
+    for index, prompt in enumerate(DEMONSTRATION_QUESTIONS):
+        if question_columns[index].button(
+            prompt,
+            key=f"demo-question-{index}",
+            disabled=assistant_disabled,
+            width="stretch",
+        ):
+            demo_question = prompt
+
+    typed_question = st.chat_input(
         "Escriba una pregunta sobre los documentos",
-        disabled=not api_key or not is_processed_project or is_academic_demo,
+        disabled=assistant_disabled,
     )
+    question = demo_question or typed_question
     if question:
         with st.spinner("Recuperando evidencia y preparando la respuesta…"):
             exchange = get_chat_service(api_key, active_project_id, active_project).ask(question)

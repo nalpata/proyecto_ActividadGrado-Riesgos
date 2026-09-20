@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import uuid
 from typing import Any, Callable
 
 MAX_QUESTION_LENGTH = 1000
@@ -84,6 +85,35 @@ class ConversationalRagService:
             "sources": sources,
             "model": result.get("model"),
             "usage": result.get("usage", {}),
+        }
+
+
+@dataclass
+class FinalPipelineChatService:
+    """Adapta la rama Q&A del pipeline final al contrato público del chat."""
+
+    pipeline: Any
+
+    def ask(self, question: str, document_ids: list[str] | None = None) -> dict[str, Any]:
+        normalized = normalize_question(question)
+        result = self.pipeline.run_qa(
+            normalized,
+            request_id=f"CHAT-{uuid.uuid4().hex}",
+            document_ids=list(document_ids or []),
+        )
+        qa = result.get("qa_result", {})
+        sources = public_sources(qa.get("sources", []))
+        evidence_available = bool(qa.get("evidence_available")) and bool(sources)
+        status = qa.get("response_status") or result.get("execution", {}).get("status", "ERROR")
+        answer = str(qa.get("answer") or "El modelo no produjo una respuesta.").strip()
+        return {
+            "question": normalized,
+            "answer": answer,
+            "evidence_available": evidence_available,
+            "response_status": status,
+            "sources": sources,
+            "model": qa.get("model"),
+            "usage": qa.get("usage", {}),
         }
 
 

@@ -126,13 +126,19 @@ La orquestación se encuentra en `src/agents/risk_graph.py`. El retrieval conser
 
 ## Estructura del front del Día 15
 
-`app/streamlit_app.py` implementa una portada, gestión de proyectos/documentos y las siete vistas analíticas acordadas. Permite seleccionar el proyecto demostrativo o crear uno nuevo y recibir archivos PDF/DOCX en la sesión. El resumen ejecutivo y el perfil muestran agregados aprobados; radar, timeline y riesgos priorizados quedan preparados para el Día 16, mientras que la interfaz conversacional permanece deshabilitada hasta el Día 17. La conexión del procesamiento de nuevos documentos corresponde al Día 18. La aplicación no publica evidencia ni datasets por señal.
+`app/streamlit_app.py` implementa una portada, gestión de proyectos/documentos y siete vistas analíticas. Permite seleccionar el proyecto, recibir y validar archivos PDF/DOCX en la sesión, explorar los agregados aprobados y consultar el corpus procesado mediante el asistente documental. La rama conversacional del pipeline final ejecuta retrieval BGE-M3 y respuesta RAG sin recalcular el PIRD congelado. La aplicación no publica evidencia ni datasets por señal.
 
 ## Discriminación por proyecto del Día 18A
 
 `src/risk/project_resolution.py` asigna cada señal a un proyecto únicamente cuando existe evidencia explícita en la propia señal, su cita, el contexto próximo, el chunk o un nombre de archivo dedicado. Los casos con varios proyectos o sin evidencia permanecen como `MULTIPROYECTO` o `PENDIENTE_PROYECTO`; nunca se imputan.
 
-El catálogo real, las asignaciones y los agregados por proyecto no se publican en GitHub. Un despliegue privado puede habilitarlos mediante `PROJECT_CATALOG_JSON` y `PROJECT_SCOPE_JSON` en los secretos del servidor. Sin esos secretos, la aplicación pública conserva únicamente la vista consolidada del Día 17.
+El catálogo real, las asignaciones y los agregados por proyecto no se publican en GitHub. Un despliegue privado puede habilitarlos mediante `PROJECT_CATALOG_JSON` y `PROJECT_SCOPE_JSON` en los secretos del servidor. Sin esos secretos, la aplicación pública ofrece la vista consolidada y una demostración académica claramente rotulada con cuatro proyectos totalmente sintéticos.
+
+## Integración y experiencia de usuario del Día 18B
+
+El asistente utiliza `EndToEndPipeline.run_qa`, una rama explícita del pipeline final que ejecuta la configuración aprobada —consulta original, BGE-M3, Top-k y generación RAG— sin volver a extraer señales ni modificar el perfil PIRD. La interfaz muestra estados de carga, ausencia de evidencia y errores controlados; además incorpora preguntas demostrativas seleccionables.
+
+La carga de PDF/DOCX valida la recepción de documentos en la sesión. En este prototipo académico, la actualización del radar se realiza sobre el corpus previamente procesado y aprobado; la reindexación automática de documentos nuevos se conserva como evolución futura y no se presenta como una capacidad productiva.
 
 ## Preguntas de evaluación
 

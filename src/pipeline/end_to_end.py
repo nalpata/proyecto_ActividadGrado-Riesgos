@@ -258,6 +258,74 @@ class EndToEndPipeline:
         self.checkpoint_store = checkpoint_store
         self.error_logger = error_logger
 
+    def run_qa(
+        self,
+        question: str,
+        request_id: str,
+        document_ids: list[str] | None = None,
+    ) -> dict[str, Any]:
+        """Ejecuta la rama conversacional del pipeline sin recalcular el PIRD.
+
+        El radar consume el perfil aprobado y congelado. Por eso una consulta del
+        asistente reutiliza el retrieval y el generador finales, pero no vuelve a
+        ejecutar extracción, validación ni perfilamiento de riesgos.
+        """
+
+        started = time.perf_counter()
+        trace: list[dict[str, Any]] = []
+        try:
+            retrieval_started = time.perf_counter()
+            chunks = self.dependencies.retriever(question, list(document_ids or []))
+            trace.append({
+                "stage": "retrieval",
+                "status": "ok",
+                "elapsed_seconds": round(time.perf_counter() - retrieval_started, 6),
+                "received": 1,
+                "produced": len(chunks),
+            })
+            answer_started = time.perf_counter()
+            qa_result = self.answerer(question, chunks)
+            trace.append({
+                "stage": "rag_answer",
+                "status": "ok",
+                "elapsed_seconds": round(time.perf_counter() - answer_started, 6),
+                "received": len(chunks),
+                "produced": int(bool(qa_result.get("answer"))),
+            })
+            status = qa_result.get("response_status", "COMPLETED" if chunks else "NO_EVIDENCE")
+            errors: list[dict[str, Any]] = []
+        except Exception as exc:
+            error = {
+                "stage": "assistant_qa",
+                "error_type": type(exc).__name__,
+                "message": str(exc)[:500],
+            }
+            qa_result = {
+                "answer": "No fue posible completar la consulta. Intente nuevamente.",
+                "evidence_available": False,
+                "response_status": "ERROR",
+                "sources": [],
+            }
+            trace.append({
+                "stage": "assistant_qa",
+                "status": "error",
+                "elapsed_seconds": round(time.perf_counter() - started, 6),
+            })
+            status = "ERROR"
+            errors = [error]
+            if self.error_logger:
+                self.error_logger(request_id, error)
+        return {
+            "request_id": request_id,
+            "qa_result": qa_result,
+            "execution": {
+                "status": status,
+                "trace": trace,
+                "errors": errors,
+                "elapsed_seconds": round(time.perf_counter() - started, 6),
+            },
+        }
+
     def run(
         self,
         question: str,
