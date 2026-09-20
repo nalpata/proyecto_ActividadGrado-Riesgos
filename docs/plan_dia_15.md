@@ -6,13 +6,17 @@ Crear la navegación base de la aplicación Streamlit sobre el contrato público
 
 ## Secciones acordadas
 
-1. Resumen ejecutivo.
-2. Radar de riesgos.
-3. Timeline.
-4. Riesgos priorizados.
-5. Perfil del proyecto.
-6. Pregunte a sus documentos.
-7. Metodología y métricas.
+Se conservan las siete vistas analíticas acordadas y se agregan dos entradas necesarias para que la aplicación sea reutilizable:
+
+1. Portada del sistema.
+2. Proyectos y documentos.
+3. Resumen ejecutivo.
+4. Radar de riesgos.
+5. Timeline.
+6. Riesgos priorizados.
+7. Perfil del proyecto.
+8. Pregunte a sus documentos.
+9. Metodología y métricas.
 
 ## Diseño de integración
 
@@ -23,6 +27,8 @@ Las vistas de resumen y perfil muestran agregados ya aprobados. Radar, timeline 
 ## Criterios de cierre
 
 - Las siete secciones son navegables.
+- Existe una portada explicativa y un módulo para seleccionar/crear proyectos.
+- El usuario puede cargar PDF/DOCX en la sesión; el procesamiento se conectará en el Día 18.
 - El PIRD aparece siempre acompañado de cobertura y condición PROVISIONAL.
 - La aplicación arranca desde la raíz del repositorio.
 - El front rechaza contratos inválidos o incompatibles.

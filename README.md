@@ -126,7 +126,7 @@ La orquestación se encuentra en `src/agents/risk_graph.py`. El retrieval conser
 
 ## Estructura del front del Día 15
 
-`app/streamlit_app.py` implementa la navegación de siete secciones acordadas y carga únicamente el contrato público congelado del Día 14. El resumen ejecutivo y el perfil muestran agregados aprobados; radar, timeline y riesgos priorizados quedan preparados para el Día 16, mientras que la interfaz conversacional permanece deshabilitada hasta el Día 17. La aplicación no lee evidencia ni datasets por señal.
+`app/streamlit_app.py` implementa una portada, gestión de proyectos/documentos y las siete vistas analíticas acordadas. Permite seleccionar el proyecto demostrativo o crear uno nuevo y recibir archivos PDF/DOCX en la sesión. El resumen ejecutivo y el perfil muestran agregados aprobados; radar, timeline y riesgos priorizados quedan preparados para el Día 16, mientras que la interfaz conversacional permanece deshabilitada hasta el Día 17. La conexión del procesamiento de nuevos documentos corresponde al Día 18. La aplicación no publica evidencia ni datasets por señal.
 
 ## Preguntas de evaluación
 

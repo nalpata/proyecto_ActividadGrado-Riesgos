@@ -9,9 +9,12 @@ from typing import Any
 from src.pipeline.backend_contract import BACKEND_SCHEMA_VERSION, validate_backend_snapshot
 
 NAVIGATION = (
-    "Resumen ejecutivo", "Radar de riesgos", "Timeline", "Riesgos priorizados",
+    "Portada", "Proyectos y documentos", "Resumen ejecutivo", "Radar de riesgos", "Timeline", "Riesgos priorizados",
     "Perfil del proyecto", "Pregunte a sus documentos", "Metodología y métricas",
 )
+
+SUPPORTED_DOCUMENT_TYPES = ("pdf", "docx")
+DEMO_PROJECT = "Interventoría técnica · Proyecto demostrativo"
 
 
 def load_front_snapshot(path: Path) -> dict[str, Any]:

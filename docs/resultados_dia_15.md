@@ -2,7 +2,7 @@
 
 ## Estado
 
-Estructura del front implementada con siete secciones y navegación lateral en Streamlit.
+Estructura del front implementada con las siete vistas analíticas originales, portada y gestión de proyectos/documentos.
 
 ## Resultado funcional
 
@@ -12,6 +12,9 @@ Estructura del front implementada con siete secciones y navegación lateral en S
 - Perfil del proyecto con distribución PIRD y sensibilidad.
 - Interfaz conversacional visible pero deshabilitada hasta el Día 17.
 - Metodología y controles de privacidad disponibles en la aplicación.
+- Portada con el nombre completo y la descripción funcional del sistema.
+- Selector de proyecto y creación de un nuevo proyecto en sesión.
+- Carga múltiple de documentos PDF/DOCX con inventario y validación de formato.
 
 ## Controles
 
@@ -19,7 +22,7 @@ Estructura del front implementada con siete secciones y navegación lateral en S
 - Sin lectura de evidencia o señales individuales.
 - Validación del contrato antes de renderizar.
 - Estado PROVISIONAL y cobertura visibles junto al score.
-- 54 pruebas aprobadas.
+- 56 pruebas aprobadas.
 
 ## Próximo paso
 

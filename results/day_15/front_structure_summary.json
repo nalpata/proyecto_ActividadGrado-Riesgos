@@ -1,10 +1,12 @@
 {
   "day": 15,
   "status": "FRONT_STRUCTURE_IMPLEMENTED",
-  "sections": ["Resumen ejecutivo", "Radar de riesgos", "Timeline", "Riesgos priorizados", "Perfil del proyecto", "Pregunte a sus documentos", "Metodología y métricas"],
+  "sections": ["Portada", "Proyectos y documentos", "Resumen ejecutivo", "Radar de riesgos", "Timeline", "Riesgos priorizados", "Perfil del proyecto", "Pregunte a sus documentos", "Metodología y métricas"],
   "backend_contract": "1.0.0",
   "aggregate_only": true,
   "private_payload_loaded": false,
-  "tests_passed": 54,
+  "project_selector": true,
+  "session_upload_formats": ["pdf", "docx"],
+  "tests_passed": 56,
   "next_day": 16
 }
