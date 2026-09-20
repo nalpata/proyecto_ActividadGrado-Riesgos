@@ -17,6 +17,15 @@ from src.frontend.dashboard_data import (  # noqa: E402
     NAVIGATION,
     SUPPORTED_DOCUMENT_TYPES,
     load_front_snapshot,
+    load_public_timeline_summary,
+)
+from src.frontend.visualizations import (  # noqa: E402
+    LEVEL_ORDER,
+    build_category_priority_figure,
+    build_persistence_figure,
+    build_radar_figure,
+    build_temporal_role_figure,
+    filter_categories,
 )
 
 st.set_page_config(page_title="Radar de Riesgos Documentales", page_icon="◈", layout="wide", initial_sidebar_state="expanded")
@@ -45,6 +54,11 @@ st.markdown(
 @st.cache_data
 def get_snapshot() -> dict:
     return load_front_snapshot(ROOT / "results/day_14/backend_snapshot_v1.json")
+
+
+@st.cache_data
+def get_timeline_summary() -> dict:
+    return load_public_timeline_summary(ROOT / "results/day_10/timeline_summary.json")
 
 
 snapshot = get_snapshot()
@@ -157,20 +171,68 @@ elif selected_page == "Radar de riesgos":
     if active_project != DEMO_PROJECT:
         st.warning("El radar estará disponible después de procesar los documentos del proyecto.")
     provisional_notice()
-    st.subheader("Perfil agregado por categoría")
+    st.subheader("Radar PIRD por categoría")
     categories = pd.DataFrame(snapshot["categories"])
-    st.bar_chart(categories.set_index("category")["category_score"], horizontal=True)
-    st.dataframe(categories.rename(columns={"category": "Categoría", "category_score": "PIRD", "category_level": "Nivel", "scoring_coverage": "Cobertura", "scored_signals": "Puntuadas", "total_signals": "Total"}), width="stretch", hide_index=True)
-    st.caption("Vista preliminar. El radar polar, los filtros y las familias de riesgo corresponden al Día 16.")
+    with st.container(border=True):
+        f1, f2, f3 = st.columns([1.4, 1, 1])
+        chosen_categories = f1.multiselect("Categorías", categories["category"].tolist(), default=categories["category"].tolist())
+        available_levels = [level for level in LEVEL_ORDER if level in categories["category_level"].unique()]
+        chosen_levels = f2.multiselect("Niveles", available_levels, default=available_levels)
+        minimum_coverage = f3.slider("Cobertura mínima", 0, 100, 0, 5, format="%d %%") / 100
+    filtered = filter_categories(snapshot["categories"], chosen_categories, chosen_levels, minimum_coverage)
+    if filtered.empty:
+        st.warning("No existen categorías que cumplan los filtros seleccionados.")
+    else:
+        left, right = st.columns([1.45, 1])
+        with left:
+            st.plotly_chart(build_radar_figure(filtered), width="stretch", key="category_radar")
+        with right:
+            st.markdown("#### Lectura del radar")
+            st.metric("Categorías visibles", len(filtered))
+            st.metric("Mayor PIRD", f"{filtered.iloc[0]['category_score']:.2f}", filtered.iloc[0]["category"])
+            low_coverage = int((filtered["scoring_coverage"] < 0.5).sum())
+            st.metric("Cobertura inferior a 50 %", low_coverage)
+            st.caption("El eje radial representa PIRD de 0 a 100. Una mayor extensión indica mayor prioridad relativa, no una probabilidad de ocurrencia.")
+        display = filtered.copy()
+        display["scoring_coverage"] = display["scoring_coverage"].map(lambda value: f"{value:.1%}")
+        st.dataframe(display.rename(columns={"category": "Categoría", "category_score": "PIRD", "category_level": "Nivel", "scoring_coverage": "Cobertura", "scored_signals": "Puntuadas", "total_signals": "Total"}), width="stretch", hide_index=True)
 
 elif selected_page == "Timeline":
-    st.info("La navegación está habilitada. La evolución temporal y sus filtros se incorporarán en el Día 16.")
-    st.subheader("Principio de presentación")
-    st.write("El timeline mostrará recurrencia y persistencia sin imputar fechas inválidas o ausentes.")
+    if active_project != DEMO_PROJECT:
+        st.warning("El análisis temporal estará disponible después de procesar los documentos del proyecto.")
+    temporal = get_timeline_summary()
+    st.subheader("Continuidad y persistencia documental")
+    st.info("La vista pública presenta agregados temporales. No simula una serie cronológica ni imputa fechas ausentes.")
+    t1, t2, t3, t4 = st.columns(4)
+    t1.metric("Documentos fuente", temporal["source_documents"])
+    t2.metric("Señales con fecha", temporal["signals_with_document_date"])
+    t3.metric("Señales recurrentes", temporal["temporal_role_counts"].get("RECURRENCIA", 0))
+    t4.metric("Persistencia nivel 5", temporal["persistence_level_counts"].get("5", 0))
+    left, right = st.columns(2)
+    with left:
+        st.markdown("#### Rol temporal")
+        st.plotly_chart(build_temporal_role_figure(temporal["temporal_role_counts"]), width="stretch")
+    with right:
+        st.markdown("#### Nivel de persistencia")
+        st.plotly_chart(build_persistence_figure(temporal["persistence_level_counts"]), width="stretch")
+    st.caption("Los nombres de archivo, fechas por documento y señales individuales no forman parte del front público.")
 
 elif selected_page == "Riesgos priorizados":
-    st.info("La navegación está habilitada. La tabla priorizada se integrará en el Día 16.")
-    st.write("Las señales individuales permanecerán fuera del snapshot público y se cargarán solo en el entorno privado autorizado.")
+    if active_project != DEMO_PROJECT:
+        st.warning("La priorización estará disponible después de procesar los documentos del proyecto.")
+    provisional_notice()
+    st.subheader("Priorización agregada")
+    categories = pd.DataFrame(snapshot["categories"])
+    selected_priority_levels = st.multiselect(
+        "Nivel de riesgo", [level for level in LEVEL_ORDER if level in categories["category_level"].unique()],
+        default=[level for level in LEVEL_ORDER if level in categories["category_level"].unique()], key="priority_levels",
+    )
+    prioritized = filter_categories(snapshot["categories"], selected_levels=selected_priority_levels)
+    st.plotly_chart(build_category_priority_figure(prioritized), width="stretch")
+    table = prioritized[["category", "category_score", "category_level", "scoring_coverage", "scored_signals", "total_signals"]].copy()
+    table["scoring_coverage"] = table["scoring_coverage"].map(lambda value: f"{value:.1%}")
+    st.dataframe(table.rename(columns={"category": "Categoría", "category_score": "PIRD", "category_level": "Nivel", "scoring_coverage": "Cobertura", "scored_signals": "Puntuadas", "total_signals": "Total"}), width="stretch", hide_index=True)
+    st.caption("Priorización por categoría. Las señales y evidencias individuales permanecen en el entorno privado autorizado.")
 
 elif selected_page == "Perfil del proyecto":
     provisional_notice()
@@ -191,11 +253,11 @@ else:
     st.subheader("Metodología")
     st.write("Consulta original → BGE-M3 → extracción calibrada → validación determinista → perfil PIRD.")
     c1, c2, c3 = st.columns(3)
-    c1.metric("Pruebas aprobadas", "51")
+    c1.metric("Pruebas aprobadas", "62")
     c2.metric("Contrato backend", snapshot["schema_version"])
     c3.metric("Estado", snapshot["contract_status"])
     st.subheader("Controles vigentes")
     st.markdown("- HyDE y reranking permanecen descartados.\n- No se imputan fechas, severidad ni probabilidad.\n- El Gold Standard humano no cubre severidad/probabilidad 1–5.\n- El front público consume únicamente agregados sin evidencia privada.")
 
 st.divider()
-st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo · Día 15")
+st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo · Día 16")

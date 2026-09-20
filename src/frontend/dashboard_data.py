@@ -28,3 +28,18 @@ def load_front_snapshot(path: Path) -> dict[str, Any]:
     if snapshot["schema_version"] != BACKEND_SCHEMA_VERSION:
         raise ValueError("El front no soporta esta versión del contrato")
     return snapshot
+
+
+def load_public_timeline_summary(path: Path) -> dict[str, Any]:
+    """Carga únicamente conteos temporales agregados aprobados para publicación."""
+
+    summary_path = Path(path)
+    if not summary_path.exists():
+        raise FileNotFoundError(f"No se encontró el resumen temporal: {summary_path}")
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    required = {"signals", "source_documents", "temporal_role_counts", "persistence_level_counts", "privacy"}
+    if not required.issubset(summary):
+        raise ValueError("El resumen temporal público está incompleto")
+    if "not published" not in summary["privacy"]:
+        raise ValueError("El resumen temporal no declara su política de privacidad")
+    return summary

@@ -1,0 +1,28 @@
+{
+  "day": 16,
+  "status": "COMPLETED",
+  "backend_schema_version": "1.0.0",
+  "backend_modified": false,
+  "visualizations": [
+    "category_pird_radar",
+    "category_priority_bar",
+    "temporal_role_bar",
+    "persistence_level_bar"
+  ],
+  "filters": [
+    "category",
+    "risk_level",
+    "minimum_coverage"
+  ],
+  "category_count": 8,
+  "signals_reconciled": 649,
+  "signals_with_persistence": 638,
+  "test_count": 62,
+  "rendered_sections": 9,
+  "privacy": {
+    "aggregate_only": true,
+    "contains_source_text": false,
+    "contains_document_names": false,
+    "contains_individual_signals": false
+  }
+}
