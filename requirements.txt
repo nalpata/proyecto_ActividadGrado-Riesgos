@@ -4,6 +4,7 @@ python-docx
 streamlit
 scikit-learn
 sentence-transformers
+torchvision
 chromadb
 rank-bm25
 plotly
