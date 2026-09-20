@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from src.frontend.dashboard_data import build_session_project_view
+from src.frontend.session_project_view import build_session_project_view
 
 
 ROOT = Path(__file__).resolve().parents[1]

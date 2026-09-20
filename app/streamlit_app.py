@@ -18,12 +18,12 @@ from src.frontend.dashboard_data import (  # noqa: E402
     DEMO_PROJECT,
     NAVIGATION,
     SUPPORTED_DOCUMENT_TYPES,
-    build_session_project_view,
     load_front_snapshot,
     load_public_timeline_summary,
     project_by_name,
     validate_project_scope_summary,
 )
+from src.frontend.session_project_view import build_session_project_view  # noqa: E402
 from src.frontend.visualizations import (  # noqa: E402
     LEVEL_ORDER,
     build_category_priority_figure,
