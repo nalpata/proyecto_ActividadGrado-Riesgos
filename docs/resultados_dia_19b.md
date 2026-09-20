@@ -35,4 +35,4 @@ La sesión conserva un contrato con `summary`, `classification`, `validation`, `
 
 ## Validación real controlada
 
-El flujo publicado se ejecutó con un PDF completamente sintético: 1 documento, 1 página, 1 chunk y vector BGE-M3 de 1.024 dimensiones. Se obtuvieron 2 señales extraídas, 2 validadas y 2 puntuadas, cobertura de 100 % y PIRD global de 44,51 (MEDIO, CALCULADO). La interfaz mostró correctamente el estado `PROVISIONAL_NO_PRIVATE_EXAMPLES`. No se transmitió información real ni de clientes.
+El flujo publicado se ejecutó dos veces con un PDF completamente sintético: 1 documento, 1 página, 1 chunk y vector BGE-M3 de 1.024 dimensiones. En ambas ejecuciones se obtuvieron 2 señales extraídas, 2 validadas y 2 puntuadas, cobertura de 100 % y nivel MEDIO (CALCULADO). El PIRD global fue 44,51 y 44,71, una variación de 0,20 puntos atribuible a la generación del modelo, sin cambio del nivel ni de la decisión agregada. La interfaz mostró correctamente el estado `PROVISIONAL_NO_PRIVATE_EXAMPLES`. No se transmitió información real ni de clientes.

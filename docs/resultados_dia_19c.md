@@ -19,8 +19,10 @@ El 20 de septiembre de 2026 se ejecutó el flujo publicado con un PDF totalmente
 - embedding BGE-M3 de 1.024 dimensiones.
 - 2 señales extraídas, 2 validadas y 2 puntuadas.
 - cobertura PIRD de 100 %.
-- PIRD global 44,51, nivel MEDIO y estado CALCULADO.
+- PIRD global 44,51 en la primera ejecución y 44,71 en la verificación final; ambas conservaron nivel MEDIO y estado CALCULADO.
 - clasificación correctamente rotulada como provisional por ausencia de los 29 ejemplos humanos privados.
+
+La diferencia de 0,20 puntos entre ejecuciones confirma una variación menor del componente evaluado por el LLM. La cobertura, el número de señales y el nivel agregado permanecieron estables.
 
 ## Verificación
 
@@ -29,3 +31,4 @@ El 20 de septiembre de 2026 se ejecutó el flujo publicado con un PDF totalmente
 - Validación del bloqueo conversacional para impedir recuperación desde el corpus equivocado.
 - 93 pruebas automatizadas aprobadas.
 - 18 vistas base y 6 vistas dinámicas renderizadas sin excepciones.
+- Verificación visual publicada del contrato `SESSION-19C`, radar dinámico, timeline agregado y bloqueo del asistente de sesión.

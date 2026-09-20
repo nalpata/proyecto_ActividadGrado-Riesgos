@@ -23,9 +23,11 @@
     "signals_validated": 2,
     "signals_scored": 2,
     "pird_coverage": 1.0,
-    "global_pird": 44.51,
+    "global_pird_runs": [44.51, 44.71],
+    "global_pird_range": 0.2,
     "global_level": "MEDIO",
-    "profile_status": "CALCULADO"
+    "profile_status": "CALCULADO",
+    "level_stable": true
   },
   "next_step": "completed_by_day_19c_dynamic_views"
 }
