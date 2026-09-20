@@ -1,0 +1,23 @@
+{
+  "day": 14,
+  "status": "BACKEND_FROZEN",
+  "schema_version": "1.0.0",
+  "tests_passed": 51,
+  "full_flow_status": "COMPLETED",
+  "validated_stages": [
+    "retrieval",
+    "risk_extraction",
+    "risk_validation",
+    "risk_profile"
+  ],
+  "reconciliations": {
+    "signals": "649 = 372 + 277",
+    "levels": "372 = 79 + 139 + 132 + 22",
+    "categories_total": 649,
+    "categories_scored": 372
+  },
+  "empty_response_handled": true,
+  "error_logging_private": true,
+  "private_payload_published": false,
+  "next_day": 15
+}

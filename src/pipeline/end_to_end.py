@@ -180,9 +180,12 @@ EVIDENCIA:
             ],
         )
         usage = response.usage
+        answer = (response.choices[0].message.content or "").strip()
+        empty_response = not bool(answer)
         return {
-            "answer": response.choices[0].message.content or "",
-            "evidence_available": True,
+            "answer": answer or "El modelo no produjo una respuesta. Intente nuevamente.",
+            "evidence_available": not empty_response,
+            "response_status": "EMPTY_MODEL_RESPONSE" if empty_response else "COMPLETED",
             "sources": [
                 {k: item[k] for k in ("rank", "doc_id", "filename", "page", "chunk_id", "score")}
                 for item in chunks
@@ -220,6 +223,24 @@ class JsonCheckpointStore:
         temporary.replace(path)
 
 
+class JsonlErrorLogger:
+    """Registro privado y append-only de fallos operativos sin payload documental."""
+
+    def __init__(self, path: Path):
+        self.path = Path(path)
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+
+    def __call__(self, request_id: str, error: dict[str, Any]) -> None:
+        safe_error = {
+            "request_id": request_id,
+            "stage": error.get("stage", "unknown"),
+            "error_type": error.get("error_type", "RuntimeError"),
+            "message": str(error.get("message", "Error no especificado"))[:500],
+        }
+        with self.path.open("a", encoding="utf-8") as stream:
+            stream.write(json.dumps(safe_error, ensure_ascii=False) + "\n")
+
+
 class EndToEndPipeline:
     """Coordina el grafo, la respuesta RAG y el checkpoint del Día 13."""
 
@@ -230,10 +251,12 @@ class EndToEndPipeline:
         profiler: Callable[[list[dict[str, Any]]], dict[str, Any]],
         answerer: Callable[[str, list[dict[str, Any]]], dict[str, Any]],
         checkpoint_store: JsonCheckpointStore | None = None,
+        error_logger: Callable[[str, dict[str, Any]], None] | None = None,
     ):
         self.dependencies = RiskGraphDependencies(retriever=retriever, extractor=extractor, profiler=profiler)
         self.answerer = answerer
         self.checkpoint_store = checkpoint_store
+        self.error_logger = error_logger
 
     def run(
         self,
@@ -249,7 +272,26 @@ class EndToEndPipeline:
                 return cached
         started = time.perf_counter()
         state = run_risk_graph(self.dependencies, question, document_ids, request_id)
-        qa_result = self.answerer(question, state.get("retrieved_chunks", []))
+        try:
+            qa_result = self.answerer(question, state.get("retrieved_chunks", []))
+        except Exception as exc:
+            qa_error = {
+                "stage": "rag_answer",
+                "error_type": type(exc).__name__,
+                "message": str(exc)[:500],
+            }
+            state.setdefault("errors", []).append(qa_error)
+            state["status"] = "ERROR"
+            state["current_stage"] = "rag_answer"
+            qa_result = {
+                "answer": "No fue posible generar la respuesta en esta ejecución.",
+                "evidence_available": False,
+                "response_status": "ERROR",
+                "sources": [],
+            }
+        if self.error_logger:
+            for error in state.get("errors", []):
+                self.error_logger(request_id, error)
         result = {
             "request_id": request_id,
             "qa_result": qa_result,
