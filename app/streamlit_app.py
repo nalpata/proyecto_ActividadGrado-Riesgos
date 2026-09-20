@@ -1,9 +1,10 @@
-"""Estructura de navegación del front — Día 15."""
+"""Aplicación integrada con discriminación segura por proyecto — Día 18A."""
 
 from __future__ import annotations
 
 import sys
 import os
+import json
 from pathlib import Path
 
 import pandas as pd
@@ -19,6 +20,8 @@ from src.frontend.dashboard_data import (  # noqa: E402
     SUPPORTED_DOCUMENT_TYPES,
     load_front_snapshot,
     load_public_timeline_summary,
+    project_by_name,
+    validate_project_scope_summary,
 )
 from src.frontend.visualizations import (  # noqa: E402
     LEVEL_ORDER,
@@ -28,8 +31,9 @@ from src.frontend.visualizations import (  # noqa: E402
     build_temporal_role_figure,
     filter_categories,
 )
-from src.frontend.chat_service import ConversationalRagService, append_history  # noqa: E402
+from src.frontend.chat_service import ConversationalRagService, ProjectScopedRetriever, append_history  # noqa: E402
 from src.pipeline.end_to_end import BgeM3Retriever, OpenAIRagAnswerer  # noqa: E402
+from src.risk.project_resolution import assign_chunks, validate_project_catalog  # noqa: E402
 
 st.set_page_config(page_title="Radar de Riesgos Documentales", page_icon="◈", layout="wide", initial_sidebar_state="expanded")
 st.markdown(
@@ -64,6 +68,47 @@ def get_timeline_summary() -> dict:
     return load_public_timeline_summary(ROOT / "results/day_10/timeline_summary.json")
 
 
+@st.cache_data
+def get_project_scope() -> dict | None:
+    """Carga agregados por proyecto solo desde configuración privada del servidor."""
+
+    try:
+        raw = st.secrets.get("PROJECT_SCOPE_JSON") or os.getenv("PROJECT_SCOPE_JSON")
+    except Exception:
+        raw = os.getenv("PROJECT_SCOPE_JSON")
+    if not raw:
+        return None
+    payload = json.loads(raw) if isinstance(raw, str) else dict(raw)
+    return validate_project_scope_summary(payload)
+
+
+@st.cache_data
+def get_private_project_catalog() -> dict:
+    try:
+        raw = st.secrets.get("PROJECT_CATALOG_JSON") or os.getenv("PROJECT_CATALOG_JSON")
+    except Exception:
+        raw = os.getenv("PROJECT_CATALOG_JSON")
+    if not raw:
+        raise RuntimeError("El catálogo privado de proyectos no está configurado")
+    payload = json.loads(raw) if isinstance(raw, str) else dict(raw)
+    return validate_project_catalog(payload)
+
+
+@st.cache_data
+def get_project_chunk_ids() -> dict[str, set[str]]:
+    catalog = get_private_project_catalog()
+    chunks = pd.read_csv(ROOT / "data/processed/chunks/chunks_recursive.csv")
+    assigned = assign_chunks(chunks, catalog)
+    mapping = {item["project_id"]: set() for item in catalog["projects"]}
+    for row in assigned.itertuples(index=False):
+        if row.project_assignment_status not in {"ASSIGNED_CHUNK_EXPLICIT", "ASSIGNED_FILENAME_EXPLICIT"}:
+            continue
+        project_ids = [value for value in str(row.project_ids).split("|") if value]
+        if len(project_ids) == 1:
+            mapping[project_ids[0]].add(str(row.chunk_id))
+    return mapping
+
+
 def get_openai_api_key() -> str | None:
     """Obtiene la clave del servidor; nunca desde un campo visible del front."""
 
@@ -74,26 +119,50 @@ def get_openai_api_key() -> str | None:
 
 
 @st.cache_resource
-def get_chat_service(api_key: str) -> ConversationalRagService:
+def get_chat_service(api_key: str, project_id: str = "", project_name: str = "") -> ConversationalRagService:
     from openai import OpenAI
 
-    retriever = BgeM3Retriever(ROOT / "data/processed/embedding/embeddings_bge_m3.parquet", top_k=5)
+    retrieval_depth = 50 if project_id else 5
+    retriever = BgeM3Retriever(ROOT / "data/processed/embedding/embeddings_bge_m3.parquet", top_k=retrieval_depth)
+    if project_id:
+        retriever = ProjectScopedRetriever(
+            retriever=retriever,
+            project_name=project_name,
+            allowed_chunk_ids=get_project_chunk_ids().get(project_id, set()),
+            top_k=5,
+        )
     answerer = OpenAIRagAnswerer(model="gpt-4o-mini", client=OpenAI(api_key=api_key))
     return ConversationalRagService(retriever=retriever, answerer=answerer)
 
 
 snapshot = get_snapshot()
-profile = snapshot["profile"]
+project_scope = get_project_scope()
 st.sidebar.markdown("## ◈ Radar de riesgos")
 st.sidebar.caption("Vigilancia documental · prototipo académico")
-project_options = [DEMO_PROJECT, "Nuevo proyecto"]
+private_project_names = [item["display_name"] for item in project_scope["catalog"]] if project_scope else []
+project_options = [DEMO_PROJECT, *private_project_names, "Nuevo proyecto"]
 selected_project = st.sidebar.selectbox("Proyecto", project_options)
 if selected_project == "Nuevo proyecto":
     project_name = st.sidebar.text_input("Nombre del proyecto", placeholder="Ej.: Contrato de infraestructura")
     active_project = project_name.strip() or "Nuevo proyecto sin nombre"
 else:
     active_project = selected_project
+selected_project_view = project_by_name(project_scope, selected_project) if project_scope else None
+active_project_id = selected_project_view["project_id"] if selected_project_view else ""
+is_processed_project = selected_project != "Nuevo proyecto"
+if selected_project_view:
+    profile = selected_project_view["profile"]
+    view_categories = selected_project_view["categories"]
+    view_distribution = selected_project_view["level_distribution"]
+    view_timeline = selected_project_view["timeline"]
+else:
+    profile = snapshot["profile"]
+    view_categories = snapshot["categories"]
+    view_distribution = snapshot["level_distribution"]
+    view_timeline = get_timeline_summary()
 st.sidebar.caption(f"Proyecto activo: {active_project}")
+if selected_project_view:
+    st.sidebar.caption(f"{profile['signals_total']} señales asignadas · cobertura PIRD {profile['scoring_coverage']:.1%}")
 st.sidebar.divider()
 selected_page = st.sidebar.radio("Navegación", NAVIGATION, label_visibility="collapsed")
 st.sidebar.divider()
@@ -158,13 +227,13 @@ elif selected_page == "Proyectos y documentos":
     else:
         st.info("Seleccione uno o varios archivos PDF/DOCX. No se enviarán al repositorio público.")
     st.subheader("Estado del proyecto")
-    if active_project == DEMO_PROJECT:
-        st.success("Proyecto procesado · 649 señales · contrato de datos 1.0.0")
+    if is_processed_project:
+        st.success(f"Proyecto procesado · {profile['signals_total']} señales · contrato de datos 1.0.0")
     else:
         st.warning("Proyecto nuevo · pendiente de carga y procesamiento")
 
 elif selected_page == "Resumen ejecutivo":
-    if active_project != DEMO_PROJECT:
+    if not is_processed_project:
         st.warning("Este proyecto todavía no tiene documentos procesados. Cárguelos en Proyectos y documentos.")
     provisional_notice()
     st.write("")
@@ -183,24 +252,32 @@ elif selected_page == "Resumen ejecutivo":
             {profile['signals_total']}. Las categorías que requieren mayor atención agregada son
             {', '.join(profile['top_categories'])}.</p></div>""", unsafe_allow_html=True)
     with right:
-        st.markdown(
-            f"""<div class="section-card"><div class="eyebrow">Sensibilidad</div>
-            <h3>{profile['sensitivity_global_min']:.2f} — {profile['sensitivity_global_max']:.2f}</h3>
-            <p>El nivel global permanece ALTO en los escenarios de pesos aprobados.</p></div>""", unsafe_allow_html=True)
+        if selected_project_view:
+            st.markdown(
+                f"""<div class="section-card"><div class="eyebrow">Alcance por proyecto</div>
+                <h3>{selected_project_view['display_name']}</h3>
+                <p>Perfil calculado únicamente con señales asignadas explícitamente a este proyecto. Los casos ambiguos permanecen pendientes.</p></div>""",
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown(
+                f"""<div class="section-card"><div class="eyebrow">Sensibilidad</div>
+                <h3>{profile['sensitivity_global_min']:.2f} — {profile['sensitivity_global_max']:.2f}</h3>
+                <p>El nivel global permanece ALTO en los escenarios de pesos aprobados.</p></div>""", unsafe_allow_html=True)
 
 elif selected_page == "Radar de riesgos":
-    if active_project != DEMO_PROJECT:
+    if not is_processed_project:
         st.warning("El radar estará disponible después de procesar los documentos del proyecto.")
     provisional_notice()
     st.subheader("Radar PIRD por categoría")
-    categories = pd.DataFrame(snapshot["categories"])
+    categories = pd.DataFrame(view_categories)
     with st.container(border=True):
         f1, f2, f3 = st.columns([1.4, 1, 1])
         chosen_categories = f1.multiselect("Categorías", categories["category"].tolist(), default=categories["category"].tolist())
         available_levels = [level for level in LEVEL_ORDER if level in categories["category_level"].unique()]
         chosen_levels = f2.multiselect("Niveles", available_levels, default=available_levels)
         minimum_coverage = f3.slider("Cobertura mínima", 0, 100, 0, 5, format="%d %%") / 100
-    filtered = filter_categories(snapshot["categories"], chosen_categories, chosen_levels, minimum_coverage)
+    filtered = filter_categories(view_categories, chosen_categories, chosen_levels, minimum_coverage)
     if filtered.empty:
         st.warning("No existen categorías que cumplan los filtros seleccionados.")
     else:
@@ -219,9 +296,9 @@ elif selected_page == "Radar de riesgos":
         st.dataframe(display.rename(columns={"category": "Categoría", "category_score": "PIRD", "category_level": "Nivel", "scoring_coverage": "Cobertura", "scored_signals": "Puntuadas", "total_signals": "Total"}), width="stretch", hide_index=True)
 
 elif selected_page == "Timeline":
-    if active_project != DEMO_PROJECT:
+    if not is_processed_project:
         st.warning("El análisis temporal estará disponible después de procesar los documentos del proyecto.")
-    temporal = get_timeline_summary()
+    temporal = view_timeline
     st.subheader("Continuidad y persistencia documental")
     st.info("La vista pública presenta agregados temporales. No simula una serie cronológica ni imputa fechas ausentes.")
     t1, t2, t3, t4 = st.columns(4)
@@ -239,16 +316,16 @@ elif selected_page == "Timeline":
     st.caption("Los nombres de archivo, fechas por documento y señales individuales no forman parte del front público.")
 
 elif selected_page == "Riesgos priorizados":
-    if active_project != DEMO_PROJECT:
+    if not is_processed_project:
         st.warning("La priorización estará disponible después de procesar los documentos del proyecto.")
     provisional_notice()
     st.subheader("Priorización agregada")
-    categories = pd.DataFrame(snapshot["categories"])
+    categories = pd.DataFrame(view_categories)
     selected_priority_levels = st.multiselect(
         "Nivel de riesgo", [level for level in LEVEL_ORDER if level in categories["category_level"].unique()],
         default=[level for level in LEVEL_ORDER if level in categories["category_level"].unique()], key="priority_levels",
     )
-    prioritized = filter_categories(snapshot["categories"], selected_levels=selected_priority_levels)
+    prioritized = filter_categories(view_categories, selected_levels=selected_priority_levels)
     st.plotly_chart(build_category_priority_figure(prioritized), width="stretch")
     table = prioritized[["category", "category_score", "category_level", "scoring_coverage", "scored_signals", "total_signals"]].copy()
     table["scoring_coverage"] = table["scoring_coverage"].map(lambda value: f"{value:.1%}")
@@ -258,17 +335,22 @@ elif selected_page == "Riesgos priorizados":
 elif selected_page == "Perfil del proyecto":
     provisional_notice()
     st.subheader("Distribución del PIRD")
-    distribution = pd.DataFrame(snapshot["level_distribution"])
+    distribution = pd.DataFrame(view_distribution)
     st.bar_chart(distribution.set_index("pird_level")["signal_count"])
     st.dataframe(distribution, width="stretch", hide_index=True)
     st.subheader("Escenarios de sensibilidad")
-    st.dataframe(pd.DataFrame(snapshot["sensitivity"]), width="stretch", hide_index=True)
+    if selected_project_view:
+        st.info("La sensibilidad de pesos continúa reportándose para la vista consolidada; el PIRD por proyecto conserva los pesos aprobados.")
+    else:
+        st.dataframe(pd.DataFrame(snapshot["sensitivity"]), width="stretch", hide_index=True)
 
 elif selected_page == "Pregunte a sus documentos":
     st.subheader("Asistente documental")
     st.write("Consulte el corpus del proyecto activo. Las respuestas se generan únicamente con evidencia recuperada mediante BGE-M3.")
-    if active_project != DEMO_PROJECT:
+    if not is_processed_project:
         st.warning("Este proyecto aún no tiene un índice documental. Cargue y procese sus documentos para habilitar las consultas.")
+    elif selected_project_view:
+        st.info(f"La recuperación está limitada a evidencia asignada explícitamente al proyecto {selected_project_view['display_name']}.")
     api_key = get_openai_api_key()
     if not api_key:
         st.warning("El asistente está listo, pero la clave del modelo aún no está configurada como secreto del servidor.")
@@ -296,11 +378,11 @@ elif selected_page == "Pregunte a sus documentos":
 
     question = st.chat_input(
         "Escriba una pregunta sobre los documentos",
-        disabled=not api_key or active_project != DEMO_PROJECT,
+        disabled=not api_key or not is_processed_project,
     )
     if question:
         with st.spinner("Recuperando evidencia y preparando la respuesta…"):
-            exchange = get_chat_service(api_key).ask(question)
+            exchange = get_chat_service(api_key, active_project_id, active_project).ask(question)
         st.session_state[history_key] = append_history(st.session_state[history_key], exchange)
         st.rerun()
     st.caption("El asistente no usa conocimiento externo. Verifique siempre la respuesta en las fuentes citadas.")
@@ -309,11 +391,11 @@ else:
     st.subheader("Metodología")
     st.write("Consulta original → BGE-M3 → extracción calibrada → validación determinista → perfil PIRD.")
     c1, c2, c3 = st.columns(3)
-    c1.metric("Pruebas aprobadas", "68")
+    c1.metric("Pruebas aprobadas", "74")
     c2.metric("Contrato backend", snapshot["schema_version"])
     c3.metric("Estado", snapshot["contract_status"])
     st.subheader("Controles vigentes")
     st.markdown("- HyDE y reranking permanecen descartados.\n- No se imputan fechas, severidad ni probabilidad.\n- El Gold Standard humano no cubre severidad/probabilidad 1–5.\n- El front público consume únicamente agregados sin evidencia privada.")
 
 st.divider()
-st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo · Día 17")
+st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo · Día 18A")

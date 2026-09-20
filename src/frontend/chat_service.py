@@ -10,6 +10,24 @@ MAX_HISTORY_ITEMS = 20
 PUBLIC_SOURCE_FIELDS = ("rank", "filename", "page", "score")
 
 
+@dataclass
+class ProjectScopedRetriever:
+    """Limita retrieval a chunks explícitamente asociados con un proyecto."""
+
+    retriever: Callable[[str, list[str]], list[dict[str, Any]]]
+    project_name: str
+    allowed_chunk_ids: set[str]
+    top_k: int = 5
+
+    def __call__(self, question: str, document_ids: list[str]) -> list[dict[str, Any]]:
+        scoped_query = f"Proyecto {self.project_name}. {question}"
+        candidates = self.retriever(scoped_query, document_ids)
+        selected = [item.copy() for item in candidates if str(item.get("chunk_id")) in self.allowed_chunk_ids][: self.top_k]
+        for rank, item in enumerate(selected, start=1):
+            item["rank"] = rank
+        return selected
+
+
 def normalize_question(question: str) -> str:
     """Valida una pregunta antes de enviarla al pipeline."""
 
