@@ -120,6 +120,10 @@ La orquestación se encuentra en `src/agents/risk_graph.py`. El retrieval conser
 
 `src/pipeline/end_to_end.py` conecta el grafo con los embeddings BGE-M3, el catálogo calibrado privado, la respuesta RAG, el perfil agregado aprobado y checkpoints reanudables. Los archivos por señal y los checkpoints se suministran fuera de Git. La función `public_execution_summary` genera métricas publicables sin respuestas, fragmentos ni evidencia.
 
+## Backend congelado del Día 14
+
+`src/pipeline/backend_contract.py` valida y congela el contrato público `1.0.0` que consumirá el front. La salida canónica es `results/day_14/backend_snapshot_v1.json`, compuesta únicamente por agregados conciliados: perfil, categorías, distribución PIRD, sensibilidad y resumen sintético de ejecución. El pipeline maneja respuestas vacías y fallos del generador, y admite un registro JSONL privado sin payload documental. El cierre aprobó 51 pruebas.
+
 ## Preguntas de evaluación
 
 Se construyó un conjunto de preguntas tipo gold standard para evaluar la capacidad del sistema de recuperar evidencia documental relevante. Las preguntas cubren temas como:

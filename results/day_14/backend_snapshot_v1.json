@@ -1,0 +1,159 @@
+{
+  "schema_version": "1.0.0",
+  "contract_status": "FROZEN",
+  "profile": {
+    "profile_status": "PROVISIONAL",
+    "signals_total": 649,
+    "signals_scored": 372,
+    "signals_pending": 277,
+    "scoring_coverage": 0.5732,
+    "global_pird": 52.16,
+    "global_level": "ALTO",
+    "top_categories": [
+      "Cronograma",
+      "Contractual",
+      "Financiero"
+    ],
+    "critical_signals": 22,
+    "high_signals": 132,
+    "sensitivity_global_min": 51.69,
+    "sensitivity_global_max": 55.17,
+    "gold_standard_scope": "Human labels validate signal inclusion, surveillance relevance and evidence sufficiency.",
+    "limitation": "The existing human Gold Standard does not include 1-5 severity and probability labels; category coverage is uneven.",
+    "privacy": "Individual assessments, statements and evidence are not published"
+  },
+  "categories": [
+    {
+      "category": "Cronograma",
+      "total_signals": 89,
+      "scored_signals": 52,
+      "scoring_coverage": 0.5843,
+      "category_score": 55.3342,
+      "category_level": "ALTO"
+    },
+    {
+      "category": "Contractual",
+      "total_signals": 156,
+      "scored_signals": 75,
+      "scoring_coverage": 0.4808,
+      "category_score": 55.1582,
+      "category_level": "ALTO"
+    },
+    {
+      "category": "Financiero",
+      "total_signals": 54,
+      "scored_signals": 21,
+      "scoring_coverage": 0.3889,
+      "category_score": 54.008,
+      "category_level": "ALTO"
+    },
+    {
+      "category": "Operacion",
+      "total_signals": 228,
+      "scored_signals": 144,
+      "scoring_coverage": 0.6316,
+      "category_score": 52.5023,
+      "category_level": "ALTO"
+    },
+    {
+      "category": "Gobierno del Proyecto",
+      "total_signals": 5,
+      "scored_signals": 5,
+      "scoring_coverage": 1.0,
+      "category_score": 50.7982,
+      "category_level": "ALTO"
+    },
+    {
+      "category": "Calidad",
+      "total_signals": 88,
+      "scored_signals": 60,
+      "scoring_coverage": 0.6818,
+      "category_score": 50.0375,
+      "category_level": "ALTO"
+    },
+    {
+      "category": "Seguridad",
+      "total_signals": 1,
+      "scored_signals": 1,
+      "scoring_coverage": 1.0,
+      "category_score": 48.17,
+      "category_level": "MEDIO"
+    },
+    {
+      "category": "Otro",
+      "total_signals": 28,
+      "scored_signals": 14,
+      "scoring_coverage": 0.5,
+      "category_score": 40.4154,
+      "category_level": "MEDIO"
+    }
+  ],
+  "level_distribution": [
+    {
+      "pird_level": "BAJO",
+      "signal_count": 79,
+      "percentage_of_scored": 21.24
+    },
+    {
+      "pird_level": "MEDIO",
+      "signal_count": 139,
+      "percentage_of_scored": 37.37
+    },
+    {
+      "pird_level": "ALTO",
+      "signal_count": 132,
+      "percentage_of_scored": 35.48
+    },
+    {
+      "pird_level": "CRITICO",
+      "signal_count": 22,
+      "percentage_of_scored": 5.91
+    }
+  ],
+  "sensitivity": [
+    {
+      "weight_scenario": "proposed",
+      "global_pird": 52.16,
+      "global_level": "ALTO"
+    },
+    {
+      "weight_scenario": "equal",
+      "global_pird": 52.17,
+      "global_level": "ALTO"
+    },
+    {
+      "weight_scenario": "severity_heavy",
+      "global_pird": 55.17,
+      "global_level": "ALTO"
+    },
+    {
+      "weight_scenario": "temporal_heavy",
+      "global_pird": 51.69,
+      "global_level": "ALTO"
+    }
+  ],
+  "runtime": {
+    "request_id": "SMOKE-DIA-13",
+    "status": "COMPLETED",
+    "stages": [
+      "retrieval",
+      "risk_extraction",
+      "risk_validation",
+      "risk_profile"
+    ],
+    "evidence_available": true,
+    "source_count": 1,
+    "validated_signals_count": 1,
+    "profile_status": "PROVISIONAL",
+    "global_pird": 52.16,
+    "scoring_coverage": 0.5732,
+    "private_payload_included": false,
+    "data_policy": "synthetic_smoke_test"
+  },
+  "data_policy": {
+    "aggregate_only": true,
+    "contains_source_text": false,
+    "contains_individual_signals": false,
+    "null_policy": "No imputar componentes faltantes; conservar pendiente/null."
+  }
+}
