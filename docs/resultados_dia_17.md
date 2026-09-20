@@ -14,6 +14,15 @@ El asistente documental quedó conectado al retrieval BGE-M3 y al generador RAG 
 - Sin texto de chunks, identificadores internos ni claves en la interfaz.
 - HyDE y reranking continúan excluidos.
 
-## Validación pendiente
+## Validación en la aplicación publicada
 
-El entorno de implementación no dispone de `OPENAI_API_KEY`; por ello, la llamada real debe validarse después de configurar la clave como secreto del servidor de Streamlit. La suite usa dobles deterministas y valida el contrato completo sin consumir llamadas externas.
+El 20 de septiembre de 2026 se ejecutó en Streamlit la consulta real `¿Qué retrasos requieren vigilancia según los documentos?`, con la clave configurada únicamente como secreto del servidor.
+
+- La respuesta identificó informes pendientes, requerimientos en riesgo de atraso y riesgos de incumplimiento.
+- Se mostraron 5 fuentes recuperadas mediante BGE-M3.
+- Cada fuente presentó rango, nombre del documento, página y similitud.
+- Los scores observados estuvieron entre 0.569 y 0.602.
+- No se expusieron texto de chunks, identificadores internos ni la clave de API.
+- La primera consulta cargó correctamente los pesos del modelo y completó la generación RAG.
+
+Con esta ejecución queda validado de extremo a extremo el flujo pregunta → recuperación → respuesta → fuentes.

@@ -1,6 +1,6 @@
 {
   "day": 17,
-  "status": "IMPLEMENTED",
+  "status": "VALIDATED",
   "retrieval": "original_query_bge_m3_recursive_chunks_top_5",
   "generation": "grounded_rag",
   "history_scope": "session_per_project",
@@ -10,5 +10,13 @@
   "api_key_in_repository": false,
   "tests_passed": 68,
   "rendered_sections": 9,
-  "real_execution_required": true
+  "real_execution_required": false,
+  "published_validation": {
+    "date": "2026-09-20",
+    "query": "¿Qué retrasos requieren vigilancia según los documentos?",
+    "sources_returned": 5,
+    "score_min": 0.569,
+    "score_max": 0.602,
+    "result": "PASS"
+  }
 }
