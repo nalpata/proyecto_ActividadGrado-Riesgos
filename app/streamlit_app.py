@@ -47,6 +47,10 @@ st.markdown(
     [data-testid="stSidebar"] input[role="combobox"] {
         color: #111827 !important; -webkit-text-fill-color: #111827 !important; caret-color: #111827;
     }
+    [data-testid="stSidebar"] .stSelectbox button[aria-label="Open"],
+    [data-testid="stSidebar"] .stSelectbox button[aria-label="Open"] * {
+        color: #111827 !important; fill: #111827 !important;
+    }
     .hero { padding: 1.3rem 1.5rem; border-radius: 16px; color: white;
             background: linear-gradient(110deg, #111827 0%, #173B63 62%, #147D92 100%); margin-bottom: 1rem; }
     .hero h1 { margin: 0; font-size: 2rem; }
@@ -156,7 +160,7 @@ st.sidebar.caption("Vigilancia documental · prototipo académico")
 scope_options = ["Consolidado público", "Demostración académica sintética"]
 if private_project_scope:
     scope_options.append("Entorno privado por proyecto")
-selected_scope = st.sidebar.radio("Modo de datos", scope_options)
+selected_scope = st.sidebar.radio("1. Seleccione el modo de datos", scope_options)
 is_academic_demo = selected_scope == "Demostración académica sintética"
 if is_academic_demo:
     project_scope = academic_project_scope
@@ -166,7 +170,10 @@ else:
     project_scope = None
 scoped_project_names = [item["display_name"] for item in project_scope["catalog"]] if project_scope else []
 project_options = [*scoped_project_names, "Nuevo proyecto"] if project_scope else [DEMO_PROJECT, "Nuevo proyecto"]
-selected_project = st.sidebar.selectbox("Proyecto", project_options)
+project_selector_label = "2. Seleccione el proyecto sintético" if is_academic_demo else "2. Seleccione el proyecto"
+selected_project = st.sidebar.selectbox(project_selector_label, project_options)
+if is_academic_demo:
+    st.sidebar.caption("Abra esta lista para cambiar entre Proyecto A, B, C y D.")
 if selected_project == "Nuevo proyecto":
     project_name = st.sidebar.text_input("Nombre del proyecto", placeholder="Ej.: Contrato de infraestructura")
     active_project = project_name.strip() or "Nuevo proyecto sin nombre"
