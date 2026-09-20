@@ -138,7 +138,7 @@ El catálogo real, las asignaciones y los agregados por proyecto no se publican 
 
 El asistente utiliza `EndToEndPipeline.run_qa`, una rama explícita del pipeline final que ejecuta la configuración aprobada —consulta original, BGE-M3, Top-k y generación RAG— sin volver a extraer señales ni modificar el perfil PIRD. La interfaz muestra estados de carga, ausencia de evidencia y errores controlados; además incorpora preguntas demostrativas seleccionables.
 
-La carga de PDF/DOCX valida la recepción de documentos en la sesión. La ingesta automática del Día 19A extrae y limpia el texto, aplica el chunking recursivo aprobado y genera embeddings BGE-M3 normalizados en memoria. La extracción de señales y la actualización del radar corresponden al Día 19B.
+La carga de PDF/DOCX valida la recepción de documentos en la sesión. La ingesta automática del Día 19A extrae y limpia el texto, aplica el chunking recursivo aprobado y genera embeddings BGE-M3 normalizados en memoria. El Día 19B extrae señales, verifica la evidencia, calcula recurrencia y persistencia y recalcula el PIRD posible para el proyecto activo. La incorporación de ese resultado a todas las vistas del radar corresponde al Día 19C.
 
 ## Ingesta automática por proyecto del Día 19A
 
@@ -151,7 +151,22 @@ La carga de PDF/DOCX valida la recepción de documentos en la sesión. La ingest
 5. genera embeddings normalizados con `BAAI/bge-m3`;
 6. asocia documentos, chunks y vectores al proyecto activo únicamente durante la sesión.
 
-El Día 19A no recalcula todavía señales, recurrencia, persistencia ni PIRD. Esos componentes se conectarán en el Día 19B sobre la salida de ingesta ya validada.
+El contrato del Día 19A es consumido directamente por el procesamiento del Día 19B.
+
+## Recálculo de riesgos por proyecto del Día 19B
+
+`src/pipeline/project_risk_processing.py` ejecuta en memoria y únicamente sobre el proyecto activo:
+
+1. extracción documental v2 y verificación literal de evidencia;
+2. clasificación por la taxonomía del Día 5;
+3. puerta determinista de aceptación del Día 6;
+4. embeddings de señales y recurrencia semántica del Día 9;
+5. fechas documentales y persistencia del Día 10, sin inferir fechas ausentes;
+6. evaluación sustentada de severidad/probabilidad y PIRD del Día 11.
+
+El resultado público contiene solo conteos y agregados por categoría. Los textos, citas, señales y vectores permanecen en `st.session_state` y no se escriben en GitHub ni en el disco del servidor. El análisis admite máximo 100 chunks por ejecución para controlar tiempo y costo.
+
+Los 29 ejemplos humanos usados para calibrar el clasificador del Día 5 no están publicados en el repositorio. Un despliegue privado puede suministrarlos mediante `CALIBRATION_EXAMPLES_JSON`. Si no están disponibles, el sistema aplica la misma taxonomía y reglas en modo `PROVISIONAL_NO_PRIVATE_EXAMPLES` y lo informa en pantalla; nunca presenta ese resultado como calibrado con ejemplos humanos.
 
 ## Preguntas de evaluación
 

@@ -1,4 +1,4 @@
-"""Aplicación integrada con discriminación segura por proyecto — Día 18A."""
+"""Aplicación integrada con recálculo seguro por proyecto — Día 19B."""
 
 from __future__ import annotations
 
@@ -34,6 +34,7 @@ from src.frontend.visualizations import (  # noqa: E402
 from src.frontend.chat_service import FinalPipelineChatService, ProjectScopedRetriever, append_history  # noqa: E402
 from src.pipeline.end_to_end import BgeM3Retriever, EndToEndPipeline, OpenAIRagAnswerer  # noqa: E402
 from src.pipeline.project_ingestion import ingest_project_documents  # noqa: E402
+from src.pipeline.project_risk_processing import process_project_risks  # noqa: E402
 from src.risk.project_resolution import assign_chunks, validate_project_catalog  # noqa: E402
 
 DEMONSTRATION_QUESTIONS = (
@@ -140,6 +141,15 @@ def get_openai_api_key() -> str | None:
         return st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
     except Exception:
         return os.getenv("OPENAI_API_KEY")
+
+
+def get_calibration_examples() -> str | list | None:
+    """Lee ejemplos humanos solo desde la configuración privada del servidor."""
+
+    try:
+        return st.secrets.get("CALIBRATION_EXAMPLES_JSON") or os.getenv("CALIBRATION_EXAMPLES_JSON")
+    except Exception:
+        return os.getenv("CALIBRATION_EXAMPLES_JSON")
 
 
 @st.cache_resource
@@ -289,6 +299,7 @@ elif selected_page == "Proyectos y documentos":
             st.error("Uno o más archivos están vacíos. Corríjalos antes de continuar.")
         st.dataframe(inventory, width="stretch", hide_index=True)
         ingestion_key = f"project_ingestion::{active_project}"
+        risk_analysis_key = f"project_risk_analysis::{active_project}"
         process_clicked = st.button(
             "Procesar documentos · Día 19A",
             type="primary",
@@ -307,6 +318,7 @@ elif selected_page == "Proyectos y documentos":
                         encoder=get_embedding_model(),
                     )
                     st.session_state[ingestion_key] = ingestion_result
+                    st.session_state.pop(risk_analysis_key, None)
                     processing_status.update(label="Ingesta del Día 19A completada", state="complete", expanded=False)
             except Exception:
                 st.error("No fue posible completar la ingesta. Revise que los archivos contengan texto extraíble e intente nuevamente.")
@@ -322,10 +334,74 @@ elif selected_page == "Proyectos y documentos":
             if ingestion_result["errors"]:
                 st.warning("La ingesta terminó con advertencias en algunos documentos.")
                 st.dataframe(pd.DataFrame(ingestion_result["errors"]), width="stretch", hide_index=True)
-            st.info(
-                "Día 19A completo en esta sesión. La extracción y validación de señales, "
-                "el recálculo PIRD y la actualización del radar corresponden al Día 19B."
+            st.success("Día 19A completo. Los chunks y embeddings permanecen aislados en esta sesión.")
+            api_key = get_openai_api_key()
+            if not api_key:
+                st.warning("El Día 19B requiere OPENAI_API_KEY configurada en los secretos del servidor.")
+            analyze_clicked = st.button(
+                "Analizar riesgos · Día 19B",
+                type="primary",
+                disabled=not api_key,
+                width="stretch",
             )
+            if analyze_clicked:
+                try:
+                    from openai import OpenAI
+
+                    with st.status("Analizando riesgos del proyecto…", expanded=True) as risk_status:
+                        risk_status.write("Extrayendo señales y verificando evidencia literal.")
+                        risk_status.write("Aplicando clasificación y puerta determinista de validación.")
+                        risk_status.write("Calculando recurrencia, persistencia y componentes PIRD disponibles.")
+                        analysis = process_project_risks(
+                            ingestion_result=ingestion_result,
+                            client=OpenAI(api_key=api_key),
+                            encoder=get_embedding_model(),
+                            calibration_examples=get_calibration_examples(),
+                        )
+                        st.session_state[risk_analysis_key] = analysis
+                        risk_status.update(label="Análisis del Día 19B completado", state="complete", expanded=False)
+                except Exception:
+                    st.error(
+                        "No fue posible completar el análisis de riesgos. Verifique la conexión del modelo, "
+                        "el límite de 100 chunks y vuelva a intentarlo."
+                    )
+
+            analysis = st.session_state.get(risk_analysis_key)
+            if analysis:
+                risk_summary = analysis["summary"]
+                st.markdown("#### Resultado del Día 19B")
+                r1, r2, r3, r4 = st.columns(4)
+                r1.metric("Señales extraídas", risk_summary["items_extracted"])
+                r2.metric("Señales validadas", risk_summary["signals_validated"])
+                r3.metric("Puntuadas", risk_summary["signals_scored"])
+                r4.metric("Cobertura PIRD", f"{risk_summary['scoring_coverage']:.1%}")
+                if risk_summary["global_pird"] is None:
+                    st.warning(
+                        "El PIRD permanece pendiente: la evidencia disponible no permite completar todos "
+                        "los componentes requeridos. No se imputaron valores."
+                    )
+                else:
+                    st.success(
+                        f"PIRD del proyecto: {risk_summary['global_pird']:.2f} · "
+                        f"nivel {risk_summary['global_level']} · {risk_summary['profile_status']}"
+                    )
+                if analysis["classification"]["calibration_status"] == "PROVISIONAL_NO_PRIVATE_EXAMPLES":
+                    st.warning(
+                        "Clasificación provisional: los 29 ejemplos humanos del Día 5 no están "
+                        "configurados en el servidor. Se aplicó la misma taxonomía y reglas, sin afirmar "
+                        "calibración humana para estos documentos nuevos."
+                    )
+                elif analysis["classification"]["calibration_status"] == "CALIBRATED":
+                    st.caption(
+                        f"Clasificación con {analysis['classification']['human_examples_available']} "
+                        "ejemplos humanos privados."
+                    )
+                if analysis["categories"]:
+                    st.dataframe(pd.DataFrame(analysis["categories"]), width="stretch", hide_index=True)
+                st.caption(
+                    "Vista agregada en memoria. La evidencia, los textos y las señales individuales no "
+                    "se muestran ni se escriben en el repositorio. La incorporación al radar general corresponde al Día 19C."
+                )
     else:
         st.info("Seleccione uno o varios archivos PDF/DOCX. No se enviarán al repositorio público.")
     st.subheader("Estado del proyecto")
@@ -542,4 +618,4 @@ else:
     st.caption("Valores fabricados exclusivamente para demostrar la separación, comparación y visualización por proyecto.")
 
 st.divider()
-st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo · Día 19A")
+st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo · Día 19B")

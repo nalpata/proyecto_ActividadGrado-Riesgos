@@ -1,0 +1,19 @@
+{
+  "day": "19B",
+  "status": "IMPLEMENTED",
+  "project_scoped": true,
+  "maximum_chunks_per_run": 100,
+  "extraction": "documentary_extraction_v2",
+  "validation": "deterministic_day_06",
+  "embedding_model": "BAAI/bge-m3",
+  "recurrence_similarity_threshold": 0.7,
+  "timeline_without_date_imputation": true,
+  "pird_without_component_imputation": true,
+  "private_calibration_secret": "CALIBRATION_EXAMPLES_JSON",
+  "fallback_classification_status": "PROVISIONAL_NO_PRIVATE_EXAMPLES",
+  "persistence": "session_memory_only",
+  "tests_passed": 90,
+  "streamlit_render_combinations": 18,
+  "streamlit_render_status": "PASSED",
+  "next_step": "day_19c_dynamic_views"
+}

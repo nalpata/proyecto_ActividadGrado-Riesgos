@@ -154,9 +154,13 @@ def build_profile(scored: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
         max_pird=("pird", "max"), persistent_signals=("persistence_level", lambda x: int((x >= 4).sum())),
     )
     categories = totals.merge(categories, on="calibrated_category", how="left", validate="one_to_one")
+    categories["scored_signals"] = categories.scored_signals.fillna(0).astype(int)
+    categories["persistent_signals"] = categories.persistent_signals.fillna(0).astype(int)
     categories["scoring_coverage"] = categories.scored_signals / categories.total_signals
     categories["category_score"] = 0.70 * categories.mean_pird + 0.30 * categories.p90_pird
-    categories["category_level"] = categories.category_score.map(risk_level)
+    categories["category_level"] = categories.category_score.map(
+        lambda value: risk_level(value) if pd.notna(value) else "PENDIENTE"
+    )
     categories = categories.sort_values("category_score", ascending=False).reset_index(drop=True)
     global_score = round(float(0.70 * categories.category_score.mean() + 0.30 * categories.category_score.max()), 2)
     overall_coverage = float(len(valid) / len(scored))
@@ -168,7 +172,7 @@ def build_profile(scored: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
         "global_pird": global_score, "global_level": risk_level(global_score),
         "global_formula": "70% mean of category scores + 30% maximum category score",
         "category_formula": "70% mean PIRD + 30% category P90",
-        "top_categories": categories.head(3).calibrated_category.tolist(),
+        "top_categories": categories.dropna(subset=["category_score"]).head(3).calibrated_category.tolist(),
         "critical_signals": int((valid.pird_level == "CRITICO").sum()),
         "high_signals": int((valid.pird_level == "ALTO").sum()),
         "gold_standard_scope": "Human labels validate signal inclusion, surveillance relevance and evidence sufficiency.",
