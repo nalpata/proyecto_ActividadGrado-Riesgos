@@ -33,6 +33,7 @@ from src.frontend.visualizations import (  # noqa: E402
 )
 from src.frontend.chat_service import FinalPipelineChatService, ProjectScopedRetriever, append_history  # noqa: E402
 from src.pipeline.end_to_end import BgeM3Retriever, EndToEndPipeline, OpenAIRagAnswerer  # noqa: E402
+from src.pipeline.project_ingestion import ingest_project_documents  # noqa: E402
 from src.risk.project_resolution import assign_chunks, validate_project_catalog  # noqa: E402
 
 DEMONSTRATION_QUESTIONS = (
@@ -139,6 +140,13 @@ def get_openai_api_key() -> str | None:
         return st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
     except Exception:
         return os.getenv("OPENAI_API_KEY")
+
+
+@st.cache_resource
+def get_embedding_model():
+    from sentence_transformers import SentenceTransformer
+
+    return SentenceTransformer("BAAI/bge-m3")
 
 
 @st.cache_resource
@@ -270,24 +278,60 @@ elif selected_page == "Proyectos y documentos":
                 "Documento": item.name,
                 "Formato": Path(item.name).suffix.upper().lstrip("."),
                 "Tamaño (KB)": round(item.size / 1024, 1),
-                "Estado": "Recibido y validado" if item.size > 0 else "Archivo vacío",
+                "Estado": "Listo para ingesta" if item.size > 0 else "Archivo vacío",
             }
             for item in uploaded_files
         ])
-        valid_documents = int((inventory["Estado"] == "Recibido y validado").sum())
+        valid_documents = int((inventory["Estado"] == "Listo para ingesta").sum())
         if valid_documents == len(uploaded_files):
-            st.success(f"{valid_documents} documento(s) recibido(s) y validado(s) para {active_project}.")
+            st.success(f"{valid_documents} documento(s) recibido(s) para {active_project}.")
         else:
             st.error("Uno o más archivos están vacíos. Corríjalos antes de continuar.")
         st.dataframe(inventory, width="stretch", hide_index=True)
-        st.info(
-            "En el prototipo académico, esta carga valida la entrada documental. "
-            "La actualización del radar utiliza el corpus previamente procesado y aprobado."
+        ingestion_key = f"project_ingestion::{active_project}"
+        process_clicked = st.button(
+            "Procesar documentos · Día 19A",
+            type="primary",
+            disabled=valid_documents != len(uploaded_files),
+            width="stretch",
         )
+        if process_clicked:
+            try:
+                with st.status("Procesando documentos…", expanded=True) as processing_status:
+                    processing_status.write("Extrayendo y limpiando texto de PDF/DOCX.")
+                    processing_status.write("Aplicando chunking recursivo aprobado: 2.200 caracteres y 300 de solapamiento.")
+                    processing_status.write("Generando embeddings normalizados con BAAI/bge-m3.")
+                    ingestion_result = ingest_project_documents(
+                        project_id=active_project_id or active_project,
+                        files=[{"name": item.name, "content": item.getvalue()} for item in uploaded_files],
+                        encoder=get_embedding_model(),
+                    )
+                    st.session_state[ingestion_key] = ingestion_result
+                    processing_status.update(label="Ingesta del Día 19A completada", state="complete", expanded=False)
+            except Exception:
+                st.error("No fue posible completar la ingesta. Revise que los archivos contengan texto extraíble e intente nuevamente.")
+        ingestion_result = st.session_state.get(ingestion_key)
+        if ingestion_result:
+            ingestion_summary = ingestion_result["summary"]
+            i1, i2, i3, i4 = st.columns(4)
+            i1.metric("Documentos procesados", ingestion_summary["documents_processed"])
+            i2.metric("Páginas", ingestion_summary["pages"])
+            i3.metric("Chunks", ingestion_summary["chunks"])
+            i4.metric("Dimensiones BGE-M3", ingestion_summary["embedding_dimensions"])
+            st.dataframe(pd.DataFrame(ingestion_result["documents"]), width="stretch", hide_index=True)
+            if ingestion_result["errors"]:
+                st.warning("La ingesta terminó con advertencias en algunos documentos.")
+                st.dataframe(pd.DataFrame(ingestion_result["errors"]), width="stretch", hide_index=True)
+            st.info(
+                "Día 19A completo en esta sesión. La extracción y validación de señales, "
+                "el recálculo PIRD y la actualización del radar corresponden al Día 19B."
+            )
     else:
         st.info("Seleccione uno o varios archivos PDF/DOCX. No se enviarán al repositorio público.")
     st.subheader("Estado del proyecto")
-    if is_processed_project:
+    if uploaded_files and st.session_state.get(f"project_ingestion::{active_project}"):
+        st.success("Ingesta documental completada · embeddings BGE-M3 disponibles en la sesión")
+    elif is_processed_project:
         st.success(f"Proyecto procesado · {profile['signals_total']} señales · contrato de datos 1.0.0")
     else:
         st.warning("Proyecto nuevo · pendiente de carga y procesamiento")
@@ -498,4 +542,4 @@ else:
     st.caption("Valores fabricados exclusivamente para demostrar la separación, comparación y visualización por proyecto.")
 
 st.divider()
-st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo · Día 18")
+st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo · Día 19A")

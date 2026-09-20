@@ -138,7 +138,20 @@ El catálogo real, las asignaciones y los agregados por proyecto no se publican 
 
 El asistente utiliza `EndToEndPipeline.run_qa`, una rama explícita del pipeline final que ejecuta la configuración aprobada —consulta original, BGE-M3, Top-k y generación RAG— sin volver a extraer señales ni modificar el perfil PIRD. La interfaz muestra estados de carga, ausencia de evidencia y errores controlados; además incorpora preguntas demostrativas seleccionables.
 
-La carga de PDF/DOCX valida la recepción de documentos en la sesión. En este prototipo académico, la actualización del radar se realiza sobre el corpus previamente procesado y aprobado; la reindexación automática de documentos nuevos se conserva como evolución futura y no se presenta como una capacidad productiva.
+La carga de PDF/DOCX valida la recepción de documentos en la sesión. La ingesta automática del Día 19A extrae y limpia el texto, aplica el chunking recursivo aprobado y genera embeddings BGE-M3 normalizados en memoria. La extracción de señales y la actualización del radar corresponden al Día 19B.
+
+## Ingesta automática por proyecto del Día 19A
+
+`src/pipeline/project_ingestion.py` procesa documentos PDF/DOCX nuevos sin escribirlos en el repositorio ni en el disco del servidor. Cada ejecución:
+
+1. valida formato, tamaño, cantidad y duplicados;
+2. extrae texto y tablas mediante PyMuPDF y python-docx;
+3. aplica la limpieza aprobada;
+4. utiliza el chunking recursivo seleccionado en el Día 4B, con 2.200 caracteres y 300 de solapamiento;
+5. genera embeddings normalizados con `BAAI/bge-m3`;
+6. asocia documentos, chunks y vectores al proyecto activo únicamente durante la sesión.
+
+El Día 19A no recalcula todavía señales, recurrencia, persistencia ni PIRD. Esos componentes se conectarán en el Día 19B sobre la salida de ingesta ya validada.
 
 ## Preguntas de evaluación
 
