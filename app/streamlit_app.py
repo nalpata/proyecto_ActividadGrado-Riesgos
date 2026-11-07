@@ -35,6 +35,8 @@ from src.frontend.visualizations import (  # noqa: E402
 from src.frontend.chat_service import FinalPipelineChatService, ProjectScopedRetriever, append_history  # noqa: E402
 from src.pipeline.end_to_end import BgeM3Retriever, EndToEndPipeline, OpenAIRagAnswerer  # noqa: E402
 from src.pipeline.project_ingestion import ingest_project_documents  # noqa: E402
+from src.retrieval.session_retriever import SessionRetriever  # noqa: E402
+from src.frontend.chat_service import ConversationalRagService  # noqa: E402
 from src.pipeline.project_risk_processing import process_project_risks  # noqa: E402
 from src.risk.project_resolution import assign_chunks, validate_project_catalog  # noqa: E402
 
@@ -164,15 +166,11 @@ def get_embedding_model():
 def get_chat_service(api_key: str, project_id: str = "", project_name: str = "") -> FinalPipelineChatService:
     from openai import OpenAI
 
-    retrieval_depth = 50 if project_id else 5
-    retriever = BgeM3Retriever(ROOT / "data/processed/embedding/embeddings_bge_m3.parquet", top_k=retrieval_depth)
-    if project_id:
-        retriever = ProjectScopedRetriever(
-            retriever=retriever,
-            project_name=project_name,
-            allowed_chunk_ids=get_project_chunk_ids().get(project_id, set()),
-            top_k=5,
-        )
+    retriever = BgeM3Retriever(
+        ROOT / "data/processed/embedding/embeddings_bge_m3.parquet",
+        top_k=5,
+        allowed_chunk_ids=get_project_chunk_ids().get(project_id, set()) if project_id else None,
+    )
     answerer = OpenAIRagAnswerer(model="gpt-4o-mini", client=OpenAI(api_key=api_key))
     pipeline = EndToEndPipeline(
         retriever=retriever,
@@ -211,6 +209,7 @@ if selected_project == "Nuevo proyecto":
 else:
     active_project = selected_project
 selected_project_view = project_by_name(project_scope, selected_project) if project_scope else None
+session_ingestion = st.session_state.get(f"project_ingestion::{active_project}")
 session_analysis = st.session_state.get(f"project_risk_analysis::{active_project}")
 session_project_view = (
     build_session_project_view(session_analysis, active_project)
@@ -257,6 +256,13 @@ def provisional_notice() -> None:
         priorización, no una probabilidad. Cobertura actual: {profile['scoring_coverage']:.1%}.</div>""",
         unsafe_allow_html=True,
     )
+
+
+if (selected_project == "Nuevo proyecto" or session_ingestion is not None) and session_project_view is None and selected_page in {
+    "Resumen ejecutivo", "Radar de riesgos", "Timeline", "Riesgos priorizados", "Perfil del proyecto",
+}:
+    st.info("Este proyecto todavía no tiene un perfil calculado. Procese sus documentos y analice los riesgos en Proyectos y documentos.")
+    st.stop()
 
 
 if selected_page == "Portada":
@@ -326,7 +332,9 @@ elif selected_page == "Proyectos y documentos":
                     )
                     st.session_state[ingestion_key] = ingestion_result
                     st.session_state.pop(risk_analysis_key, None)
+                    st.session_state.pop(f"chat_history::{active_project}", None)
                     processing_status.update(label="Ingesta del Día 19A completada", state="complete", expanded=False)
+                st.rerun()
             except Exception:
                 st.error("No fue posible completar la ingesta. Revise que los archivos contengan texto extraíble e intente nuevamente.")
         ingestion_result = st.session_state.get(ingestion_key)
@@ -367,6 +375,7 @@ elif selected_page == "Proyectos y documentos":
                         )
                         st.session_state[risk_analysis_key] = analysis
                         risk_status.update(label="Análisis del Día 19B completado", state="complete", expanded=False)
+                    st.rerun()
                 except Exception:
                     st.error(
                         "No fue posible completar el análisis de riesgos. Verifique la conexión del modelo, "
@@ -561,8 +570,8 @@ elif selected_page == "Pregunte a sus documentos":
     st.write("Consulte el corpus del proyecto activo. Las respuestas se generan únicamente con evidencia recuperada mediante BGE-M3.")
     if is_academic_demo:
         st.info("El modo sintético demuestra los perfiles y radares. El asistente se desactiva porque no existe un corpus documental sintético asociado.")
-    elif session_project_view:
-        st.warning("El perfil nuevo ya está actualizado. La consulta conversacional sobre estos documentos se conectará en una fase posterior para evitar recuperar evidencia del corpus consolidado.")
+    elif session_ingestion:
+        st.info("La consulta utiliza únicamente los documentos procesados en esta sesión para el proyecto activo.")
     elif not is_processed_project:
         st.warning("Este proyecto aún no tiene un índice documental. Cargue y procese sus documentos para habilitar las consultas.")
     elif selected_project_view:
@@ -597,7 +606,7 @@ elif selected_page == "Pregunte a sus documentos":
             elif exchange.get("response_status") != "ERROR":
                 st.caption("No se encontraron fuentes suficientes para sustentar una respuesta.")
 
-    assistant_disabled = not api_key or not is_processed_project or is_academic_demo or session_project_view is not None
+    assistant_disabled = not api_key or is_academic_demo or (not session_ingestion and (not is_processed_project or session_project_view is not None))
     demo_question = None
     question_columns = st.columns(len(DEMONSTRATION_QUESTIONS))
     for index, prompt in enumerate(DEMONSTRATION_QUESTIONS):
@@ -616,7 +625,16 @@ elif selected_page == "Pregunte a sus documentos":
     question = demo_question or typed_question
     if question:
         with st.spinner("Recuperando evidencia y preparando la respuesta…"):
-            exchange = get_chat_service(api_key, active_project_id, active_project).ask(question)
+            if session_ingestion:
+                from openai import OpenAI
+
+                service = ConversationalRagService(
+                    retriever=SessionRetriever(session_ingestion, get_embedding_model()),
+                    answerer=OpenAIRagAnswerer(client=OpenAI(api_key=api_key)),
+                )
+                exchange = service.ask(question)
+            else:
+                exchange = get_chat_service(api_key, active_project_id, active_project).ask(question)
         st.session_state[history_key] = append_history(st.session_state[history_key], exchange)
         st.rerun()
     st.caption("El asistente no usa conocimiento externo. Verifique siempre la respuesta en las fuentes citadas.")

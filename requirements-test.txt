@@ -1,0 +1,10 @@
+pytest
+numpy
+pandas
+pyarrow
+scikit-learn
+pymupdf
+python-docx
+plotly
+streamlit
+langgraph>=0.2,<2

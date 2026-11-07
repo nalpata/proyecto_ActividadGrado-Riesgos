@@ -26,11 +26,13 @@ def filter_categories(
     """Filtra agregados de categoría sin acceder a señales individuales."""
 
     frame = pd.DataFrame(categories).copy()
+    if frame.empty:
+        return pd.DataFrame(columns=["category", "category_score", "category_level", "scoring_coverage", "scored_signals", "total_signals"])
     chosen_categories = list(selected_categories or [])
     chosen_levels = list(selected_levels or [])
-    if chosen_categories:
+    if selected_categories is not None:
         frame = frame[frame["category"].isin(chosen_categories)]
-    if chosen_levels:
+    if selected_levels is not None:
         frame = frame[frame["category_level"].isin(chosen_levels)]
     frame = frame[frame["scoring_coverage"] >= minimum_coverage]
     frame = frame[frame["category_score"].notna()]
