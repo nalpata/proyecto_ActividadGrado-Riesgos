@@ -592,6 +592,8 @@ elif selected_page == "Pregunte a sus documentos":
         with st.chat_message("assistant"):
             if exchange.get("response_status") == "ERROR":
                 st.error(exchange["answer"])
+                if exchange.get("diagnostic_code"):
+                    st.caption(f"Diagnóstico técnico: {exchange['diagnostic_code']}")
             elif not exchange.get("evidence_available"):
                 st.warning(exchange["answer"])
             else:
