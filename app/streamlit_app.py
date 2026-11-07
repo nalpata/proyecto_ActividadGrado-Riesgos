@@ -32,11 +32,12 @@ from src.frontend.visualizations import (  # noqa: E402
     build_temporal_role_figure,
     filter_categories,
 )
-from src.frontend.chat_service import FinalPipelineChatService, ProjectScopedRetriever, append_history  # noqa: E402
+from src.frontend.chat_service import FinalPipelineChatService, ProjectScopedRetriever  # noqa: E402
 from src.pipeline.end_to_end import BgeM3Retriever, EndToEndPipeline, OpenAIRagAnswerer  # noqa: E402
 from src.pipeline.project_ingestion import ingest_project_documents  # noqa: E402
 from src.retrieval.session_retriever import SessionRetriever  # noqa: E402
 from src.retrieval.project_retriever import ProjectBgeM3Retriever  # noqa: E402
+from src.frontend.runtime_chat import RuntimeChatService, append_runtime_history as append_history  # noqa: E402
 from src.frontend.chat_service import ConversationalRagService  # noqa: E402
 from src.pipeline.project_risk_processing import process_project_risks  # noqa: E402
 from src.risk.project_resolution import assign_chunks, validate_project_catalog  # noqa: E402
@@ -179,7 +180,7 @@ def get_chat_service(api_key: str, project_id: str = "", project_name: str = "")
         profiler=lambda signals: {},
         answerer=answerer,
     )
-    return FinalPipelineChatService(pipeline=pipeline)
+    return RuntimeChatService(pipeline=pipeline)
 
 
 snapshot = get_snapshot()
