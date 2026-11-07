@@ -307,7 +307,7 @@ class EndToEndPipeline:
             errors: list[dict[str, Any]] = []
         except Exception as exc:
             error = {
-                "stage": "assistant_qa",
+                "stage": "rag_answer" if trace else "retrieval",
                 "error_type": type(exc).__name__,
                 "message": str(exc)[:500],
             }
@@ -318,7 +318,7 @@ class EndToEndPipeline:
                 "sources": [],
             }
             trace.append({
-                "stage": "assistant_qa",
+                "stage": "rag_answer" if trace else "retrieval",
                 "status": "error",
                 "elapsed_seconds": round(time.perf_counter() - started, 6),
             })

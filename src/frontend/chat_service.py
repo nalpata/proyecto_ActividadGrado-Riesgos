@@ -88,6 +88,29 @@ class ConversationalRagService:
         }
 
 
+DIAGNOSTIC_TYPES = {
+    "AuthenticationError", "PermissionDeniedError", "RateLimitError", "APIConnectionError",
+    "APITimeoutError", "BadRequestError", "NotFoundError", "InternalServerError",
+    "ModuleNotFoundError", "ImportError", "FileNotFoundError", "RuntimeError",
+    "ValueError", "TypeError", "KeyError", "OSError", "MemoryError",
+}
+
+
+def public_diagnostic(execution: dict[str, Any]) -> str | None:
+    """Expone solo etapa y clase conocida; nunca mensajes ni contenido de errores."""
+    errors = execution.get("errors") or []
+    if not errors:
+        return None
+    error = errors[0]
+    stage = error.get("stage")
+    if stage not in {"retrieval", "rag_answer", "assistant_qa"}:
+        stage = "assistant_qa"
+    error_type = error.get("error_type")
+    if error_type not in DIAGNOSTIC_TYPES:
+        error_type = "UnexpectedError"
+    return f"{stage}/{error_type}"
+
+
 @dataclass
 class FinalPipelineChatService:
     """Adapta la rama Q&A del pipeline final al contrato público del chat."""
@@ -114,6 +137,7 @@ class FinalPipelineChatService:
             "sources": sources,
             "model": qa.get("model"),
             "usage": qa.get("usage", {}),
+            "diagnostic_code": public_diagnostic(result.get("execution", {})),
         }
 
 
@@ -125,6 +149,7 @@ def append_history(history: list[dict[str, Any]], exchange: dict[str, Any]) -> l
         "answer": exchange.get("answer", ""),
         "evidence_available": bool(exchange.get("evidence_available")),
         "response_status": exchange.get("response_status"),
+        "diagnostic_code": exchange.get("diagnostic_code") if exchange.get("diagnostic_code") in {f"{s}/{t}" for s in ("retrieval", "rag_answer", "assistant_qa") for t in (*DIAGNOSTIC_TYPES, "UnexpectedError")} else None,
         "sources": public_sources(exchange.get("sources", [])),
     }
     return [*history, safe_exchange][-MAX_HISTORY_ITEMS:]
