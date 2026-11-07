@@ -36,6 +36,7 @@ from src.frontend.chat_service import FinalPipelineChatService, ProjectScopedRet
 from src.pipeline.end_to_end import BgeM3Retriever, EndToEndPipeline, OpenAIRagAnswerer  # noqa: E402
 from src.pipeline.project_ingestion import ingest_project_documents  # noqa: E402
 from src.retrieval.session_retriever import SessionRetriever  # noqa: E402
+from src.retrieval.project_retriever import ProjectBgeM3Retriever  # noqa: E402
 from src.frontend.chat_service import ConversationalRagService  # noqa: E402
 from src.pipeline.project_risk_processing import process_project_risks  # noqa: E402
 from src.risk.project_resolution import assign_chunks, validate_project_catalog  # noqa: E402
@@ -166,7 +167,7 @@ def get_embedding_model():
 def get_chat_service(api_key: str, project_id: str = "", project_name: str = "") -> FinalPipelineChatService:
     from openai import OpenAI
 
-    retriever = BgeM3Retriever(
+    retriever = ProjectBgeM3Retriever(
         ROOT / "data/processed/embedding/embeddings_bge_m3.parquet",
         top_k=5,
         allowed_chunk_ids=get_project_chunk_ids().get(project_id, set()) if project_id else None,
