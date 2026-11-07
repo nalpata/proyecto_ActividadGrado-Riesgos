@@ -273,7 +273,7 @@ def process_project_risks(
     public_categories = [] if categories.empty else [
         {
             "category": row.calibrated_category,
-            "category_score": round(float(row.category_score), 2),
+            "category_score": round(float(row.category_score), 2) if pd.notna(row.category_score) else None,
             "category_level": row.category_level,
             "scoring_coverage": round(float(row.scoring_coverage), 4),
             "scored_signals": int(row.scored_signals),

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import time
 from pathlib import Path
 from typing import Any, Callable
@@ -21,9 +22,10 @@ from src.agents.risk_graph import RiskGraphDependencies, run_risk_graph
 class BgeM3Retriever:
     """Recuperación directa sobre los embeddings BGE-M3 congelados."""
 
-    def __init__(self, embeddings_path: Path, top_k: int = 5, encoder: Any | None = None):
+    def __init__(self, embeddings_path: Path, top_k: int = 5, encoder: Any | None = None, allowed_chunk_ids: set[str] | None = None):
         self.embeddings_path = Path(embeddings_path)
         self.top_k = top_k
+        self.allowed_chunk_ids = allowed_chunk_ids
         self._encoder = encoder
         self._chunks: pd.DataFrame | None = None
         self._matrix: np.ndarray | None = None
@@ -61,6 +63,9 @@ class BgeM3Retriever:
         if document_ids:
             allowed = self._chunks.doc_id.astype(str).isin({str(value) for value in document_ids})
             eligible = np.flatnonzero(allowed.to_numpy())
+        if self.allowed_chunk_ids is not None:
+            allowed_chunks = self._chunks.chunk_id.astype(str).isin(self.allowed_chunk_ids).to_numpy()
+            eligible = eligible[allowed_chunks[eligible]]
         if len(eligible) == 0:
             return []
         ordered = eligible[np.argsort(scores[eligible])[::-1][: self.top_k]]
@@ -182,13 +187,19 @@ EVIDENCIA:
         usage = response.usage
         answer = (response.choices[0].message.content or "").strip()
         empty_response = not bool(answer)
+        references = {int(value) for value in re.findall(r"\[(\d+)\]", answer)}
+        available_ranks = {int(item["rank"]) for item in chunks}
+        supported = bool(references) and references.issubset(available_ranks)
+        status = "EMPTY_MODEL_RESPONSE" if empty_response else "COMPLETED" if supported else "NO_EVIDENCE"
+        if not empty_response and not supported:
+            answer = "No se obtuvo una respuesta con citas verificables a la evidencia recuperada. Reformule la pregunta o revise los documentos."
         return {
             "answer": answer or "El modelo no produjo una respuesta. Intente nuevamente.",
-            "evidence_available": not empty_response,
-            "response_status": "EMPTY_MODEL_RESPONSE" if empty_response else "COMPLETED",
+            "evidence_available": supported and not empty_response,
+            "response_status": status,
             "sources": [
                 {k: item[k] for k in ("rank", "doc_id", "filename", "page", "chunk_id", "score")}
-                for item in chunks
+                for item in chunks if supported and int(item["rank"]) in references
             ],
             "model": self.model,
             "usage": {
