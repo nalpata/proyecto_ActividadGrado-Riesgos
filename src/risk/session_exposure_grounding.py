@@ -36,7 +36,7 @@ def affirmed_closure(text: str) -> bool:
 
 def unsupported_closure(row: dict) -> bool:
     proposed = affirmed_closure(row.get("exposure_justification", "")) or str(
-        row.get("exposure_status", "")).upper() == "CERRADA"
+        row.get("assessed_exposure_status", row.get("exposure_status", ""))).upper() == "CERRADA"
     return proposed and not (
         row.get("evidence_verified") == 1 and
         affirmed_closure(row.get("evidence_quote", ""))
@@ -101,3 +101,4 @@ def review_session_analysis(analysis: dict) -> dict:
         "policy": "Mantener denominador; no imputar ni usar etiquetas expertas; conservar propuestas originales.",
     }
     return result
+

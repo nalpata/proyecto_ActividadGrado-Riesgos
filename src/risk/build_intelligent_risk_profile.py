@@ -22,6 +22,7 @@ SCHEMA = {
             "type": "object", "properties": {"assessments": {"type": "array", "items": {
                 "type": "object", "properties": {
                     "item_id": {"type": "string"},
+                    "assessed_exposure_status": {"type": "string", "enum": ["ABIERTA", "CERRADA", "INDETERMINADA", "NO_APLICA"]},
                     "severity": {"type": ["integer", "null"], "minimum": 1, "maximum": 5},
                     "severity_supported": {"type": "integer", "enum": [0, 1]},
                     "probability": {"type": ["integer", "null"], "minimum": 1, "maximum": 5},
@@ -30,7 +31,7 @@ SCHEMA = {
                     "justification": {"type": "string"},
                     "confidence": {"type": "number", "minimum": 0, "maximum": 1},
                 },
-                "required": ["item_id", "severity", "severity_supported", "probability", "probability_supported", "evidence_basis", "justification", "confidence"],
+                "required": ["item_id", "assessed_exposure_status", "severity", "severity_supported", "probability", "probability_supported", "evidence_basis", "justification", "confidence"],
                 "additionalProperties": False,
             }}}, "required": ["assessments"], "additionalProperties": False,
         },
@@ -43,7 +44,7 @@ def build_prompt(batch: pd.DataFrame) -> str:
     for row in batch.itertuples():
         records.append({
             "item_id": row.item_id, "type": row.calibrated_type, "category": row.calibrated_category,
-            "exposure_status": row.exposure_status, "title": row.title,
+            "title": row.title,
             "statement": row.statement, "evidence": row.evidence_quote,
             "source_context": getattr(row, "source_context", ""),
         })
@@ -68,7 +69,9 @@ REGLAS:
 - No utilices recurrencia entre documentos ni persistencia temporal: se incorporan aparte en el PIRD.
 - Usa la cita y su contexto documental suministrado para distinguir condición abierta, consecuencias expresas y medidas de seguimiento.
 - No equipares una alerta a impacto crítico; justifica el nivel con consecuencias expresas, sin inferirlas.
-- exposure_status es una etiqueta propuesta, no una prueba del estado real. No deduzcas cierre de esa etiqueta.
+- Determina assessed_exposure_status de forma independiente desde la evidencia: ABIERTA, CERRADA, INDETERMINADA o NO_APLICA. La etiqueta de extracción no se suministra porque no prueba el estado real.
+- CERRADA exige resolución o cumplimiento explícito de ESTA condición. Ausencia de impacto o una actividad administrativa no equivalen a cierre. Si solo hay un compromiso, no lo declares cumplido.
+- Cuando el estado no pueda establecerse, usa INDETERMINADA. Ello no obliga por sí solo a inventar ni a anular niveles: valora cada componente únicamente cuando tenga sustento.
 - Una solicitud emitida, una reunión celebrada o un compromiso registrado no acreditan su cumplimiento ni el cierre de la exposición.
 - Si afirmas cierre, la evidencia de ESTA señal debe acreditar literalmente cierre o resolución; no uses el cierre de otra actividad del contexto.
 - Marca supported=1 solo cuando la cita o su contexto permite justificar el nivel.
@@ -86,6 +89,7 @@ def sanitize(raw: dict, item_id: str) -> dict:
     if severity not in {1, 2, 3, 4, 5}: severity = None
     if probability not in {1, 2, 3, 4, 5}: probability = None
     return {
+        "assessed_exposure_status": raw.get("assessed_exposure_status") if raw.get("assessed_exposure_status") in {"ABIERTA", "CERRADA", "INDETERMINADA", "NO_APLICA"} else "INDETERMINADA",
         "item_id": item_id, "severity": severity, "severity_supported": int(severity is not None),
         "probability": probability, "probability_supported": int(probability is not None),
         "exposure_evidence_basis": str(raw.get("evidence_basis", ""))[:500],
@@ -212,3 +216,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
