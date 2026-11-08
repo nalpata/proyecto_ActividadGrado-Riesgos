@@ -92,6 +92,10 @@ def test_extraction_resume_does_not_repeat_completed_calls_and_rejects_changed_i
     processing._extract_items(changed,None,checkpoint=state)
     assert calls[-2:]==['Nuevo','Dos']
     assert events[-1]==('Extracción',2,2)
+    renamed=changed.assign(filename='renamed.pdf')
+    previous=len(calls)
+    processing._extract_items(renamed,None,checkpoint=state)
+    assert len(calls)==previous+2
 
 
 def test_differing_mentions_are_flagged_without_overwriting_or_crossing_documents():

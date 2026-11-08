@@ -85,7 +85,8 @@ def _extract_items(chunks: pd.DataFrame, client: Any, progress=None, checkpoint=
     records: list[dict] = []
     prompt_tokens = completion_tokens = returned_items = rejected_evidence = 0
     checkpoint = checkpoint if checkpoint is not None else {}
-    fingerprint = sha256(json.dumps(chunks[["chunk_id", "chunk_text"]].to_dict("records"), ensure_ascii=False).encode()).hexdigest()
+    identity_columns = [name for name in ("project_id", "doc_id", "filename", "page", "chunk_id", "chunk_text") if name in chunks]
+    fingerprint = sha256(json.dumps(chunks[identity_columns].to_dict("records"), ensure_ascii=False).encode()).hexdigest()
     if checkpoint.get("fingerprint") != fingerprint:
         checkpoint.clear()
         checkpoint.update({"fingerprint": fingerprint, "extracted": {}})
