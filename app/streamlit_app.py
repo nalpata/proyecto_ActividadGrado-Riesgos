@@ -388,10 +388,31 @@ def render_risk_details() -> None:
         source = row.get(component + "_assessment_source")
         if source == "REVISION_EXPERTA_CONFIRMADA":
             st.caption(f"{label}: nivel confirmado mediante revisión experta de este caso.")
+    provenance_path = ROOT / "data/evaluation/risk_details/component_provenance.json"
+    provenance = (json.loads(provenance_path.read_text(encoding="utf-8")).get("components", {})
+                  if is_corpus_project and not session_project_view else {})
+    updated_components = []
+    for component, label in [("severity", "Severidad"), ("probability", "Probabilidad")]:
+        assessment = provenance.get(f"{row['item_id']}:{component}")
+        if assessment and assessment["level"] == row.get(component):
+            updated_components.append(component)
+            method_label = ("Revisión experta confirmada" if assessment["expert_reviewed"]
+                            else "Enriquecimiento documental asistido por IA; sin revisión experta de este componente")
+            st.markdown(f"#### Sustento vigente · {label}")
+            st.caption(method_label)
+            st.write("Documento:", assessment["source_filename"])
+            st.write("Página:", str(assessment["source_page"]))
+            st.text(assessment["quote"])
+            st.text(assessment["justification"])
     justification = row.get("exposure_justification")
     if pd.notna(justification):
-        st.write("Sustento de la valoración:")
-        st.text(str(justification))
+        if updated_components:
+            with st.expander("Registro histórico de la valoración"):
+                st.caption("Este texto se conserva para trazabilidad. El sustento vigente de los componentes actualizados se muestra arriba.")
+                st.text(str(justification))
+        else:
+            st.write("Sustento registrado en la valoración histórica:")
+            st.text(str(justification))
     st.caption("Los niveles ausentes permanecen vacíos. El detalle del corpus está publicado y se carga automáticamente para el proyecto seleccionado.")
 
 
@@ -897,4 +918,5 @@ La consulta conversacional reutiliza el índice y no recalcula el perfil de ries
 
 st.divider()
 st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo")
+
 

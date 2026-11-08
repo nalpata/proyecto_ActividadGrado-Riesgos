@@ -1,0 +1,761 @@
+{
+  "version": "1",
+  "components": {
+    "ITEM_00003:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "Se evidencia falta de estandarización y automatización en la implementación de servicios para el despliegue.",
+      "justification": "La falta de uso adecuado de Azure Blueprints ha llevado a configuraciones manuales, lo que afecta la calidad del despliegue.",
+      "expert_reviewed": false,
+      "source_filename": "RTA-DIAN-Solicitud_de_Mejora_CNS-0554-24.pdf",
+      "source_page": 1
+    },
+    "ITEM_00003:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "se evidencian configuraciones manuales por parte de los equipos.",
+      "justification": "La situación actual indica que la falta de uso de herramientas adecuadas es probable que continúe.",
+      "expert_reviewed": false,
+      "source_filename": "RTA-DIAN-Solicitud_de_Mejora_CNS-0554-24.pdf",
+      "source_page": 1
+    },
+    "ITEM_00034:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 2.0,
+      "quote": "se acordó un plazo perentorio para cumplir con todas las obligaciones atrasadas del contrato de servicios de Consultoría",
+      "justification": "El incumplimiento de obligaciones contractuales puede tener una afectación limitada y reversible.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0866-23 INT_DATAR_Comunicado_14_09102023_VF.pdf",
+      "source_page": 2
+    },
+    "ITEM_00034:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "debido al riesgo de posible incumplimiento de los plazos perentorios acordados",
+      "justification": "La posibilidad de incumplimiento es plausible dado el contexto de los plazos establecidos.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0866-23 INT_DATAR_Comunicado_14_09102023_VF.pdf",
+      "source_page": 2
+    },
+    "ITEM_00046:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "ante una posible declaración de incumplimiento al Consorcio",
+      "justification": "La posible declaración de incumplimiento puede tener una afectación moderada al contrato.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0866-23 INT_DATAR_Comunicado_14_09102023_VF.pdf",
+      "source_page": 4
+    },
+    "ITEM_00046:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "los plazos perentorios fueron definidos para dar cierre definitivo a los atrasos presentados sobre el cronograma actual",
+      "justification": "La situación actual sugiere que es probable que se materialice la declaración de incumplimiento.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0866-23 INT_DATAR_Comunicado_14_09102023_VF.pdf",
+      "source_page": 4
+    },
+    "ITEM_00049:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "desde esa fecha el Consorcio no reportó ninguna acción realizada sobre los atrasos presentados en las actividades del cronograma",
+      "justification": "La falta de acciones sobre los atrasos puede tener una afectación alta en la operación del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0866-23 INT_DATAR_Comunicado_14_09102023_VF.pdf",
+      "source_page": 5
+    },
+    "ITEM_00049:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "el Consorcio NO ha tramitado dicho control de cambios sobre el cronograma LB3",
+      "justification": "La falta de acción sugiere que es probable que la situación continúe.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0866-23 INT_DATAR_Comunicado_14_09102023_VF.pdf",
+      "source_page": 5
+    },
+    "ITEM_00050:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "el 28 de septiembre de 2023 la Interventoría emite un comunicado solicitando el plan de acción sobre esta información",
+      "justification": "La solicitud de un plan de acción indica una afectación moderada en la gestión del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0866-23 INT_DATAR_Comunicado_14_09102023_VF.pdf",
+      "source_page": 5
+    },
+    "ITEM_00050:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "al no recibir respuesta, el 28 de septiembre de 2023 la Interventoría emite un comunicado solicitando el plan de acción",
+      "justification": "La falta de respuesta sugiere que es probable que la situación continúe sin resolución.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0866-23 INT_DATAR_Comunicado_14_09102023_VF.pdf",
+      "source_page": 5
+    },
+    "ITEM_00052:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "al no recibir respuesta, el 28 de septiembre de 2023 la Interventoría emite un comunicado solicitando el plan de acción",
+      "justification": "La falta de respuesta sugiere que es probable que la situación continúe sin resolución.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0866-23 INT_DATAR_Comunicado_14_09102023_VF.pdf",
+      "source_page": 5
+    },
+    "ITEM_00061:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 2.0,
+      "quote": "las fechas definitivas deben ser parte de un nuevo cronograma LB4",
+      "justification": "La falta de fechas definitivas puede tener una afectación limitada en la planificación del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0866-23 INT_DATAR_Comunicado_14_09102023_VF.pdf",
+      "source_page": 7
+    },
+    "ITEM_00061:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 2.0,
+      "quote": "en ninguna de las sesiones realizadas se ha visto información concreta por parte del Consorcio",
+      "justification": "La falta de información concreta sugiere que la posibilidad de incumplimiento es posible, pero no confirmada.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0866-23 INT_DATAR_Comunicado_14_09102023_VF.pdf",
+      "source_page": 7
+    },
+    "ITEM_00134:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "El cierre de los atrasos presentados a los artefactos de planeación.",
+      "justification": "Afectación alta y material a plazo, costo, calidad, operación, seguridad o contrato.",
+      "expert_reviewed": false,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 3
+    },
+    "ITEM_00134:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "El cierre de los atrasos presentados a los artefactos de planeación.",
+      "justification": "Probable, por condición abierta, incumplimiento o evidencia fuerte.",
+      "expert_reviewed": false,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 3
+    },
+    "ITEM_00156:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "No se identificó el detalle para todas las herramientas que se requieren para la Plan de choque.",
+      "justification": "Afectación moderada a un objetivo del proyecto que requiere gestión.",
+      "expert_reviewed": false,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 7
+    },
+    "ITEM_00160:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "Seguimiento a los compromisos realizados sobre los entregables en las reprogramaciones al plan de choque comunicadas por el Consorcio.",
+      "justification": "Probable, por condición abierta, incumplimiento o evidencia fuerte.",
+      "expert_reviewed": false,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 8
+    },
+    "ITEM_00161:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "debido a los reiterados incumplimientos.",
+      "justification": "Afectación alta y material a plazo, costo, calidad, operación, seguridad o contrato.",
+      "expert_reviewed": false,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 8
+    },
+    "ITEM_00162:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "los entregables asociados a esta etapa, han tenido más de 4 ciclos de revisión, causados por la falta de completitud y detalle de la información que se debía desarrollar en sus contenidos.",
+      "justification": "La falta de completitud y detalle ha generado reprocesos en la validación de los productos, afectando moderadamente el objetivo del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 9
+    },
+    "ITEM_00163:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "falencias evidenciadas en el proceso de calidad interno, lo cual ha generado reprocesos en la revisión de la información.",
+      "justification": "Las falencias en el proceso de calidad han causado reprocesos, afectando moderadamente el objetivo del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 9
+    },
+    "ITEM_00164:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "Las fechas comprometidas no se cumplen",
+      "justification": "El incumplimiento de las fechas comprometidas afecta de manera alta y material el cronograma del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 9
+    },
+    "ITEM_00267:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "no ha sido ejecutado el despliegue de los componentes probados en desarrollo al ambiente preproductivo entregado por la DIAN el 24/01/2023",
+      "justification": "La falta de ejecución del despliegue de componentes probados afecta materialmente la operación y el cumplimiento del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 32
+    },
+    "ITEM_00287:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "El concepto enviado por la Interventoría el 24/02/2023 al Consorcio sobre la prueba de concepto, no fue incorporado en el alcance y actividades planteadas.",
+      "justification": "La no incorporación del concepto afecta moderadamente el alcance del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 35
+    },
+    "ITEM_00288:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "No se evidenció una gestión oportuna de las premisas y requerimientos por parte del Consorcio a la DIAN, que permitieran ejecutar las actividades de la prueba de concepto en el tiempo y alcance definido.",
+      "justification": "La falta de gestión oportuna afecta moderadamente el avance del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 35
+    },
+    "ITEM_00433:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "Durante la vigencia del contrato, es decir hasta noviembre de 2025 no se ejecutarían la totalidad de los recursos del contrato.",
+      "justification": "La falta de ejecución de recursos puede afectar materialmente el costo y la operación del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20250829.pdf",
+      "source_page": 3
+    },
+    "ITEM_00433:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "Durante la vigencia del contrato, es decir hasta noviembre de 2025 no se ejecutarían la totalidad de los recursos del contrato.",
+      "justification": "La afirmación indica que la situación es probable debido a la condición abierta del contrato.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20250829.pdf",
+      "source_page": 3
+    },
+    "ITEM_00500:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "Lo anterior constituye un riesgo debido a que es posible que no se puedan ejecutar los recursos durante el periodo que establece el contrato.",
+      "justification": "La imposibilidad de ejecutar recursos puede afectar materialmente el cumplimiento del contrato.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20250130.pdf",
+      "source_page": 3
+    },
+    "ITEM_00505:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "representó la imposición de la compensación por concepto de incumplimiento de ANS.",
+      "justification": "La imposición de compensaciones indica una afectación moderada a la calidad del servicio.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20250130.pdf",
+      "source_page": 4
+    },
+    "ITEM_00565:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "tampoco se ha realizado la reactivación del componente fijo, que depende de la entrega del requerimiento en curso.",
+      "justification": "La falta de reactivación afecta moderadamente la operación del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20241203.docx",
+      "source_page": 1
+    },
+    "ITEM_00626:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 2.0,
+      "quote": "El proyecto de DataR debido a inconvenientes presentados en su ejecución requirió la realización mesas de trabajo con el contratista.",
+      "justification": "La necesidad de realizar mesas de trabajo indica que hubo afectaciones en la ejecución del proyecto, aunque estas fueron gestionadas.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20240827.docx",
+      "source_page": 1
+    },
+    "ITEM_00771:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "la preocupación que resulta en el cierre del proceso, lo que había sido advertido previamente",
+      "justification": "La preocupación por el cierre del proceso indica una afectación moderada que requiere gestión.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20240227.docx",
+      "source_page": 1
+    },
+    "ITEM_00774:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 2.0,
+      "quote": "deben revisar el contrato de la Interventoría porque los cambios afectan el alcance",
+      "justification": "La necesidad de revisar el contrato indica una afectación limitada en el alcance del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20240227.docx",
+      "source_page": 1
+    },
+    "ITEM_00775:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "en sesiones anteriores del seguimiento ejecutivo se venía escalando el riesgo de ejecución del contrato de DataR",
+      "justification": "El riesgo de ejecución ha escalado a un nivel alto y material que afecta la operación del contrato.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20240227.docx",
+      "source_page": 1
+    },
+    "ITEM_00780:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "Fue necesario gestionar un otrosí al contrato para dividir el hito de pago en tres (3) subhitos",
+      "justification": "La gestión de un otrosí indica una afectación moderada que requiere gestión.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20240227.docx",
+      "source_page": 1
+    },
+    "ITEM_00931:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "La Interventoría solicitó en sesión de seguimiento táctico del 17/04/2024, con los representantes legales del Consorcio, un plan de choque para remediar los atrasos que se tenían hasta ese momento en el proyecto.",
+      "justification": "La solicitud de un plan de choque indica una afectación alta y material al proyecto debido a los atrasos.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-XXXX-24 INT-DATAR-Comunicado 58-Respuesta de interventoría-202405.docx",
+      "source_page": 1
+    },
+    "ITEM_00931:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "La Interventoría solicitó en sesión de seguimiento táctico del 17/04/2024, con los representantes legales del Consorcio, un plan de choque para remediar los atrasos que se tenían hasta ese momento en el proyecto.",
+      "justification": "La existencia de atrasos recurrentes sugiere una probabilidad alta de que continúen si no se implementan medidas correctivas.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-XXXX-24 INT-DATAR-Comunicado 58-Respuesta de interventoría-202405.docx",
+      "source_page": 1
+    },
+    "ITEM_00935:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "un hallazgo persistente y previamente identificado que el Consorcio se había comprometido a mejorar.",
+      "justification": "La persistencia del hallazgo indica una afectación moderada que requiere atención continua.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-XXXX-24 INT-DATAR-Comunicado 58-Respuesta de interventoría-202405.docx",
+      "source_page": 1
+    },
+    "ITEM_00935:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "un hallazgo persistente y previamente identificado que el Consorcio se había comprometido a mejorar.",
+      "justification": "La naturaleza persistente del hallazgo sugiere una probabilidad alta de que continúe si no se toman acciones.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-XXXX-24 INT-DATAR-Comunicado 58-Respuesta de interventoría-202405.docx",
+      "source_page": 1
+    },
+    "ITEM_00955:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "Nos permitimos solicitar nuevamente la entrega del plan de choque que ha sido requerido.",
+      "justification": "La solicitud reiterada indica una afectación moderada que puede impactar el avance del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-XXXX-24 INT-DATAR-Comunicado 58-Respuesta de interventoría-202405.docx",
+      "source_page": 1
+    },
+    "ITEM_00955:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "Nos permitimos solicitar nuevamente la entrega del plan de choque que ha sido requerido.",
+      "justification": "La necesidad de solicitar nuevamente su entrega sugiere una probabilidad alta de que el incumplimiento continúe.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-XXXX-24 INT-DATAR-Comunicado 58-Respuesta de interventoría-202405.docx",
+      "source_page": 1
+    },
+    "ITEM_00963:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "se solicitó la Consorcio la adopción de medidas correctivas para mitigar el retraso.",
+      "justification": "La adopción de medidas correctivas es necesaria para mitigar un retraso que puede afectar la ejecución del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.docx",
+      "source_page": 1
+    },
+    "ITEM_00972:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "representando atrasos que ponen en riesgo tanto la ejecución del sprint 9, como la entrega del requerimiento el 11/07/2024.",
+      "justification": "Los atrasos en la entrega de HU afectan directamente la ejecución del sprint y la entrega del requerimiento, lo que representa un impacto alto.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.docx",
+      "source_page": 1
+    },
+    "ITEM_00972:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "posible incumplimiento de la fecha de cierre del requerimiento.",
+      "justification": "La existencia de HU abiertas desde sprints anteriores indica una alta probabilidad de que el incumplimiento continúe.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.docx",
+      "source_page": 1
+    },
+    "ITEM_00973:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "lo que puede afectar la capacidad del equipo para anticipar necesidades y asignar recursos adecuadamente.",
+      "justification": "La falta de un plan general puede impactar significativamente la operación del equipo y su capacidad de gestión.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.docx",
+      "source_page": 1
+    },
+    "ITEM_00987:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "El Consorcio reportó 1 HU “resuelta” y 9 HU “abiertas”.",
+      "justification": "La afectación moderada se debe a que hay un avance limitado en el cierre de las tareas e historias de usuario comprometidas, lo que requiere gestión.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.pdf",
+      "source_page": 4
+    },
+    "ITEM_00993:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "Se identificó la falta de un plan general que relacione las historias de usuario de los sprints restantes.",
+      "justification": "La falta de un plan general afecta moderadamente la capacidad del equipo para anticipar necesidades.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.pdf",
+      "source_page": 5
+    },
+    "ITEM_00993:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "puede afectar la capacidad del equipo para anticipar necesidades y asignar",
+      "justification": "La probabilidad es probable debido a la falta de un plan que puede continuar afectando el avance.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.pdf",
+      "source_page": 5
+    },
+    "ITEM_00009:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "Dependencia en la configuración manual, lo que lleva a errores y variabilidad en los entornos.",
+      "justification": "La falta de herramientas de IaC puede causar afectaciones altas y materiales en la operación y calidad del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "RTA-DIAN-Solicitud_de_Mejora_CNS-0554-24.pdf",
+      "source_page": 2
+    },
+    "ITEM_00009:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "Retrasos en la implementación debido a la falta de automatización.",
+      "justification": "La falta de adopción de IaC es probable que continúe afectando la implementación del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "RTA-DIAN-Solicitud_de_Mejora_CNS-0554-24.pdf",
+      "source_page": 2
+    },
+    "ITEM_00014:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "Interrupciones en el flujo de trabajo y retrasos en la migración de datos.",
+      "justification": "La falta de automatización en la gestión de pipelines puede causar afectaciones altas en la operación del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "RTA-DIAN-Solicitud_de_Mejora_CNS-0554-24.pdf",
+      "source_page": 3
+    },
+    "ITEM_00014:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "Necesidad de intervención manual para solucionar problemas, lo que consume tiempo y recursos.",
+      "justification": "Es probable que los fallos en la ejecución de pipelines continúen afectando el flujo de trabajo.",
+      "expert_reviewed": false,
+      "source_filename": "RTA-DIAN-Solicitud_de_Mejora_CNS-0554-24.pdf",
+      "source_page": 3
+    },
+    "ITEM_00240:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "No se han solicitado y desarrollado de manera oportuna las sesiones de validación y alineación de los Ola ´s requeridos.",
+      "justification": "La falta de sesiones de validación puede causar afectaciones moderadas a la calidad del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 26
+    },
+    "ITEM_00240:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "No se han solicitado y desarrollado de manera oportuna las sesiones de validación y alineación de los Ola ´s requeridos.",
+      "justification": "Es probable que la falta de sesiones de validación continúe afectando el proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 26
+    },
+    "ITEM_00242:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "Se generen reprocesos en la validación de los documentos y/o ciclos de revisión adicionales a los previstos.",
+      "justification": "Los reprocesos pueden causar afectaciones moderadas a la calidad del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 26
+    },
+    "ITEM_00242:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "Se generen reprocesos en la validación de los documentos y/o ciclos de revisión adicionales a los previstos.",
+      "justification": "Es probable que los reprocesos continúen afectando la calidad del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 26
+    },
+    "ITEM_00279:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "No se ha recibido este entregable por parte del Consorcio.",
+      "justification": "La falta de entregables puede causar afectaciones moderadas a la operación del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 34
+    },
+    "ITEM_00279:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "No se ha recibido este entregable por parte del Consorcio.",
+      "justification": "Es probable que la falta de entregables continúe afectando el proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 34
+    },
+    "ITEM_00481:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "Habilitación: pendiente habilitación del DRP y herramientas de seguridad.",
+      "justification": "La habilitación pendiente indica una afectación moderada que requiere gestión.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20250303.pdf",
+      "source_page": 6
+    },
+    "ITEM_00482:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "está pendiente el cierre de la negociación del Acuerdo Marco suscrito entre la DIAN y Microsoft.",
+      "justification": "La negociación pendiente indica una afectación moderada que requiere gestión.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20250303.pdf",
+      "source_page": 6
+    },
+    "ITEM_00484:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "lo que hace prever que no se ejecutará en su totalidad hasta noviembre de 2025",
+      "justification": "La previsión de no ejecución total indica una afectación alta y material al contrato.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20250303.pdf",
+      "source_page": 6
+    },
+    "ITEM_00522:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "pendiente habilitación del DRP y herramientas de seguridad.",
+      "justification": "La habilitación pendiente indica una afectación moderada que requiere gestión.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20250130.pdf",
+      "source_page": 6
+    },
+    "ITEM_00548:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 1.0,
+      "quote": "presenta un valor pagado de un millón cuatrocientos veinticuatro mil novecientos ochenta y un mil dólares con noventa y seis centavos (USD 1.424.981,61)",
+      "justification": "El impacto es mínimo ya que se trata de un valor pagado sin afectación objetiva demostrada.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20241203.pdf",
+      "source_page": 3
+    },
+    "ITEM_00562:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "estas compensaciones ascienden a trescientos nueve millones ochocientos noventa y ocho mil setenta y un pesos con treinta y seis centavos ($ 309.898.071,36)",
+      "justification": "La afectación es alta y material debido a las compensaciones por incumplimiento que impactan el costo del contrato.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20241203.docx",
+      "source_page": 1
+    },
+    "ITEM_00588:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "El valor aproximado de los recursos que no se ejecutarían asciende a: cuatro mil millones de pesos ($ 4.000.000.000) más trescientos cincuenta mil dólares (USD 350.000)",
+      "justification": "La afectación es alta debido al gran valor de recursos que no se ejecutarían, lo que impacta el presupuesto.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20241024.docx",
+      "source_page": 1
+    },
+    "ITEM_00617:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "se ha solicitado al proveedor, presentar otros esquemas – validando también otras latitudes, fabricantes de nube y simulaciones- diferentes que permitan a la DIAN minimizar el riesgo mencionado",
+      "justification": "La afectación es moderada ya que se busca mitigar un riesgo existente.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20240827.docx",
+      "source_page": 1
+    },
+    "ITEM_00630:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "Pendiente habilitar 4 de los 21 módulos (plan de terminación estimado al 23 de julio de 2024).",
+      "justification": "La habilitación de módulos pendientes puede afectar la operación y la calidad del servicio.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20240709.docx",
+      "source_page": 1
+    },
+    "ITEM_00630:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "Pendiente habilitar 4 de los 21 módulos (plan de terminación estimado al 23 de julio de 2024).",
+      "justification": "La condición abierta de la habilitación sugiere una alta probabilidad de que la exposición continúe.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20240709.docx",
+      "source_page": 1
+    },
+    "ITEM_00632:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "Pendiente habilitar 4 de los 21 módulos (plan de terminación estimado al 23 de julio de 2024).",
+      "justification": "La condición abierta de la habilitación sugiere una alta probabilidad de que la exposición continúe.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20240709.docx",
+      "source_page": 1
+    },
+    "ITEM_00646:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "el consumo de la Multinube estaba concebido principalmente para los sistemas misionales, que aún no han entrado en operación",
+      "justification": "La condición abierta sugiere que la exposición puede continuar hasta que los sistemas misionales estén operativos.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20240709.docx",
+      "source_page": 1
+    },
+    "ITEM_00824:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "la falta de liderazgo y conocimiento técnico de algunos de los miembros del equipo",
+      "justification": "La afectación moderada se relaciona con la capacidad del equipo para cumplir con los objetivos del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20240227.docx",
+      "source_page": 1
+    },
+    "ITEM_00824:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "la falta de liderazgo y conocimiento técnico de algunos de los miembros del equipo",
+      "justification": "La condición abierta sugiere que la falta de liderazgo puede continuar afectando el proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20240227.docx",
+      "source_page": 1
+    },
+    "ITEM_00826:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "Algunos de los compromisos de seguimiento gerencial no se han cumplido",
+      "justification": "La afectación moderada se relaciona con el incumplimiento de compromisos que pueden impactar la gestión del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20240227.docx",
+      "source_page": 1
+    },
+    "ITEM_00826:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "Algunos de los compromisos de seguimiento gerencial no se han cumplido",
+      "justification": "La condición abierta sugiere que el incumplimiento puede continuar afectando la gestión del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20240227.docx",
+      "source_page": 1
+    },
+    "ITEM_00964:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "el Consorcio no había realizado la entrega de los acuerdos de confidencialidad requeridos para formalizar la integración de nuevo personal",
+      "justification": "La afectación moderada se relaciona con la falta de formalización que puede impactar la integración del personal.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.docx",
+      "source_page": 1
+    },
+    "ITEM_00964:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "el Consorcio no había realizado la entrega de los acuerdos de confidencialidad requeridos para formalizar la integración de nuevo personal",
+      "justification": "La condición abierta sugiere que la falta de entrega puede continuar afectando la integración del personal.",
+      "expert_reviewed": false,
+      "source_filename": "CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.docx",
+      "source_page": 1
+    },
+    "ITEM_01016:severity": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 3.0,
+      "quote": "La Interventoría solicitó a la DIAN dar celeridad sobre la aprobación de la estrategia de respaldo y temas de seguridad.",
+      "justification": "La afectación moderada se relaciona con la necesidad de aprobación que puede impactar la seguridad del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Interventoria_20240409.docx",
+      "source_page": 1
+    },
+    "ITEM_01016:probability": {
+      "source": "ENRIQUECIMIENTO_DOCUMENTAL",
+      "level": 4.0,
+      "quote": "La Interventoría solicitó a la DIAN dar celeridad sobre la aprobación de la estrategia de respaldo y temas de seguridad.",
+      "justification": "La condición abierta sugiere que la falta de aprobación puede continuar afectando la seguridad del proyecto.",
+      "expert_reviewed": false,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Interventoria_20240409.docx",
+      "source_page": 1
+    },
+    "ITEM_00132:probability": {
+      "source": "REVISION_EXPERTA_CONFIRMADA",
+      "level": 3.0,
+      "quote": "Seguimiento a los compromisos realizados sobre los entregables en las reprogramaciones al plan de choque comunicadas por el Consorcio a través de correo electrónico en las fechas de 26/01/2023, 7/02/2023, 22/02/2023, 02/03/2023 y 17/03/2023.",
+      "justification": "Dimensión sustentada y cita original confirmada por el experto. Observación registrada: CORRECTA",
+      "expert_reviewed": true,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 3
+    },
+    "ITEM_00288:probability": {
+      "source": "REVISION_EXPERTA_CONFIRMADA",
+      "level": 4.0,
+      "quote": "No se evidenció una gestión oportuna de las premisas y requerimientos por parte del Consorcio a la DIAN, que permitieran ejecutar las actividades de la prueba de concepto en el tiempo y alcance definido.",
+      "justification": "Dimensión sustentada y cita original confirmada por el experto. Observación registrada: CORRECTA",
+      "expert_reviewed": true,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 35
+    },
+    "ITEM_00258:severity": {
+      "source": "REVISION_EXPERTA_CONFIRMADA",
+      "level": 3.0,
+      "quote": "no hay una claridad metodológica sobre la ejecución de los diferentes tipos de pruebas y la entrega de los MVP en cada uno de los sprint de pruebas establecidos",
+      "justification": "Dimensión sustentada y cita original confirmada por el experto. Observación registrada: CORRECTA",
+      "expert_reviewed": true,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 30
+    },
+    "ITEM_00310:severity": {
+      "source": "REVISION_EXPERTA_CONFIRMADA",
+      "level": 3.0,
+      "quote": "se requiere que Consorcio informe las acciones a adelantar para el cierre de los compromisos que se relacionan a continuación.",
+      "justification": "Dimensión sustentada y cita original confirmada por el experto. Observación registrada: CORRECTA",
+      "expert_reviewed": true,
+      "source_filename": "0332-23-INT_REV_Comunicado_4_situacion_actual_DATAR_21042023.pdf",
+      "source_page": 40
+    },
+    "ITEM_00516:severity": {
+      "source": "REVISION_EXPERTA_CONFIRMADA",
+      "level": 4.0,
+      "quote": "los atrasos mencionados no sean atribuibles únicamente al contratista, sino que la DIAN en su momento pudo no haber entregado los insumos a requeridos con oportunidad a este",
+      "justification": "Dimensión sustentada y cita original confirmada por el experto. Observación registrada: CORRECTA",
+      "expert_reviewed": true,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20250130.pdf",
+      "source_page": 6
+    },
+    "ITEM_00963:probability": {
+      "source": "REVISION_EXPERTA_CONFIRMADA",
+      "level": 4.0,
+      "quote": "En consecuencia, se solicitó la Consorcio la adopción de medidas correctivas para mitigar el retraso.",
+      "justification": "Dimensión sustentada y cita original confirmada por el experto. Observación registrada: CORRECTA",
+      "expert_reviewed": true,
+      "source_filename": "CNS-0418-24 INT-DATAR-Comunicado 59-Resultado Review S9-202405.docx",
+      "source_page": 1
+    },
+    "ITEM_00766:probability": {
+      "source": "REVISION_EXPERTA_CONFIRMADA",
+      "level": 3.0,
+      "quote": "Se presentaron las deducciones que se lograron conciliar con el Consorcio, en relación con los ANS incumplidos: puesta en producción y finalización de la implementación.",
+      "justification": "Dimensión sustentada y cita original confirmada por el experto. Observación registrada: CORRECTA",
+      "expert_reviewed": true,
+      "source_filename": "INT_PC_AC_Acta Seguimiento Ejecutivo_20240227.docx",
+      "source_page": 1
+    }
+  }
+}
