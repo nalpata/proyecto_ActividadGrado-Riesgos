@@ -411,9 +411,9 @@ def render_risk_details() -> None:
                 st.caption("Este texto se conserva para trazabilidad. El sustento vigente de los componentes actualizados se muestra arriba.")
                 st.text(str(justification))
         else:
-            st.write("Sustento registrado en la valoración histórica:")
+            st.write("Sustento de la valoración de esta sesión:" if session_project_view else "Sustento registrado en la valoración histórica:")
             st.text(str(justification))
-    st.caption("Los niveles ausentes permanecen vacíos. El detalle del corpus está publicado y se carga automáticamente para el proyecto seleccionado.")
+    st.caption("Los niveles ausentes permanecen vacíos. Las señales corresponden únicamente a los documentos de esta sesión." if session_project_view else "Los niveles ausentes permanecen vacíos. El detalle del corpus está publicado y se carga automáticamente para el proyecto seleccionado.")
 
 
 if ((selected_project == "Nuevo proyecto" or session_ingestion is not None) and session_project_view is None or has_corpus_profile_pending) and selected_page in {
@@ -447,7 +447,7 @@ if selected_page == "Portada":
 elif selected_page == "Proyectos y documentos":
     st.subheader("Gestión del proyecto")
     st.write(f"**Proyecto activo:** {active_project}")
-    if is_corpus_project and active_project_id:
+    if is_corpus_project and active_project_id in {p["project_id"] for p in corpus_catalog["projects"]}:
         corpus_chunks = pd.read_csv(ROOT / "data/processed/chunks/chunks_recursive.csv")
         _, reconciliation = reconcile_chunks(corpus_chunks, corpus_catalog)
         project_count = next(p["chunks_single_project"] for p in reconciliation["projects"] if p["project_id"] == active_project_id)
