@@ -48,14 +48,14 @@ def test_review_of_the_corpus_is_not_transferred_to_sessions_or_synthetic_data()
         describe_pird_profile({"signals_total": 2, "signals_scored": 3})
 
 
-def test_data_r_view_exposes_calculation_coverage_and_sample_scope_without_changing_score():
+def test_data_r_view_exposes_reviewed_coverage_and_limits():
     app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app/streamlit_app.py", default_timeout=30).run()
     app.sidebar.radio[0].set_value("Corpus por proyecto").run()
     app.sidebar.radio[1].set_value("Resumen ejecutivo").run()
     assert not app.exception
-    assert next(m.value for m in app.metric if m.label == "PIRD global") == "49.77"
+    assert next(m.value for m in app.metric if m.label == "PIRD global") == "51.42"
     text = "\n".join(m.value for m in app.markdown)
-    assert "236 de 404 señales (58.42 %)" in text
+    assert "260 de 404 señales (64.36 %)" in text
     assert "Señales pendientes de componentes:" in text
     assert "Revisión experta muestral del corpus" in text
     assert "Resultado provisional" not in text

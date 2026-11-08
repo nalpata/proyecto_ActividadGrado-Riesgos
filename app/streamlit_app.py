@@ -207,7 +207,7 @@ if is_academic_demo:
 elif selected_scope == "Entorno privado por proyecto":
     project_scope = private_project_scope
 elif selected_scope == "Corpus por proyecto":
-    project_scope = load_recomputed_scope(ROOT / "results/day_22/project_scope_dates_verified.json", corpus_catalog)
+    project_scope = load_recomputed_scope(ROOT / "results/day_23/project_scope_context_reviewed.json", corpus_catalog)
 else:
     project_scope = None
 is_corpus_project = selected_scope == "Corpus por proyecto"
@@ -283,6 +283,8 @@ def profile_notice() -> None:
     )
     st.caption(profile_presentation["validation_note"])
     st.caption(profile_presentation["index_note"])
+    if profile_scope == "corpus" and project_scope and project_scope.get("method", {}).get("exposure_enrichment_version"):
+        st.caption("Las nuevas valoraciones de severidad y probabilidad de esta versión no han tenido revisión experta.")
 
 
 if ((selected_project == "Nuevo proyecto" or session_ingestion is not None) and session_project_view is None or has_corpus_profile_pending) and selected_page in {

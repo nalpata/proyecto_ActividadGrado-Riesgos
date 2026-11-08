@@ -132,3 +132,19 @@ def test_malformed_batch_stays_pending_with_audit(records):
     result, audit = apply_assessments(signals, cases, normalized, CATALOG)
     assert pd.isna(result.iloc[0].severity) and not audit.accepted.any()
     assert audit.iloc[0].decision == "REJECTED_RESPONSE_IDENTIFIERS"
+
+
+def test_partial_batch_keeps_unique_known_ids_without_associating_by_position():
+    cases = [{"item_id": "I1", "missing": ["severity"]}, {"item_id": "I2", "missing": ["severity"]}]
+    result = normalize_response(response(), cases)
+    assert result[0]["severity"]["value"] == 4
+    assert result[1]["severity"]["value"] is None
+    assert result[1]["validation_errors"]["severity"] == "REJECTED_RESPONSE_IDENTIFIERS"
+
+
+def test_duplicate_id_is_rejected_while_other_unique_response_survives():
+    cases = [{"item_id": "I1", "missing": ["severity"]}, {"item_id": "I2", "missing": ["severity"]}]
+    records = response() * 2 + [{**response()[0], "item_id": "I2"}]
+    result = normalize_response(records, cases)
+    assert result[0]["severity"]["value"] is None
+    assert result[1]["severity"]["value"] == 4

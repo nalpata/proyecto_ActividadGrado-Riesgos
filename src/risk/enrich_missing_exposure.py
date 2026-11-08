@@ -13,7 +13,7 @@ from src.risk.project_resolution import ASSIGNED_STATUSES, resolve_project, buil
 
 
 VERSION = "EXPOSURE-CONTEXT-1"
-RUNNER_VERSION = "1.1"
+RUNNER_VERSION = "1.2"
 LEGACY_CODE_SHA256 = "4d74e7f866fa5b289f76f31267d51ac0deaf9d2d664661c850f4dd851f019581"
 COMPONENTS = ("severity", "probability")
 FIELDS = {"value": {"type": ["integer", "null"], "minimum": 1, "maximum": 5},
@@ -95,10 +95,13 @@ def normalize_response(records, cases: list[dict]) -> list[dict]:
     conserva separadamente en el checkpoint para revisar los rechazos.
     """
     ids = [r.get("item_id") for r in records if isinstance(r, dict)] if isinstance(records, list) else []
-    valid_ids = (isinstance(records, list) and len(ids) == len(records)
-                 and all(isinstance(i, str) for i in ids) and len(set(ids)) == len(ids)
-                 and set(ids) == {c["item_id"] for c in cases})
-    by_id = {r["item_id"]: r for r in records} if valid_ids else {}
+    expected = {c["item_id"] for c in cases}
+    # Cada propuesta se concilia por ID, nunca por posición. Una omisión no
+    # invalida respuestas ajenas inequívocas; IDs duplicados no se aplican.
+    counts = {i: ids.count(i) for i in ids if isinstance(i, str)}
+    by_id = {r["item_id"]: r for r in records if isinstance(r, dict)
+             and isinstance(r.get("item_id"), str) and r["item_id"] in expected
+             and counts.get(r["item_id"]) == 1} if isinstance(records, list) else {}
     normalized = []
     for case in cases:
         clean = {"item_id": case["item_id"], "validation_errors": {}, "raw_components": {}}
@@ -108,7 +111,7 @@ def normalize_response(records, cases: list[dict]) -> list[dict]:
                 clean[component] = {"value": None, "quote": "", "justification": "Valor histórico conservado", "status": "YA_EXISTENTE"}
                 continue
             error = None
-            if not valid_ids:
+            if case["item_id"] not in by_id:
                 error = "REJECTED_RESPONSE_IDENTIFIERS"
             else:
                 other = "probability" if component == "severity" else "severity"

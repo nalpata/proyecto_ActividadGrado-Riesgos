@@ -39,3 +39,7 @@ La primera ejecución real de la autora guardó 30 señales y se detuvo cuando u
 La reanudación acepta avances de la versión original únicamente al reconstruir la huella completa de las mismas entradas, rúbrica y código anterior reconocido por SHA-256. No se elimina el control de integridad. El cuaderno actualizado carga directamente el ZIP de avance o el JSONL, o reutiliza el checkpoint local. La nueva importación recarga explícitamente el módulo para evitar usar la versión anterior en la misma sesión de Colab.
 
 La regresión local reprodujo el error tras 30 señales con respuestas simuladas y completó las 192 restantes en 20 solicitudes simuladas, sin repetir las 30 anteriores. Un componente contradictorio quedó rechazado mientras continuó el recorrido. Es una prueba técnica; no sustituye la ejecución real ni acredita nuevos componentes recuperados.
+
+## Conciliación 1.2 y resultados
+
+La revisión de la ejecución permitió conciliar por ID las respuestas válidas de dos lotes parciales, sin hacer solicitudes adicionales. Se rechazan por componente las omisiones, IDs ajenos o duplicados. Nunca se asocian propuestas por posición. Esta conciliación y la revisión documental posterior se detallan en `docs/enriquecimiento_resultados_verificados.md`. Las cifras del ZIP bruto no son las cifras propuestas para publicación.
