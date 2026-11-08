@@ -419,9 +419,9 @@ def render_risk_details() -> None:
         else:
             st.write("Sustento de la valoración de esta sesión:" if session_project_view else "Sustento registrado en la valoración histórica:")
             st.text(str(justification))
-    if session_project_view and row.get("assessment_review_required", False):
+    if session_project_view and pd.notna(row.get("assessment_review_required")) and bool(row.get("assessment_review_required")):
         st.warning(row.get("assessment_review_reason", "Valoración pendiente de revisión de consistencia."))
-    if session_project_view and row.get("exposure_review_required", False):
+    if session_project_view and pd.notna(row.get("exposure_review_required")) and bool(row.get("exposure_review_required")):
         st.warning("Cierre sin respaldo suficiente: componentes y PIRD pendientes de revisión documental.")
         with st.expander("Propuesta original descartada; no constituye evidencia de cierre"):
             st.json(row.get("exposure_grounding_original", {}))

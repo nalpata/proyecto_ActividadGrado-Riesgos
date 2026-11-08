@@ -83,6 +83,8 @@ La comprobación posterior usó dos actas fuera de los experimentos anteriores, 
 
 La última sesión antes del control de cierre tuvo 88 extracciones, 39 aceptadas, 27 calculadas y 12 pendientes (69,23 %); su agregado 32,96 mezcla proyectos y no se atribuye como PIRD de uno solo. Una solicitud distinta recibió 2/1 con una justificación de cierre no respaldada: el control añadido la deja pendiente, conservando la propuesta. [Registro agregado de evaluación](results/closure_20261108/evaluation_summary.json).
 
+En la comprobación de Streamlit posterior al control, la misma sesión conservó 39 señales y pasó a 19 valoradas y 20 pendientes (48,72 %): ocho propuestas requieren revisión de cierre. La solicitud quedó sin S/P ni PIRD; la alerta principal conservó 3/4. No fue una ejecución nueva del LLM ni un cambio de la línea base.
+
 Estos casos ya conocidos sirven para regresión, no para afirmar un test independiente. Las pruebas de software no sustituyen la revisión experta ni resuelven automáticamente los casos 3 y 5.
 
 ## Notebooks, pruebas y reproducción

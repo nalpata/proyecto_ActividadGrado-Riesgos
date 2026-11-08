@@ -22,3 +22,7 @@ La evidencia automática se registra en `results/closure_20261108/software_valid
 ## Límites abiertos
 
 La cobertura 339/515 no es total: 176 señales atribuidas permanecen sin PIRD completo. El control literal no garantiza equivalencia semántica. Los cinco casos conocidos no permiten estimar generalización independiente. No se evaluó utilidad de la app con el experto. Los casos 3 y 5 impiden declarar precisión semántica completa. Estas limitaciones deben quedar explícitas en el informe y la sustentación.
+
+## Comprobación del despliegue
+
+Con PR43 publicado, Streamlit aplicó el control a la sesión existente sin repetir el LLM: 39 aceptadas, 19 valoradas y 20 pendientes (48,72 %). Ocho propuestas requieren revisión; no se eliminan señales. La alerta principal conserva 3/4 y la solicitud queda pendiente. Se detectó y corrigió un aviso visual causado por campos booleanos ausentes convertidos a NaN; la prueba de interfaz comprueba aviso solo en la señal marcada.
