@@ -1,4 +1,4 @@
-"""Aplicación integrada con recálculo seguro por proyecto — Día 19B."""
+"""Aplicación de consulta y vigilancia documental por proyecto."""
 
 from __future__ import annotations
 
@@ -197,7 +197,7 @@ corpus_catalog = get_private_project_catalog()
 academic_project_scope = get_academic_demo_scope()
 st.sidebar.markdown("## ◈ Radar de riesgos")
 st.sidebar.caption("Vigilancia documental · prototipo académico")
-scope_options = ["Consolidado público", "Corpus por proyecto", "Demostración académica sintética"]
+scope_options = ["Corpus por proyecto", "Demostración académica sintética"]
 if private_project_scope:
     scope_options.append("Entorno privado por proyecto")
 selected_scope = st.sidebar.radio("1. Seleccione el modo de datos", scope_options)
@@ -215,7 +215,8 @@ scoped_project_names = ([item["display_name"] for item in corpus_catalog["projec
                         else [item["display_name"] for item in project_scope["catalog"]] if project_scope else [])
 project_options = [*scoped_project_names, "Nuevo proyecto"] if scoped_project_names else [DEMO_PROJECT, "Nuevo proyecto"]
 project_selector_label = "2. Seleccione el proyecto sintético" if is_academic_demo else "2. Seleccione el proyecto"
-selected_project = st.sidebar.selectbox(project_selector_label, project_options)
+selected_project = st.sidebar.selectbox(project_selector_label, project_options, key=f"active_project::{selected_scope}")
+st.sidebar.caption("El proyecto seleccionado filtra todas las vistas y las consultas del asistente.")
 if is_academic_demo:
     st.sidebar.caption("Abra esta lista para cambiar entre Proyecto A, B, C y D.")
 elif is_corpus_project:
@@ -244,10 +245,13 @@ if current_project_view:
     view_distribution = current_project_view["level_distribution"]
     view_timeline = current_project_view["timeline"]
 else:
-    profile = snapshot["profile"]
-    view_categories = snapshot["categories"]
-    view_distribution = snapshot["level_distribution"]
-    view_timeline = get_timeline_summary()
+    profile = {"signals_total": 0, "signals_scored": 0, "signals_pending": 0,
+               "scoring_coverage": 0.0, "global_pird": None, "global_level": "PENDIENTE",
+               "top_categories": [], "critical_signals": 0, "high_signals": 0}
+    view_categories = []
+    view_distribution = []
+    view_timeline = {"source_documents": 0, "signals_with_document_date": 0,
+                     "temporal_role_counts": {}, "persistence_level_counts": {}}
 profile_scope = ("synthetic" if is_academic_demo else "session" if session_project_view else
                  "corpus" if selected_scope in {"Consolidado público", "Corpus por proyecto"} else "unverified")
 profile_presentation = describe_pird_profile(profile, profile_scope)
@@ -259,9 +263,8 @@ if is_academic_demo:
 st.sidebar.divider()
 selected_page = st.sidebar.radio("Navegación", NAVIGATION, label_visibility="collapsed")
 st.sidebar.divider()
-st.sidebar.markdown(f"**Contrato de datos:** `{'SESSION-19C' if session_project_view else snapshot['schema_version']}`")
-st.sidebar.markdown(f"**Backend:** {'RECALCULADO EN SESIÓN' if session_project_view else 'RECALCULADO POR PROYECTO' if is_corpus_project and selected_project_view else snapshot['contract_status']}")
-st.sidebar.caption("Solo se cargan resultados agregados y publicables.")
+st.sidebar.caption("Datos del proyecto seleccionado" if current_project_view else "Proyecto pendiente de análisis")
+
 
 if selected_page != "Portada":
     st.markdown(
@@ -284,7 +287,14 @@ def profile_notice() -> None:
     st.caption(profile_presentation["validation_note"])
     st.caption(profile_presentation["index_note"])
     if profile_scope == "corpus" and project_scope and project_scope.get("method", {}).get("exposure_enrichment_version"):
-        st.caption("Las nuevas valoraciones de severidad y probabilidad de esta versión no han tenido revisión experta.")
+        reviewed_components = int(project_scope.get("method", {}).get("expert_review", {}).get("components_reviewed", 0))
+        if reviewed_components > 0:
+            st.caption(
+                f"Revisión adicional del corpus: {reviewed_components} componentes de severidad o probabilidad "
+                "fueron revisados por el experto. Esta revisión es muestral y no valida todas las valoraciones del perfil."
+            )
+        else:
+            st.caption("Las nuevas valoraciones de severidad y probabilidad de esta versión no han tenido revisión experta.")
 
 
 if ((selected_project == "Nuevo proyecto" or session_ingestion is not None) and session_project_view is None or has_corpus_profile_pending) and selected_page in {
@@ -323,7 +333,21 @@ elif selected_page == "Proyectos y documentos":
         _, reconciliation = reconcile_chunks(corpus_chunks, corpus_catalog)
         project_count = next(p["chunks_single_project"] for p in reconciliation["projects"] if p["project_id"] == active_project_id)
         st.info(f"Índice publicado: {project_count} fragmentos asignados automáticamente a este proyecto. Los fragmentos ambiguos o pendientes quedan excluidos de sus consultas.")
-        st.caption("La asignación automática requiere revisión humana. Estos conteos corresponden a fragmentos, no a señales de riesgo ni a un perfil PIRD recalculado.")
+        st.caption("La asignación a fragmentos determina el alcance de las consultas. Los documentos compartidos pueden aparecer en más de un proyecto.")
+        corpus_documents = build_document_timeline(corpus_chunks, active_project_id, corpus_catalog)
+        st.subheader("Documentos del proyecto")
+        st.metric("Documentos que mencionan el proyecto", corpus_documents["documents_total"])
+        documents_table = pd.DataFrame(corpus_documents["documents"])
+        if documents_table.empty:
+            st.info("No se encontraron documentos que mencionen este proyecto en el corpus publicado.")
+        else:
+            document_search = st.text_input("Buscar documento", key=f"document_search::{active_project_id}")
+            if document_search:
+                documents_table = documents_table[documents_table["filename"].str.contains(document_search, case=False, regex=False)]
+            st.dataframe(documents_table[["filename", "document_date"]].rename(
+                columns={"filename": "Documento", "document_date": "Fecha identificada en el nombre"}), width="stretch", hide_index=True)
+            st.download_button("Descargar inventario filtrado", documents_table.to_csv(index=False).encode("utf-8-sig"),
+                               file_name=f"documentos_{active_project_id}.csv", mime="text/csv")
     uploaded_files = st.file_uploader(
         "Cargue documentos de aseguramiento técnico",
         type=list(SUPPORTED_DOCUMENT_TYPES),
@@ -349,7 +373,7 @@ elif selected_page == "Proyectos y documentos":
         ingestion_key = f"project_ingestion::{active_project}"
         risk_analysis_key = f"project_risk_analysis::{active_project}"
         process_clicked = st.button(
-            "Procesar documentos · Día 19A",
+            "Procesar documentos",
             type="primary",
             disabled=valid_documents != len(uploaded_files),
             width="stretch",
@@ -369,7 +393,7 @@ elif selected_page == "Proyectos y documentos":
                     st.session_state[ingestion_key] = ingestion_result
                     st.session_state.pop(risk_analysis_key, None)
                     st.session_state.pop(f"chat_history::{active_project}", None)
-                    processing_status.update(label="Ingesta del Día 19A completada", state="complete", expanded=False)
+                    processing_status.update(label="Procesamiento documental completado", state="complete", expanded=False)
                 st.rerun()
             except Exception:
                 st.error("No fue posible completar la ingesta. Revise que los archivos contengan texto extraíble e intente nuevamente.")
@@ -385,7 +409,7 @@ elif selected_page == "Proyectos y documentos":
             if ingestion_result["errors"]:
                 st.warning("La ingesta terminó con advertencias en algunos documentos.")
                 st.dataframe(pd.DataFrame(ingestion_result["errors"]), width="stretch", hide_index=True)
-            st.success("Día 19A completo. Los chunks y embeddings permanecen aislados en esta sesión.")
+            st.success("Documentos procesados. Los fragmentos y vectores están disponibles para este proyecto en la sesión.")
             scope_summary = ingestion_result.get("project_scope", {})
             if scope_summary.get("mode") == "DOCUMENT_EVIDENCE":
                 st.caption(f"Fragmentos del proyecto activo: {scope_summary['chunks_active_project']} de {scope_summary['chunks_total']}. Los ambiguos y de otros proyectos no se usan en su chat.")
@@ -393,9 +417,9 @@ elif selected_page == "Proyectos y documentos":
                 st.warning("Proyecto declarado por el usuario: falta configurar el catálogo documental para verificar a qué proyecto pertenece cada fragmento y señal.")
             api_key = get_openai_api_key()
             if not api_key:
-                st.warning("El Día 19B requiere OPENAI_API_KEY configurada en los secretos del servidor.")
+                st.warning("Configure la conexión con OpenAI para analizar los documentos.")
             analyze_clicked = st.button(
-                "Analizar riesgos · Día 19B",
+                "Analizar riesgos",
                 type="primary",
                 disabled=not api_key,
                 width="stretch",
@@ -415,7 +439,7 @@ elif selected_page == "Proyectos y documentos":
                             calibration_examples=get_calibration_examples(),
                         )
                         st.session_state[risk_analysis_key] = analysis
-                        risk_status.update(label="Análisis del Día 19B completado", state="complete", expanded=False)
+                        risk_status.update(label="Análisis de riesgos completado", state="complete", expanded=False)
                     st.rerun()
                 except Exception:
                     st.error(
@@ -429,7 +453,7 @@ elif selected_page == "Proyectos y documentos":
                 signal_scope = analysis.get("project_scope", {})
                 if signal_scope.get("mode") == "DOCUMENT_EVIDENCE":
                     st.caption(f"Elementos documentales asignados al proyecto: {signal_scope['signals_active_project']}; fuera del alcance o pendientes: {signal_scope['signals_excluded_or_pending']}.")
-                st.markdown("#### Resultado del Día 19B")
+                st.markdown("#### Resultado del análisis de riesgos")
                 r1, r2, r3, r4 = st.columns(4)
                 r1.metric("Señales extraídas", risk_summary["items_extracted"])
                 r2.metric("Señales validadas", risk_summary["signals_validated"])
@@ -448,7 +472,7 @@ elif selected_page == "Proyectos y documentos":
                     st.caption(describe_pird_profile(risk_summary, "session")["validation_label"])
                 if analysis["classification"]["calibration_status"] == "PROVISIONAL_NO_PRIVATE_EXAMPLES":
                     st.warning(
-                        "Clasificación sin ejemplos humanos configurados: los 29 ejemplos del Día 5 no están "
+                        "Clasificación sin ejemplos humanos configurados: los 29 ejemplos de calibración no están "
                         "configurados en el servidor. Se aplicó la misma taxonomía y reglas, sin afirmar "
                         "calibración humana para estos documentos nuevos."
                     )
@@ -498,7 +522,7 @@ elif selected_page == "Resumen ejecutivo":
     with right:
         if session_project_view:
             st.markdown(
-                f"""<div class="section-card"><div class="eyebrow">Recálculo de sesión · Día 19C</div>
+                f"""<div class="section-card"><div class="eyebrow">Análisis de documentos de la sesión</div>
                 <h3>{session_project_view['display_name']}</h3>
                 <p>Las vistas utilizan únicamente los agregados producidos por los documentos recién procesados para este proyecto.</p></div>""",
                 unsafe_allow_html=True,
@@ -527,10 +551,10 @@ elif selected_page == "Radar de riesgos":
     else:
         with st.container(border=True):
             f1, f2, f3 = st.columns([1.4, 1, 1])
-            chosen_categories = f1.multiselect("Categorías", categories["category"].tolist(), default=categories["category"].tolist())
+            chosen_categories = f1.multiselect("Categorías", categories["category"].tolist(), default=categories["category"].tolist(), key=f"radar_categories::{selected_scope}::{active_project}")
             available_levels = [level for level in LEVEL_ORDER if level in categories["category_level"].unique()]
-            chosen_levels = f2.multiselect("Niveles", available_levels, default=available_levels)
-            minimum_coverage = f3.slider("Cobertura mínima", 0, 100, 0, 5, format="%d %%") / 100
+            chosen_levels = f2.multiselect("Niveles", available_levels, default=available_levels, key=f"radar_levels::{selected_scope}::{active_project}")
+            minimum_coverage = f3.slider("Cobertura mínima", 0, 100, 0, 5, format="%d %%", key=f"radar_coverage::{selected_scope}::{active_project}") / 100
         filtered = filter_categories(view_categories, chosen_categories, chosen_levels, minimum_coverage)
         if filtered.empty:
             st.warning("No existen categorías que cumplan los filtros seleccionados.")
@@ -618,7 +642,7 @@ elif selected_page == "Riesgos priorizados":
     else:
         selected_priority_levels = st.multiselect(
             "Nivel de riesgo", [level for level in LEVEL_ORDER if level in categories["category_level"].unique()],
-            default=[level for level in LEVEL_ORDER if level in categories["category_level"].unique()], key="priority_levels",
+            default=[level for level in LEVEL_ORDER if level in categories["category_level"].unique()], key=f"priority_levels::{selected_scope}::{active_project}",
         )
         prioritized = filter_categories(view_categories, selected_levels=selected_priority_levels)
         if prioritized.empty:
@@ -726,34 +750,51 @@ elif selected_page == "Pregunte a sus documentos":
     st.caption("El asistente no usa conocimiento externo. Verifique siempre la respuesta en las fuentes citadas.")
 
 else:
-    st.subheader("Metodología")
-    st.write("Consulta original → BGE-M3 → extracción calibrada → validación determinista → perfil PIRD.")
-    c1, c2, c3 = st.columns(3)
-    c1.metric("Suite automatizada", "APROBADA")
-    c2.metric("Contrato backend", snapshot["schema_version"])
-    c3.metric("Estado", snapshot["contract_status"])
-    st.subheader("Controles vigentes")
-    st.markdown("- HyDE y reranking permanecen descartados.\n- No se imputan fechas, severidad ni probabilidad.\n- El Gold Standard humano no cubre severidad/probabilidad 1–5.\n- El front público consume únicamente agregados sin evidencia privada.")
-    st.subheader("Evidencia académica del Día 18A")
-    assignment = academic_project_scope["assignment"]
-    e1, e2, e3 = st.columns(3)
-    e1.metric("Señales sintéticas", assignment["signals_total"])
-    e2.metric("Asignación explícita", f"{assignment['assignment_coverage']:.1%}")
-    e3.metric("Pendientes o ambiguas", assignment["signals_pending_or_ambiguous"])
-    comparison = pd.DataFrame([
-        {
-            "Proyecto": item["display_name"].split(" · ")[0],
-            "Señales": item["profile"]["signals_total"],
-            "Puntuadas": item["profile"]["signals_scored"],
-            "Cobertura PIRD": item["profile"]["scoring_coverage"],
-            "PIRD global": item["profile"]["global_pird"],
-            "Nivel": item["profile"]["global_level"],
-        }
-        for item in academic_project_scope["projects"]
-    ])
-    comparison["Cobertura PIRD"] = comparison["Cobertura PIRD"].map(lambda value: f"{value:.1%}")
-    st.dataframe(comparison, width="stretch", hide_index=True)
-    st.caption("Valores fabricados exclusivamente para demostrar la separación, comparación y visualización por proyecto.")
+    st.subheader("Metodología de la solución")
+    st.write(f"**Proyecto seleccionado:** {active_project}. Los indicadores de esta página corresponden al modo de datos activo.")
+    st.markdown("""
+**Consulta documental.** Los PDF y DOCX se transforman en texto y fragmentos mediante chunking recursivo.
+BGE-M3 representa los fragmentos y la consulta original. La recuperación selecciona hasta cinco fragmentos;
+el filtro del proyecto se aplica antes de seleccionar los resultados. El generador responde con las fuentes recuperadas.
+HyDE y reranking fueron evaluados y no forman parte de la configuración seleccionada.
+
+**Señales de riesgo.** El análisis identifica señales documentales, clasifica su tipo y verifica su evidencia.
+La severidad y la probabilidad se valoran en escala de 1 a 5 mediante rúbricas asistidas por IA.
+La recurrencia semántica se calcula dentro del proyecto con umbral de similitud 0,70.
+La persistencia utiliza las fechas documentales disponibles. Los componentes sin sustento quedan pendientes.
+
+**PIRD.** Los niveles de 1 a 5 se normalizan con (nivel − 1) / 4.
+La exposición combina severidad (40 %), probabilidad (25 %), recurrencia (20 %) y persistencia (15 %).
+La confiabilidad combina evidencia (60 %) y confianza de clasificación (40 %).
+El puntaje es 100 × exposición × (0,70 + 0,30 × confiabilidad); se calcula solo con los seis componentes disponibles.
+Por categoría se combina 70 % de la media y 30 % del percentil 90 de los puntajes.
+El perfil global combina 70 % de la media de categorías evaluables y 30 % de su máximo.
+El PIRD expresa prioridad relativa; no estima una probabilidad estadística de incumplimiento.
+
+**Validación y alcance.** La revisión experta del corpus es interna y muestral.
+Incluye clasificación, suficiencia de evidencia y valoraciones de componentes en los casos revisados;
+no valida automáticamente todo el corpus ni el desempeño en proyectos nuevos.
+La consulta conversacional reutiliza el índice y no recalcula el perfil de riesgo.
+""")
+    st.subheader("Datos del proyecto seleccionado")
+    profile_notice()
+    m1, m2, m3 = st.columns(3)
+    m1.metric("Señales del proyecto", profile["signals_total"])
+    m2.metric("Señales puntuadas", profile["signals_scored"])
+    m3.metric("Componentes pendientes por completar", profile["signals_pending"])
+    if project_scope:
+        assignment = project_scope["assignment"]
+        st.caption(f"Contexto del conjunto activo: {assignment['signals_total']} señales; "
+                   f"{assignment['signals_assigned_single_project']} asignadas a un proyecto y "
+                   f"{assignment['signals_pending_or_ambiguous']} con asignación pendiente o ambigua.")
+    if view_categories:
+        method_table = pd.DataFrame(view_categories)
+        st.dataframe(method_table.rename(columns={"category": "Categoría", "category_score": "PIRD",
+            "category_level": "Nivel", "scoring_coverage": "Cobertura", "scored_signals": "Puntuadas",
+            "total_signals": "Total"}), width="stretch", hide_index=True)
+    if is_academic_demo:
+        st.warning("Los valores de esta vista son sintéticos y sirven para demostrar la navegación por proyecto.")
+    st.caption("Las métricas experimentales y la revisión experta se documentan en el informe académico; la interfaz no atribuye una aprobación general a todas las señales.")
 
 st.divider()
-st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo · Día 19C")
+st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo")

@@ -45,10 +45,10 @@
       "profile": {
         "profile_status": "PROVISIONAL",
         "signals_total": 404,
-        "signals_scored": 260,
-        "signals_pending": 144,
-        "scoring_coverage": 0.6436,
-        "global_pird": 51.42,
+        "signals_scored": 267,
+        "signals_pending": 137,
+        "scoring_coverage": 0.6609,
+        "global_pird": 51.5,
         "global_level": "ALTO",
         "top_categories": [
           "Contractual",
@@ -56,16 +56,16 @@
           "Financiero"
         ],
         "critical_signals": 16,
-        "high_signals": 92,
+        "high_signals": 95,
         "project_scope_status": "DOCUMENT_EVIDENCE"
       },
       "categories": [
         {
           "category": "Contractual",
           "total_signals": 114,
-          "scored_signals": 61,
-          "scoring_coverage": 0.5351,
-          "category_score": 58.2279,
+          "scored_signals": 64,
+          "scoring_coverage": 0.5614,
+          "category_score": 58.4709,
           "category_level": "ALTO"
         },
         {
@@ -87,17 +87,17 @@
         {
           "category": "Operación",
           "total_signals": 110,
-          "scored_signals": 78,
-          "scoring_coverage": 0.7091,
-          "category_score": 51.0179,
+          "scored_signals": 80,
+          "scoring_coverage": 0.7273,
+          "category_score": 51.2166,
           "category_level": "ALTO"
         },
         {
           "category": "Calidad",
           "total_signals": 69,
-          "scored_signals": 51,
-          "scoring_coverage": 0.7391,
-          "category_score": 49.391,
+          "scored_signals": 53,
+          "scoring_coverage": 0.7681,
+          "category_score": 49.0057,
           "category_level": "MEDIO"
         },
         {
@@ -128,23 +128,23 @@
       "level_distribution": [
         {
           "pird_level": "BAJO",
-          "signal_count": 53,
-          "percentage_of_scored": 20.38
+          "signal_count": 54,
+          "percentage_of_scored": 20.22
         },
         {
           "pird_level": "MEDIO",
-          "signal_count": 99,
-          "percentage_of_scored": 38.08
+          "signal_count": 102,
+          "percentage_of_scored": 38.2
         },
         {
           "pird_level": "ALTO",
-          "signal_count": 92,
-          "percentage_of_scored": 35.38
+          "signal_count": 95,
+          "percentage_of_scored": 35.58
         },
         {
           "pird_level": "CRITICO",
           "signal_count": 16,
-          "percentage_of_scored": 6.15
+          "percentage_of_scored": 5.99
         }
       ],
       "timeline": {
@@ -494,7 +494,21 @@
     "original_model_output_components": 125,
     "components_recovered_by_id_reconciliation": 25,
     "quality_reviewed_components": 150,
-    "quality_review_quarantines": 73
+    "quality_review_quarantines": 73,
+    "expert_review": {
+      "scope": "Muestra de componentes PIRD previamente pendientes del corpus existente",
+      "components_reviewed": 7,
+      "sustained_components": 7,
+      "source_citations_confirmed": 7,
+      "individual_responses_published": false
+    },
+    "expert_reviewed_component_count": 7
+  },
+  "scoring_summary": {
+    "signals_assigned_single_project": 515,
+    "signals_scored": 339,
+    "signals_pending": 176,
+    "scoring_coverage": 0.6583
   },
   "provenance": {
     "baseline": "8f0b2b13802ecdbbaec0ec7a514334c014bf7d9b4ce238baa7bc6421c27c035a",
