@@ -23,7 +23,7 @@ def client(answer):
 def test_generated_answer_requires_existing_source_reference(answer):
     result = OpenAIRagAnswerer(client=client(answer))("pregunta", chunks())
     assert not result["evidence_available"]
-    assert result["response_status"] == "NO_EVIDENCE"
+    assert result["response_status"] == "INVALID_CITATIONS"
     assert result["sources"] == []
 
 
@@ -56,3 +56,4 @@ def test_filters_handle_no_data_and_explicit_empty_selection():
     assert filter_categories(rows, selected_categories=[]).empty
     assert filter_categories(rows, selected_levels=[]).empty
     assert len(filter_categories(rows)) == 1
+

@@ -8,6 +8,7 @@ Días 9–11. No persiste texto, evidencia, embeddings ni resultados privados.
 from __future__ import annotations
 
 import json
+from hashlib import sha256
 from pathlib import Path
 from typing import Any
 
@@ -80,13 +81,26 @@ def parse_calibration_examples(raw: Any) -> pd.DataFrame:
     return frame
 
 
-def _extract_items(chunks: pd.DataFrame, client: Any) -> tuple[pd.DataFrame, dict]:
+def _extract_items(chunks: pd.DataFrame, client: Any, progress=None, checkpoint=None) -> tuple[pd.DataFrame, dict]:
     records: list[dict] = []
     prompt_tokens = completion_tokens = returned_items = rejected_evidence = 0
-    for _, row in chunks.iterrows():
-        raw, usage = call_extraction_model(client, build_extraction_prompt(row))
-        parsed = parse_response(raw)
-        accepted = [value for value in (sanitize_item(item, row) for item in parsed) if value]
+    checkpoint = checkpoint if checkpoint is not None else {}
+    identity_columns = [name for name in ("project_id", "doc_id", "filename", "page", "chunk_id", "chunk_text") if name in chunks]
+    fingerprint = sha256(json.dumps(chunks[identity_columns].to_dict("records"), ensure_ascii=False).encode()).hexdigest()
+    if checkpoint.get("fingerprint") != fingerprint:
+        checkpoint.clear()
+        checkpoint.update({"fingerprint": fingerprint, "extracted": {}})
+    for index, (_, row) in enumerate(chunks.iterrows(), 1):
+        cached = checkpoint["extracted"].get(str(row.chunk_id))
+        if cached is None:
+            raw, usage = call_extraction_model(client, build_extraction_prompt(row))
+            parsed = parse_response(raw)
+            accepted = [value for value in (sanitize_item(item, row) for item in parsed) if value]
+            checkpoint["extracted"][str(row.chunk_id)] = {"parsed": parsed, "accepted": accepted}
+        else:
+            parsed, accepted, usage = cached["parsed"], cached["accepted"], None
+        if progress:
+            progress("Extracción", index, len(chunks))
         records.extend(accepted)
         returned_items += len(parsed)
         rejected_evidence += len(parsed) - len(accepted)
@@ -115,6 +129,7 @@ def _classify_items(
     chunks: pd.DataFrame,
     client: Any,
     examples: pd.DataFrame,
+    progress=None,
 ) -> tuple[pd.DataFrame, dict]:
     chunk_lookup = chunks.set_index("chunk_id").chunk_text.to_dict()
     predictions: list[dict] = []
@@ -132,6 +147,8 @@ def _classify_items(
         prompt, completion = _usage_values(usage)
         prompt_tokens += prompt
         completion_tokens += completion
+        if progress:
+            progress("Clasificación", min(start + CLASSIFICATION_BATCH_SIZE, len(items)), len(items))
     classified = items.merge(pd.DataFrame(predictions), on="item_id", validate="one_to_one")
     calibrated = len(examples) > 0
     return classified, {
@@ -143,7 +160,7 @@ def _classify_items(
     }
 
 
-def _assess_exposure(items: pd.DataFrame, client: Any) -> tuple[pd.DataFrame, dict]:
+def _assess_exposure(items: pd.DataFrame, client: Any, progress=None) -> tuple[pd.DataFrame, dict]:
     rows: list[dict] = []
     prompt_tokens = completion_tokens = 0
     for start in range(0, len(items), EXPOSURE_BATCH_SIZE):
@@ -163,6 +180,8 @@ def _assess_exposure(items: pd.DataFrame, client: Any) -> tuple[pd.DataFrame, di
         prompt, completion = _usage_values(response.usage)
         prompt_tokens += prompt
         completion_tokens += completion
+        if progress:
+            progress("Valoración de componentes", min(start + EXPOSURE_BATCH_SIZE, len(items)), len(items))
     return pd.DataFrame(rows), {
         "prompt_tokens": prompt_tokens, "completion_tokens": completion_tokens,
     }
@@ -195,11 +214,27 @@ def _pending_result(project_id: str, extraction: dict, classification: dict | No
     }
 
 
+def flag_assessment_discrepancies(scored: pd.DataFrame) -> pd.DataFrame:
+    """Marca discrepancias de menciones para revisión, sin corregir sus valores."""
+    scored = scored.copy()
+    # Flag differing assessments of same-title mentions in one document; never average or overwrite them.
+    scored["assessment_review_required"] = False
+    scored["assessment_review_reason"] = ""
+    keys = scored.title.fillna("").str.casefold().str.replace(r"\s+", " ", regex=True).str.strip()
+    for (_, title), group in scored.assign(_title=keys).groupby(["source_doc_id", "_title"]):
+        if title and len(group) > 1 and any(group[c].dropna().nunique() > 1 for c in ("severity", "probability")):
+            scored.loc[group.index, "assessment_review_required"] = True
+            scored.loc[group.index, "assessment_review_reason"] = "Menciones del mismo título y documento con valoraciones diferentes; revisar contexto, no son casos independientes."
+    return scored
+
+
 def process_project_risks(
     ingestion_result: dict[str, Any],
     client: Any,
     encoder: Any,
     calibration_examples: Any = None,
+    progress_callback=None,
+    checkpoint: dict | None = None,
 ) -> dict[str, Any]:
     """Calcula un perfil de riesgo aislado para la ingesta de un proyecto."""
 
@@ -219,12 +254,14 @@ def process_project_risks(
     chunks["tipo_documento"] = chunks.filename.map(
         lambda name: Path(str(name)).suffix.lower().lstrip(".").upper() or "DESCONOCIDO"
     )
-    items, extraction = _extract_items(chunks, client)
+    items, extraction = _extract_items(chunks, client, progress_callback, checkpoint)
     if items.empty:
         return _pending_result(project_id, extraction)
 
     examples = parse_calibration_examples(calibration_examples)
-    classified, classification = _classify_items(items, chunks, client, examples)
+    if progress_callback:
+        progress_callback("Clasificación", 0, len(items))
+    classified, classification = _classify_items(items, chunks, client, examples, progress_callback)
     decisions, validation = validate_catalog(classified)
     decisions, project_scope = scope_signals(decisions, chunks, project_id, catalog)
     accepted = decisions[(decisions.validation_accepted == 1) & decisions.project_scope_included].reset_index(drop=True)
@@ -253,9 +290,15 @@ def process_project_risks(
         "recurrence_level": recurrence_levels,
     })
     timeline, timeline_summary = build_timeline(accepted, assignments, embeddings)
-    exposure, exposure_usage = _assess_exposure(accepted, client)
+    accepted["source_context"] = accepted.source_chunk_id.map(chunks.set_index("chunk_id").chunk_text).fillna("")
+    if progress_callback:
+        progress_callback("Valoración de componentes", 0, len(accepted))
+    exposure, exposure_usage = _assess_exposure(accepted, client, progress_callback)
     scored = calculate_item_pird(accepted, exposure, timeline)
+    scored = flag_assessment_discrepancies(scored)
     categories, profile = build_profile(scored)
+    if progress_callback:
+        progress_callback("Análisis completado", len(accepted), len(accepted))
 
     if profile.get("profile_status") == "PENDIENTE":
         summary = {
@@ -291,6 +334,7 @@ def process_project_risks(
         "project_id": project_id,
         "status": "COMPLETED",
         "summary": summary,
+        "assessment_review": {"signals_flagged": int(scored.assessment_review_required.sum()), "values_modified": False},
         "classification": classification,
         "project_scope": project_scope,
         "validation": validation,

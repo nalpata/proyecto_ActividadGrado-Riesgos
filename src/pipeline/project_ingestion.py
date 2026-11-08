@@ -151,10 +151,27 @@ def ingest_project_documents(
             document_chunks = 0
             extracted_characters = 0
             counter = 1
+            sections = {}
             for page_number, raw_text in pages:
                 page_text = clean_text(raw_text)
                 extracted_characters += len(page_text)
+                headings = []
+                for match in re.finditer(r"(?m)^\s*(\d+(?:\.\d+)+)\s+([^\n]{3,120})", raw_text):
+                    number, title = match.group(1), clean_text(match.group(2))
+                    if not any(char.isalpha() for char in title):
+                        continue
+                    label = clean_text(match.group(0))
+                    offset = page_text.find(label)
+                    if offset >= 0:
+                        headings.append((offset, number, title))
                 for chunk_text in recursive_character_chunks(page_text):
+                    offset = page_text.find(chunk_text)
+                    for heading_offset, number, title in headings:
+                        if heading_offset <= offset:
+                            sections = {key: value for key, value in sections.items()
+                                        if len(key.split('.')) < len(number.split('.')) and number.startswith(key + '.')}
+                            sections[number] = title
+                    section_path = ' > '.join(f'{key} {value}' for key, value in sections.items())
                     chunks.append({
                         "project_id": safe_project,
                         "doc_id": doc_id,
@@ -162,6 +179,7 @@ def ingest_project_documents(
                         "page": page_number,
                         "chunk_id": f"{doc_id}-RCHUNK-{counter:04d}",
                         "chunk_text": chunk_text,
+                        "section_path": section_path,
                         "chunk_size_words": len(chunk_text.split()),
                         "chunk_size_chars": len(chunk_text),
                         "chunking_strategy": "recursive_character_splitter",
@@ -170,6 +188,11 @@ def ingest_project_documents(
                     })
                     counter += 1
                     document_chunks += 1
+                # Carry final headings across page boundaries, including headings after the last chunk start.
+                for _, number, title in headings:
+                    sections = {key: value for key, value in sections.items()
+                                if len(key.split('.')) < len(number.split('.')) and number.startswith(key + '.')}
+                    sections[number] = title
             if not document_chunks:
                 raise ValueError("No se encontró texto extraíble; puede ser un documento escaneado")
             documents.append({
