@@ -13,6 +13,8 @@ from src.risk.project_resolution import ASSIGNED_STATUSES, resolve_project, buil
 
 
 VERSION = "EXPOSURE-CONTEXT-1"
+RUNNER_VERSION = "1.1"
+LEGACY_CODE_SHA256 = "4d74e7f866fa5b289f76f31267d51ac0deaf9d2d664661c850f4dd851f019581"
 COMPONENTS = ("severity", "probability")
 FIELDS = {"value": {"type": ["integer", "null"], "minimum": 1, "maximum": 5},
           "quote": {"type": "string"}, "justification": {"type": "string"},
@@ -86,6 +88,49 @@ def validate_response(records: list[dict], cases: list[dict]) -> dict:
     return {r["item_id"]: r for r in records}
 
 
+def normalize_response(records, cases: list[dict]) -> list[dict]:
+    """Rechaza propuestas incoherentes sin detener otros componentes o lotes.
+
+    Nunca convierte un nivel sin sustento en válido. La respuesta original se
+    conserva separadamente en el checkpoint para revisar los rechazos.
+    """
+    ids = [r.get("item_id") for r in records if isinstance(r, dict)] if isinstance(records, list) else []
+    valid_ids = (isinstance(records, list) and len(ids) == len(records)
+                 and all(isinstance(i, str) for i in ids) and len(set(ids)) == len(ids)
+                 and set(ids) == {c["item_id"] for c in cases})
+    by_id = {r["item_id"]: r for r in records} if valid_ids else {}
+    normalized = []
+    for case in cases:
+        clean = {"item_id": case["item_id"], "validation_errors": {}, "raw_components": {}}
+        for component in COMPONENTS:
+            raw = by_id.get(case["item_id"], {}).get(component)
+            if component not in case["missing"]:
+                clean[component] = {"value": None, "quote": "", "justification": "Valor histórico conservado", "status": "YA_EXISTENTE"}
+                continue
+            error = None
+            if not valid_ids:
+                error = "REJECTED_RESPONSE_IDENTIFIERS"
+            else:
+                other = "probability" if component == "severity" else "severity"
+                probe = {"item_id": case["item_id"], component: raw,
+                         other: {"value": None, "quote": "", "justification": "", "status": "YA_EXISTENTE"}}
+                try:
+                    validate_response([probe], [case])
+                    if raw["status"] == "YA_EXISTENTE":
+                        error = "REJECTED_MISSING_COMPONENT_MARKED_EXISTING"
+                except (ValueError, TypeError):
+                    error = "REJECTED_INCONSISTENT_MODEL_RESPONSE"
+            if error:
+                clean["validation_errors"][component] = error
+                clean["raw_components"][component] = raw
+                clean[component] = {"value": None, "quote": "", "justification": "Propuesta rechazada; componente pendiente", "status": "EVIDENCIA_INSUFICIENTE"}
+            else:
+                clean[component] = dict(raw)
+        normalized.append(clean)
+    validate_response(normalized, cases)
+    return normalized
+
+
 def apply_assessments(signals: pd.DataFrame, cases: list[dict], records: list[dict], catalog: dict):
     by_id = validate_response(records, cases)
     result = signals.copy(deep=True).set_index("item_id", drop=False)
@@ -96,6 +141,7 @@ def apply_assessments(signals: pd.DataFrame, cases: list[dict], records: list[di
             raw = by_id[item_id][component]
             quote = raw["quote"].strip()
             reason = "EXISTING_PRESERVED" if component not in case["missing"] else raw["status"]
+            reason = by_id[item_id].get("validation_errors", {}).get(component, reason)
             accepted = False
             if component in case["missing"] and raw["status"] == "SUSTENTADO":
                 if len(quote) < 20 or not raw["justification"].strip() or not evidence_is_verbatim(quote, case["context"]):
@@ -111,6 +157,7 @@ def apply_assessments(signals: pd.DataFrame, cases: list[dict], records: list[di
                         result.at[item_id, component + "_supported"] = 1
             audit.append({"item_id": item_id, "component": component, "accepted": accepted,
                           "decision": reason, "proposed_value": raw["value"], "quote": quote,
+                          "rejected_raw_component": json.dumps(by_id[item_id].get("raw_components", {}).get(component), ensure_ascii=False),
                           "justification": raw["justification"], "source_chunk_id": case["chunk_id"],
                           "source_filename": case["filename"], "source_page": case["page"],
                           "context_sha256": hashlib.sha256(case["context"].encode()).hexdigest(), "version": VERSION})
@@ -128,17 +175,24 @@ def apply_assessments(signals: pd.DataFrame, cases: list[dict], records: list[di
 
 
 def run(signals: pd.DataFrame, chunks: pd.DataFrame, catalog: dict, baseline: dict,
-        client, output_dir: Path, batch_size: int = 10) -> dict:
+        client, output_dir: Path, batch_size: int = 10, legacy_source_path: Path | None = None) -> dict:
     if not 1 <= batch_size <= 10:
         raise ValueError("El tamaño de lote debe estar entre 1 y 10")
     cases = prepare_cases(signals, chunks, catalog)
     catalog_hash = hashlib.sha256(json.dumps(catalog, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
     if baseline.get("catalog_sha256") != catalog_hash:
         raise ValueError("El perfil base no corresponde al catálogo")
-    fingerprint = hashlib.sha256((VERSION + MODEL + json.dumps(cases, ensure_ascii=False, sort_keys=True)
+    fingerprint_input = (VERSION + MODEL + json.dumps(cases, ensure_ascii=False, sort_keys=True)
                                  + signals.to_csv(index=False) + json.dumps(catalog, sort_keys=True)
                                  + json.dumps(baseline, sort_keys=True)
-                                 + context_prompt(signals, cases) + Path(__file__).read_text()).encode()).hexdigest()
+                                 + context_prompt(signals, cases))
+    fingerprint = hashlib.sha256((fingerprint_input + Path(__file__).read_text()).encode()).hexdigest()
+    compatible_fingerprints = {fingerprint}
+    if legacy_source_path is not None:
+        legacy = legacy_source_path.read_bytes()
+        if hashlib.sha256(legacy).hexdigest() != LEGACY_CODE_SHA256:
+            raise ValueError("Código anterior no reconocido para migrar el avance")
+        compatible_fingerprints.add(hashlib.sha256((fingerprint_input + legacy.decode()).encode()).hexdigest())
     output_dir.mkdir(parents=True, exist_ok=True)
     checkpoint = output_dir / "exposure_context_checkpoint.jsonl"
     all_records, seen = [], set()
@@ -146,7 +200,7 @@ def run(signals: pd.DataFrame, chunks: pd.DataFrame, catalog: dict, baseline: di
     if checkpoint.exists():
         for line in checkpoint.read_text().splitlines():
             saved = json.loads(line)
-            if saved["fingerprint"] != fingerprint:
+            if saved["fingerprint"] not in compatible_fingerprints:
                 raise ValueError("Checkpoint de otro corpus, contexto, código o modelo")
             saved_cases = [c for c in cases if c["item_id"] in saved["ids"]]
             mapped = validate_response(saved["assessments"], saved_cases)
@@ -162,11 +216,16 @@ def run(signals: pd.DataFrame, chunks: pd.DataFrame, catalog: dict, baseline: di
         response = client.chat.completions.create(model=MODEL, temperature=0.0, response_format=SCHEMA,
             messages=[{"role": "system", "content": "Valora solo componentes ausentes según la rúbrica. Responde JSON estricto."},
                       {"role": "user", "content": context_prompt(batch, group)}])
-        records = json.loads(response.choices[0].message.content)["assessments"]
-        validate_response(records, group)
+        response_text = response.choices[0].message.content
+        try:
+            raw_records = json.loads(response_text).get("assessments")
+        except (ValueError, AttributeError, TypeError):
+            raw_records = None
+        records = normalize_response(raw_records, group)
         tokens = {k: int(getattr(response.usage, k, 0) or 0) for k in usage}
         with checkpoint.open("a", encoding="utf-8") as handle:
             handle.write(json.dumps({"fingerprint": fingerprint, "ids": ids, "assessments": records,
+                                     "raw_response": response_text, "runner_version": RUNNER_VERSION,
                                      "usage": tokens, "model": MODEL, "response_model": response.model}, ensure_ascii=False) + "\n")
         all_records.extend(records)
         for key in usage: usage[key] += tokens[key]
@@ -190,9 +249,10 @@ def run(signals: pd.DataFrame, chunks: pd.DataFrame, catalog: dict, baseline: di
     snapshot["method"] = {**baseline.get("method", {}), "exposure_enrichment_version": VERSION,
                           "exposure_reused_when_present": True, "expert_validation_of_new_values": False,
                           "new_llm_assessed_signals": len(cases), "model": MODEL}
-    summary = {"version": VERSION, "model": MODEL, "fingerprint": fingerprint, "usage": usage,
+    summary = {"version": VERSION, "runner_version": RUNNER_VERSION, "model": MODEL, "fingerprint": fingerprint, "usage": usage,
         "signals_total": len(signals), "signals_reviewed": len(cases),
         "components_accepted": int(audit.accepted.sum()) if len(audit) else 0,
+        "components_rejected_response": int(audit.decision.str.startswith("REJECTED_").sum()) if len(audit) else 0,
         "scored_before": int(signals.pird.notna().sum()), "scored_after": int(enriched.pird.notna().sum()),
         "expert_validation_added": False, "deployment_status": "NOT_DEPLOYED_REQUIRES_REVIEW"}
     enriched.to_csv(output_dir / "signals_context_enriched.csv", index=False, encoding="utf-8-sig")

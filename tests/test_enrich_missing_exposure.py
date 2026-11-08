@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.risk.enrich_missing_exposure import prepare_cases, apply_assessments, validate_response, run
+from src.risk.enrich_missing_exposure import prepare_cases, apply_assessments, validate_response, normalize_response, run
 from src.risk.project_resolution import build_public_project_snapshot
 
 
@@ -101,3 +101,34 @@ def test_boolean_value_cannot_pass_as_level_one():
     signals, chunks = fixture(); records = response(); records[0]["severity"]["value"] = True
     with pytest.raises(ValueError, match="rúbrica"):
         validate_response(records, prepare_cases(signals, chunks, CATALOG))
+
+
+@pytest.mark.parametrize("status,value", [("NO_APLICA", 4), ("SUSTENTADO", None),
+    ("EVIDENCIA_INSUFICIENTE", 2), ("SUSTENTADO", True), ("SUSTENTADO", 9)])
+def test_inconsistent_component_is_rejected_without_stopping_batch(status, value):
+    signals, chunks = fixture(); records = response()
+    records[0]["severity"].update(status=status, value=value)
+    cases = prepare_cases(signals, chunks, CATALOG)
+    normalized = normalize_response(records, cases)
+    result, audit = apply_assessments(signals, cases, normalized, CATALOG)
+    assert pd.isna(result.iloc[0].severity) and pd.isna(result.iloc[0].pird)
+    assert result.iloc[0].probability == 4
+    assert audit.iloc[0].decision == "REJECTED_INCONSISTENT_MODEL_RESPONSE"
+
+
+def test_valid_component_survives_inconsistent_other_component():
+    signals, chunks = fixture(); signals.loc[0, "probability"] = np.nan
+    records = response(); records[0]["probability"].update(status="NO_APLICA", value=3)
+    cases = prepare_cases(signals, chunks, CATALOG)
+    result, audit = apply_assessments(signals, cases, normalize_response(records, cases), CATALOG)
+    assert result.iloc[0].severity == 4 and pd.isna(result.iloc[0].probability)
+    assert audit.accepted.tolist() == [True, False]
+
+
+@pytest.mark.parametrize("records", [None, [], response() * 2, [{"item_id": ["I1"]}], response()[0]])
+def test_malformed_batch_stays_pending_with_audit(records):
+    signals, chunks = fixture(); cases = prepare_cases(signals, chunks, CATALOG)
+    normalized = normalize_response(records, cases)
+    result, audit = apply_assessments(signals, cases, normalized, CATALOG)
+    assert pd.isna(result.iloc[0].severity) and not audit.accepted.any()
+    assert audit.iloc[0].decision == "REJECTED_RESPONSE_IDENTIFIERS"

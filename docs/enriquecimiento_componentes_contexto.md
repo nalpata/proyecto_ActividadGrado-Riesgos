@@ -31,3 +31,11 @@ La ejecución con respuestas simuladas valida el recorrido técnico; no constitu
 - `summary.json`: alcance ejecutado, componentes aceptados, cobertura antes/después, consumo y límites.
 
 La siguiente revisión debe comprobar los valores efectivamente recuperados, las diferencias del perfil y los casos que conservan faltantes. No se anticipa una cobertura final ni se declara que las 222 señales resultarán puntuables.
+
+## Corrección de ejecución 1.1
+
+La primera ejecución real de la autora guardó 30 señales y se detuvo cuando un componente incluyó un valor incompatible con su estado de sustento. El manejador anterior abortaba todo el proceso. La versión 1.1 conserva la validación estricta, pero rechaza el componente incoherente, registra la propuesta original y continúa con los componentes y lotes restantes. Si los identificadores de un lote no pueden conciliarse, ninguna propuesta de ese lote se aplica; quedan rechazos auditados, sin asociar valores a señales por posición.
+
+La reanudación acepta avances de la versión original únicamente al reconstruir la huella completa de las mismas entradas, rúbrica y código anterior reconocido por SHA-256. No se elimina el control de integridad. El cuaderno actualizado carga directamente el ZIP de avance o el JSONL, o reutiliza el checkpoint local. La nueva importación recarga explícitamente el módulo para evitar usar la versión anterior en la misma sesión de Colab.
+
+La regresión local reprodujo el error tras 30 señales con respuestas simuladas y completó las 192 restantes en 20 solicitudes simuladas, sin repetir las 30 anteriores. Un componente contradictorio quedó rechazado mientras continuó el recorrido. Es una prueba técnica; no sustituye la ejecución real ni acredita nuevos componentes recuperados.
