@@ -45,10 +45,10 @@
       "profile": {
         "profile_status": "PROVISIONAL",
         "signals_total": 404,
-        "signals_scored": 260,
-        "signals_pending": 144,
-        "scoring_coverage": 0.6436,
-        "global_pird": 51.42,
+        "signals_scored": 267,
+        "signals_pending": 137,
+        "scoring_coverage": 0.6609,
+        "global_pird": 51.5,
         "global_level": "ALTO",
         "top_categories": [
           "Contractual",
@@ -56,16 +56,16 @@
           "Financiero"
         ],
         "critical_signals": 16,
-        "high_signals": 92,
+        "high_signals": 95,
         "project_scope_status": "DOCUMENT_EVIDENCE"
       },
       "categories": [
         {
           "category": "Contractual",
           "total_signals": 114,
-          "scored_signals": 61,
-          "scoring_coverage": 0.5351,
-          "category_score": 58.2279,
+          "scored_signals": 64,
+          "scoring_coverage": 0.5614,
+          "category_score": 58.4709,
           "category_level": "ALTO"
         },
         {
@@ -87,24 +87,24 @@
         {
           "category": "Operación",
           "total_signals": 110,
-          "scored_signals": 78,
-          "scoring_coverage": 0.7091,
-          "category_score": 51.0179,
+          "scored_signals": 80,
+          "scoring_coverage": 0.7273,
+          "category_score": 51.2166,
           "category_level": "ALTO"
         },
         {
           "category": "Calidad",
           "total_signals": 69,
-          "scored_signals": 51,
-          "scoring_coverage": 0.7391,
-          "category_score": 49.391,
+          "scored_signals": 53,
+          "scoring_coverage": 0.7681,
+          "category_score": 49.0057,
           "category_level": "MEDIO"
         },
         {
           "category": "Seguridad",
           "total_signals": 1,
           "scored_signals": 1,
-          "scoring_coverage": 1.0,
+          "scoring_coverage": 1,
           "category_score": 48.17,
           "category_level": "MEDIO"
         },
@@ -112,7 +112,7 @@
           "category": "Gobierno del Proyecto",
           "total_signals": 4,
           "scored_signals": 4,
-          "scoring_coverage": 1.0,
+          "scoring_coverage": 1,
           "category_score": 44.1951,
           "category_level": "MEDIO"
         },
@@ -128,23 +128,23 @@
       "level_distribution": [
         {
           "pird_level": "BAJO",
-          "signal_count": 53,
-          "percentage_of_scored": 20.38
+          "signal_count": 54,
+          "percentage_of_scored": 20.22
         },
         {
           "pird_level": "MEDIO",
-          "signal_count": 99,
-          "percentage_of_scored": 38.08
+          "signal_count": 102,
+          "percentage_of_scored": 38.2
         },
         {
           "pird_level": "ALTO",
-          "signal_count": 92,
-          "percentage_of_scored": 35.38
+          "signal_count": 95,
+          "percentage_of_scored": 35.58
         },
         {
           "pird_level": "CRITICO",
           "signal_count": 16,
-          "percentage_of_scored": 6.15
+          "percentage_of_scored": 5.99
         }
       ],
       "timeline": {
@@ -216,7 +216,7 @@
           "category": "Calidad",
           "total_signals": 6,
           "scored_signals": 6,
-          "scoring_coverage": 1.0,
+          "scoring_coverage": 1,
           "category_score": 37.7997,
           "category_level": "MEDIO"
         },
@@ -256,7 +256,7 @@
         {
           "pird_level": "CRITICO",
           "signal_count": 0,
-          "percentage_of_scored": 0.0
+          "percentage_of_scored": 0
         }
       ],
       "timeline": {
@@ -309,7 +309,7 @@
           "category": "Calidad",
           "total_signals": 1,
           "scored_signals": 1,
-          "scoring_coverage": 1.0,
+          "scoring_coverage": 1,
           "category_score": 38.05,
           "category_level": "MEDIO"
         },
@@ -317,7 +317,7 @@
           "category": "Operación",
           "total_signals": 2,
           "scored_signals": 0,
-          "scoring_coverage": 0.0,
+          "scoring_coverage": 0,
           "category_score": null,
           "category_level": null
         }
@@ -326,22 +326,22 @@
         {
           "pird_level": "BAJO",
           "signal_count": 0,
-          "percentage_of_scored": 0.0
+          "percentage_of_scored": 0
         },
         {
           "pird_level": "MEDIO",
           "signal_count": 2,
-          "percentage_of_scored": 100.0
+          "percentage_of_scored": 100
         },
         {
           "pird_level": "ALTO",
           "signal_count": 0,
-          "percentage_of_scored": 0.0
+          "percentage_of_scored": 0
         },
         {
           "pird_level": "CRITICO",
           "signal_count": 0,
-          "percentage_of_scored": 0.0
+          "percentage_of_scored": 0
         }
       ],
       "timeline": {
@@ -365,7 +365,7 @@
         "signals_total": 1,
         "signals_scored": 1,
         "signals_pending": 0,
-        "scoring_coverage": 1.0,
+        "scoring_coverage": 1,
         "global_pird": 37.82,
         "global_level": "MEDIO",
         "top_categories": [
@@ -380,7 +380,7 @@
           "category": "Operación",
           "total_signals": 1,
           "scored_signals": 1,
-          "scoring_coverage": 1.0,
+          "scoring_coverage": 1,
           "category_score": 37.82,
           "category_level": "MEDIO"
         }
@@ -389,22 +389,22 @@
         {
           "pird_level": "BAJO",
           "signal_count": 0,
-          "percentage_of_scored": 0.0
+          "percentage_of_scored": 0
         },
         {
           "pird_level": "MEDIO",
           "signal_count": 1,
-          "percentage_of_scored": 100.0
+          "percentage_of_scored": 100
         },
         {
           "pird_level": "ALTO",
           "signal_count": 0,
-          "percentage_of_scored": 0.0
+          "percentage_of_scored": 0
         },
         {
           "pird_level": "CRITICO",
           "signal_count": 0,
-          "percentage_of_scored": 0.0
+          "percentage_of_scored": 0
         }
       ],
       "timeline": {
@@ -428,7 +428,7 @@
         "signals_total": 0,
         "signals_scored": 0,
         "signals_pending": 0,
-        "scoring_coverage": 0.0,
+        "scoring_coverage": 0,
         "global_pird": null,
         "global_level": "PENDIENTE",
         "top_categories": [],
@@ -494,7 +494,15 @@
     "original_model_output_components": 125,
     "components_recovered_by_id_reconciliation": 25,
     "quality_reviewed_components": 150,
-    "quality_review_quarantines": 73
+    "quality_review_quarantines": 73,
+    "expert_review": {
+      "scope": "Muestra de componentes PIRD previamente pendientes del corpus existente",
+      "components_reviewed": 7,
+      "sustained_components": 7,
+      "source_citations_confirmed": 7,
+      "individual_responses_published": false
+    },
+    "expert_reviewed_component_count": 7
   },
   "provenance": {
     "baseline": "8f0b2b13802ecdbbaec0ec7a514334c014bf7d9b4ce238baa7bc6421c27c035a",
@@ -503,5 +511,11 @@
     "quality_review_decisions": "994433c732133c5ec011f873a9c3c062ea0386555cfc68d7599780b5a7a0cdc4",
     "chunks": "f842b10dc79ff4cdea44c59a7cde070a297bdc5625b0efbc4a25c1b6bf77beae",
     "catalog": "83bd54c005fffbe6f477aa67f211afcfba9d8a3e4a19931f4f7d04952e154e9b"
+  },
+  "scoring_summary": {
+    "signals_assigned_single_project": 515,
+    "signals_scored": 339,
+    "signals_pending": 176,
+    "scoring_coverage": 0.6583
   }
 }
