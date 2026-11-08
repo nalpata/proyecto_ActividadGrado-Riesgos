@@ -447,7 +447,7 @@ if selected_page == "Portada":
 elif selected_page == "Proyectos y documentos":
     st.subheader("Gestión del proyecto")
     st.write(f"**Proyecto activo:** {active_project}")
-    if is_corpus_project and active_project_id:
+    if is_corpus_project and active_project_id in {p["project_id"] for p in corpus_catalog["projects"]}:
         corpus_chunks = pd.read_csv(ROOT / "data/processed/chunks/chunks_recursive.csv")
         _, reconciliation = reconcile_chunks(corpus_chunks, corpus_catalog)
         project_count = next(p["chunks_single_project"] for p in reconciliation["projects"] if p["project_id"] == active_project_id)
