@@ -353,3 +353,6 @@ def process_project_risks(
             "scored_signals": scored.replace({np.nan: None}).to_dict(orient="records"),
         },
     }
+
+
+CONTROLS_VERSION = "PROJECT-EXPOSURE-2"

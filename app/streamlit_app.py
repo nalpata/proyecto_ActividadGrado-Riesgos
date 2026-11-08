@@ -14,6 +14,20 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+# A Streamlit script rerun may retain imported modules from the previous release.
+# Reload only stale control modules, in dependency order, before binding adapters.
+from importlib import import_module, reload
+for _module_name in (
+    "src.risk.build_intelligent_risk_profile",
+    "src.pipeline.end_to_end",
+    "src.retrieval.session_retriever",
+    "src.risk.session_exposure_grounding",
+    "src.pipeline.project_risk_processing",
+):
+    _control_module = import_module(_module_name)
+    if getattr(_control_module, "CONTROLS_VERSION", None) != "PROJECT-EXPOSURE-2":
+        reload(_control_module)
+
 from src.frontend.dashboard_data import (  # noqa: E402
     DEMO_PROJECT,
     NAVIGATION,
@@ -904,7 +918,6 @@ elif selected_page == "Pregunte a sus documentos":
 
 else:
     st.subheader("Metodología de la solución")
-    st.caption("Versión de controles: PROYECTO-EXPOSICION-20261108-2")
     st.write(f"**Proyecto seleccionado:** {active_project}. Los indicadores de esta página corresponden al modo de datos activo.")
     st.markdown("""
 **Consulta documental.** Los PDF y DOCX se transforman en texto y fragmentos mediante chunking recursivo.

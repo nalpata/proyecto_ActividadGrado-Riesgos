@@ -427,3 +427,6 @@ def public_execution_summary(result: dict[str, Any]) -> dict[str, Any]:
         "private_payload_included": False,
     }
 
+
+
+CONTROLS_VERSION = "PROJECT-EXPOSURE-2"

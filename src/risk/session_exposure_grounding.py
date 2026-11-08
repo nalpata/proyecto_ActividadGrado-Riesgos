@@ -102,3 +102,6 @@ def review_session_analysis(analysis: dict) -> dict:
     }
     return result
 
+
+
+CONTROLS_VERSION = "PROJECT-EXPOSURE-2"

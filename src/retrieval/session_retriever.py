@@ -80,3 +80,6 @@ class SessionRetriever(BgeM3Retriever):
         scoped.allowed_chunk_ids = allowed if self.allowed_chunk_ids is None else allowed & self.allowed_chunk_ids
         return BgeM3Retriever.__call__(scoped, question, document_ids)
 
+
+
+CONTROLS_VERSION = "PROJECT-EXPOSURE-2"
