@@ -284,6 +284,13 @@ def profile_notice() -> None:
     st.caption(profile_presentation["validation_note"])
     st.caption(profile_presentation["index_note"])
     if profile_scope == "corpus" and project_scope and project_scope.get("method", {}).get("exposure_enrichment_version"):
+        reviewed_components = int(project_scope.get("method", {}).get("expert_review", {}).get("components_reviewed", 0))
+        if reviewed_components > 0:
+            st.caption(
+                f"Revisión adicional del corpus: {reviewed_components} componentes de severidad o probabilidad "
+                "fueron revisados por el experto. Esta revisión es muestral y no valida todas las valoraciones del perfil."
+            )
+        else:
         st.caption("Las nuevas valoraciones de severidad y probabilidad de esta versión no han tenido revisión experta.")
 
 
