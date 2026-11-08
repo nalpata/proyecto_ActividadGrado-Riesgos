@@ -41,7 +41,7 @@ from src.frontend.runtime_chat import RuntimeChatService, append_runtime_history
 from src.frontend.chat_service import ConversationalRagService  # noqa: E402
 from src.pipeline.project_risk_processing import process_project_risks  # noqa: E402
 from src.risk.project_resolution import assign_chunks, validate_project_catalog  # noqa: E402
-from src.risk.corpus_project_catalog import load_catalog, reconcile_chunks  # noqa: E402
+from src.risk.corpus_project_catalog import load_catalog, reconcile_chunks, load_recomputed_scope  # noqa: E402
 
 DEMONSTRATION_QUESTIONS = (
     "¿Qué retrasos requieren vigilancia?",
@@ -204,6 +204,8 @@ if is_academic_demo:
     project_scope = academic_project_scope
 elif selected_scope == "Entorno privado por proyecto":
     project_scope = private_project_scope
+elif selected_scope == "Corpus por proyecto":
+    project_scope = load_recomputed_scope(ROOT / "results/day_21/project_scope_recomputed.json", corpus_catalog)
 else:
     project_scope = None
 is_corpus_project = selected_scope == "Corpus por proyecto"
@@ -253,7 +255,7 @@ st.sidebar.divider()
 selected_page = st.sidebar.radio("Navegación", NAVIGATION, label_visibility="collapsed")
 st.sidebar.divider()
 st.sidebar.markdown(f"**Contrato de datos:** `{'SESSION-19C' if session_project_view else snapshot['schema_version']}`")
-st.sidebar.markdown(f"**Backend:** {'RECALCULADO EN SESIÓN' if session_project_view else snapshot['contract_status']}")
+st.sidebar.markdown(f"**Backend:** {'RECALCULADO EN SESIÓN' if session_project_view else 'RECALCULADO POR PROYECTO' if is_corpus_project and selected_project_view else snapshot['contract_status']}")
 st.sidebar.caption("Solo se cargan resultados agregados y publicables.")
 
 if selected_page != "Portada":
@@ -454,6 +456,8 @@ elif selected_page == "Proyectos y documentos":
     st.subheader("Estado del proyecto")
     if uploaded_files and st.session_state.get(f"project_ingestion::{active_project}"):
         st.success("Ingesta documental completada · embeddings BGE-M3 disponibles en la sesión")
+    elif has_corpus_profile_pending:
+        st.warning("Perfil por proyecto pendiente de cálculo; el índice documental está disponible.")
     elif is_processed_project:
         st.success(f"Proyecto procesado · {profile['signals_total']} señales · contrato de datos 1.0.0")
     else:
@@ -491,7 +495,7 @@ elif selected_page == "Resumen ejecutivo":
             st.markdown(
                 f"""<div class="section-card"><div class="eyebrow">Alcance por proyecto</div>
                 <h3>{selected_project_view['display_name']}</h3>
-                <p>Perfil calculado únicamente con señales asignadas explícitamente a este proyecto. Los casos ambiguos permanecen pendientes.</p></div>""",
+                <p>Perfil provisional calculado con señales asignadas automáticamente a este proyecto. Los casos ambiguos permanecen pendientes y las asignaciones requieren revisión humana.</p></div>""",
                 unsafe_allow_html=True,
             )
         else:
@@ -586,7 +590,10 @@ elif selected_page == "Perfil del proyecto":
     provisional_notice()
     st.subheader("Distribución del PIRD")
     distribution = pd.DataFrame(view_distribution)
-    st.bar_chart(distribution.set_index("pird_level")["signal_count"])
+    if distribution.empty:
+        st.info("Este proyecto no tiene señales puntuadas para mostrar una distribución.")
+    else:
+        st.bar_chart(distribution.set_index("pird_level")["signal_count"])
     st.dataframe(distribution, width="stretch", hide_index=True)
     st.subheader("Escenarios de sensibilidad")
     if session_project_view:

@@ -14,6 +14,18 @@ def load_catalog(path: Path, override: str | dict | None = None) -> dict:
     return validate_project_catalog(payload)
 
 
+def load_recomputed_scope(path: Path, catalog: dict) -> dict | None:
+    """No reutiliza perfiles si cambian las reglas del catálogo activo."""
+    if not path.exists():
+        return None
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    expected = hashlib.sha256(json.dumps(catalog, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+    if payload.get("catalog_sha256") != expected:
+        return None
+    from src.frontend.dashboard_data import validate_project_scope_summary
+    return validate_project_scope_summary(payload)
+
+
 def reconcile_chunks(chunks: pd.DataFrame, catalog: dict) -> tuple[pd.DataFrame, dict]:
     validate_project_catalog(catalog)
     if chunks.chunk_id.duplicated().any():
