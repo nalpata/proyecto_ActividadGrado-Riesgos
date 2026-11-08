@@ -1,0 +1,39 @@
+{
+  "catalog_sha256": "a790680aa5c713e2241493d95f4ab730f7ec4018f50e17222146e8fa3f6cf53c",
+  "chunks_total": 345,
+  "documents_total": 36,
+  "chunks_single_project": 237,
+  "chunks_ambiguous": 59,
+  "chunks_pending": 49,
+  "projects": [
+    {
+      "project_id": "DATAR",
+      "display_name": "DataR",
+      "chunks_single_project": 186
+    },
+    {
+      "project_id": "MULTINUBE",
+      "display_name": "Multinube",
+      "chunks_single_project": 50
+    },
+    {
+      "project_id": "NSGA",
+      "display_name": "NSGA",
+      "chunks_single_project": 1
+    },
+    {
+      "project_id": "NSGT",
+      "display_name": "NSGT",
+      "chunks_single_project": 0
+    },
+    {
+      "project_id": "PDIS",
+      "display_name": "PDIS",
+      "chunks_single_project": 0
+    }
+  ],
+  "status": "AUTOMATIC_ASSIGNMENT_PENDING_HUMAN_REVIEW",
+  "unit": "chunks_not_risk_signals",
+  "source_sha256": "f842b10dc79ff4cdea44c59a7cde070a297bdc5625b0efbc4a25c1b6bf77beae",
+  "source_path": "data/processed/chunks/chunks_recursive.csv"
+}
