@@ -751,7 +751,7 @@ elif selected_page == "Riesgos priorizados":
             table = prioritized[["category", "category_score", "category_level", "scoring_coverage", "scored_signals", "total_signals"]].copy()
             table["scoring_coverage"] = table["scoring_coverage"].map(lambda value: f"{value:.1%}")
             st.dataframe(table.rename(columns={"category": "Categoría", "category_score": "PIRD", "category_level": "Nivel", "scoring_coverage": "Cobertura", "scored_signals": "Puntuadas", "total_signals": "Total"}), width="stretch", hide_index=True)
-    st.caption("Priorización por categoría. Las señales y evidencias individuales permanecen en el entorno privado autorizado.")
+    st.caption("Priorización agregada por categoría. Las señales individuales y sus evidencias están disponibles en el detalle del proyecto.")
 
 elif selected_page == "Perfil del proyecto":
     profile_notice()
