@@ -34,7 +34,16 @@ class SessionRetriever(BgeM3Retriever):
         self._encoder = encoder
         self._chunks = chunks.reset_index(drop=True)
         self._matrix = matrix / norms
+        if ingestion.get("project_scope", {}).get("mode") == "DOCUMENT_EVIDENCE":
+            mask = self._chunks.detected_project_id.eq(project_id).to_numpy()
+            self._chunks = self._chunks.loc[mask].reset_index(drop=True)
+            self._matrix = self._matrix[mask]
 
     def _load(self) -> None:
         # Nunca abre el parquet histórico ni persiste la ingesta.
         return
+
+    def __call__(self, question: str, document_ids: list[str]) -> list[dict[str, Any]]:
+        if self._chunks.empty:
+            return []
+        return super().__call__(question, document_ids)

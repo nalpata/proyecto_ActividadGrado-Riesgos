@@ -36,6 +36,7 @@ from src.risk.extract_documentary_items import (
 )
 from src.risk.run_validation_agent import validate_catalog
 from src.risk.semantic_clustering import semantic_recurrence
+from src.risk.project_scope import scope_signals, validate_scope
 
 
 MAX_ANALYSIS_CHUNKS = 100
@@ -211,6 +212,9 @@ def process_project_risks(
     if any(str(row.get("project_id")) != project_id for row in chunks_payload):
         raise ValueError("La ingesta contiene chunks de otro proyecto")
 
+    catalog = ingestion_result.get("project_catalog")
+    if catalog is not None:
+        validate_scope(project_id, catalog)
     chunks = pd.DataFrame(chunks_payload).copy()
     chunks["tipo_documento"] = chunks.filename.map(
         lambda name: Path(str(name)).suffix.lower().lstrip(".").upper() or "DESCONOCIDO"
@@ -222,10 +226,12 @@ def process_project_risks(
     examples = parse_calibration_examples(calibration_examples)
     classified, classification = _classify_items(items, chunks, client, examples)
     decisions, validation = validate_catalog(classified)
-    accepted = decisions[decisions.validation_accepted == 1].reset_index(drop=True)
+    decisions, project_scope = scope_signals(decisions, chunks, project_id, catalog)
+    accepted = decisions[(decisions.validation_accepted == 1) & decisions.project_scope_included].reset_index(drop=True)
     if accepted.empty:
         result = _pending_result(project_id, extraction, classification)
         result["validation"] = validation
+        result["project_scope"] = project_scope
         result["private"]["items"] = decisions.to_dict(orient="records")
         return result
 
@@ -286,6 +292,7 @@ def process_project_risks(
         "status": "COMPLETED",
         "summary": summary,
         "classification": classification,
+        "project_scope": project_scope,
         "validation": validation,
         "timeline": timeline_summary,
         "categories": public_categories,

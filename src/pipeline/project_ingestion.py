@@ -19,6 +19,7 @@ import numpy as np
 from docx import Document
 
 from src.preprocessing.clean_text import clean_text
+from src.risk.project_scope import annotate_chunks, validate_scope, canonical_project_id
 
 
 EMBEDDING_MODEL = "BAAI/bge-m3"
@@ -124,11 +125,13 @@ def ingest_project_documents(
     project_id: str,
     files: list[dict[str, Any]],
     encoder: Any,
+    project_catalog: dict | None = None,
 ) -> dict[str, Any]:
     """Extrae, limpia, fragmenta y vectoriza documentos sin persistirlos."""
 
     validate_uploads(files)
-    safe_project = _safe_project_id(project_id)
+    safe_project = (canonical_project_id(project_id, project_catalog)
+                    if project_catalog is not None else _safe_project_id(project_id))
     documents: list[dict[str, Any]] = []
     chunks: list[dict[str, Any]] = []
     errors: list[dict[str, str]] = []
@@ -186,6 +189,7 @@ def ingest_project_documents(
     if not chunks:
         raise ValueError("Ningún documento produjo texto utilizable")
 
+    project_scope = annotate_chunks(chunks, safe_project, project_catalog)
     texts = [item["chunk_text"] for item in chunks]
     vectors = np.asarray(
         encoder.encode(
@@ -204,6 +208,8 @@ def ingest_project_documents(
 
     return {
         "project_id": safe_project,
+        "project_scope": project_scope,
+        "project_catalog": project_catalog,
         "documents": documents,
         "chunks": chunks,
         "errors": errors,

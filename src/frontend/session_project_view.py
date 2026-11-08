@@ -65,6 +65,7 @@ def build_session_project_view(analysis: dict[str, Any], display_name: str) -> d
         "critical_signals": counts["CRITICO"],
         "high_signals": counts["ALTO"],
         "calibration_status": analysis["classification"].get("calibration_status", "UNKNOWN"),
+        "project_scope_status": analysis.get("project_scope", {}).get("mode", "UNVERIFIED"),
         "privacy": "Session aggregates only; source text and individual signals are not rendered.",
     }
 
