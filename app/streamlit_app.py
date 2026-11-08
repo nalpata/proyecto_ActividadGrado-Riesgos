@@ -781,7 +781,7 @@ La consulta conversacional reutiliza el índice y no recalcula el perfil de ries
     m1, m2, m3 = st.columns(3)
     m1.metric("Señales del proyecto", profile["signals_total"])
     m2.metric("Señales puntuadas", profile["signals_scored"])
-    m3.metric("Componentes pendientes por completar", profile["signals_pending"])
+    m3.metric("Señales pendientes de componentes", profile["signals_pending"])
     if project_scope:
         assignment = project_scope["assignment"]
         st.caption(f"Contexto del conjunto activo: {assignment['signals_total']} señales; "
