@@ -70,7 +70,7 @@ REGLAS:
 - No equipares una alerta a impacto crítico; justifica el nivel con consecuencias expresas, sin inferirlas.
 - Marca supported=1 solo cuando la cita o su contexto permite justificar el nivel.
 - Si no hay base suficiente, devuelve el nivel null y supported=0.
-- evidence_basis debe ser una frase breve tomada o parafraseada estrictamente de la cita.
+- evidence_basis debe ser una frase breve tomada o parafraseada estrictamente de la cita o su contexto suministrado.
 - Devuelve exactamente una evaluación por item_id.
 
 SEÑALES:

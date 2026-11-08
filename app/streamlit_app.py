@@ -174,6 +174,7 @@ def get_embedding_model():
 
 @st.cache_resource(max_entries=8)
 def get_chat_service(api_key: str, project_id: str = "", project_name: str = "") -> FinalPipelineChatService:
+    """Servicio con contexto de sección y diagnóstico explícito de referencias (v2)."""
     from openai import OpenAI
 
     retriever = ProjectBgeM3Retriever(
