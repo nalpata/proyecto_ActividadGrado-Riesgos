@@ -39,6 +39,7 @@ from src.frontend.chat_service import FinalPipelineChatService, ProjectScopedRet
 from src.pipeline.end_to_end import BgeM3Retriever, EndToEndPipeline, OpenAIRagAnswerer  # noqa: E402
 from src.pipeline.project_ingestion import ingest_project_documents  # noqa: E402
 from src.retrieval.session_retriever import SessionRetriever  # noqa: E402
+from src.retrieval.document_reference_scope import DocumentReferenceScopedRetriever  # noqa: E402
 from src.retrieval.project_retriever import ProjectBgeM3Retriever  # noqa: E402
 from src.frontend.runtime_chat import RuntimeChatService, append_runtime_history as append_history  # noqa: E402
 from src.frontend.chat_service import ConversationalRagService  # noqa: E402
@@ -877,7 +878,10 @@ elif selected_page == "Pregunte a sus documentos":
                 from openai import OpenAI
 
                 service = ConversationalRagService(
-                    retriever=SessionRetriever(session_ingestion, get_embedding_model()),
+                    retriever=DocumentReferenceScopedRetriever(
+                        SessionRetriever(session_ingestion, get_embedding_model()),
+                        session_ingestion.get("documents", []),
+                    ),
                     answerer=OpenAIRagAnswerer(client=OpenAI(api_key=api_key)),
                 )
                 exchange = service.ask(question)
