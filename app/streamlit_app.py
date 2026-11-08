@@ -164,13 +164,14 @@ def get_embedding_model():
     return SentenceTransformer("BAAI/bge-m3")
 
 
-@st.cache_resource
+@st.cache_resource(max_entries=8)
 def get_chat_service(api_key: str, project_id: str = "", project_name: str = "") -> FinalPipelineChatService:
     from openai import OpenAI
 
     retriever = ProjectBgeM3Retriever(
         ROOT / "data/processed/embedding/embeddings_bge_m3.parquet",
         top_k=5,
+        encoder=get_embedding_model(),
         allowed_chunk_ids=get_project_chunk_ids().get(project_id, set()) if project_id else None,
     )
     answerer = OpenAIRagAnswerer(model="gpt-4o-mini", client=OpenAI(api_key=api_key))
