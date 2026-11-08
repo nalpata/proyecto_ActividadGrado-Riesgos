@@ -7,9 +7,9 @@ El README contiene el estado técnico, los denominadores vigentes y las limitaci
 - Mantener consulta original, BGE-M3 y chunking recursivo. No incorporar una rama experimental de recuperación.
 - Mantener el corpus publicado. Las actas de evaluación permanecen fuera del repositorio público y no amplían la línea base.
 - Detalle de señales público automático, sin carga manual de CSV; filtros y métricas por proyecto.
-- Conservar los resultados negativos: casos 3 y 5 no resueltos; desacuerdo 3/4 frente a 5/5 registrado, sin forzar valores.
+- Conservar las observaciones iniciales como historia y registrar la aclaración posterior de Patricia: valoración 3/4 aceptada en el caso 3; NSGA correcto y caso 5 cerrado. No forzar valores ni repetir la evaluación.
 - Una solicitud no prueba cumplimiento. El control de sesión conserva propuestas originales, marca pendientes los componentes apoyados en un cierre no sustentado y recalcula agregados sin reducir denominadores.
-- No modificar el informe hasta concluir la revisión de la solución.
+- Con las aclaraciones de cierre recibidas, avanzar a la actualización del informe con resultados aceptados y límites metodológicos.
 
 ## Evidencia nueva
 
@@ -21,8 +21,12 @@ La evidencia automática se registra en `results/closure_20261108/software_valid
 
 ## Límites abiertos
 
-La cobertura 339/515 no es total: 176 señales atribuidas permanecen sin PIRD completo. El control literal no garantiza equivalencia semántica. Los cinco casos conocidos no permiten estimar generalización independiente. No se evaluó utilidad de la app con el experto. Los casos 3 y 5 impiden declarar precisión semántica completa. Estas limitaciones deben quedar explícitas en el informe y la sustentación.
+La cobertura 339/515 no es total: 176 señales atribuidas permanecen sin PIRD completo. El control literal no garantiza equivalencia semántica. Los casos conocidos no permiten estimar generalización independiente. No se evaluó utilidad de la app con el experto. La aceptación de los casos revisados no demuestra precisión semántica completa sobre el corpus. Estas limitaciones deben quedar explícitas en el informe y la sustentación.
 
 ## Comprobación del despliegue
 
-Con PR43 publicado, Streamlit aplicó el control a la sesión existente sin repetir el LLM: 39 aceptadas, 19 valoradas y 20 pendientes (48,72 %). Ocho propuestas requieren revisión; no se eliminan señales. La alerta principal conserva 3/4 y la solicitud queda pendiente. Se detectó y corrigió un aviso visual causado por campos booleanos ausentes convertidos a NaN; la prueba de interfaz comprueba aviso solo en la señal marcada.
+Con PR43 publicado, Streamlit aplicó el control a la sesión existente sin repetir el LLM: 39 aceptadas, 19 valoradas y 20 pendientes (48,72 %). Ocho propuestas fueron marcadas automáticamente; no equivalen a ocho errores confirmados por el experto ni a una revisión obligatoria pendiente. No se eliminan señales. La alerta principal conserva 3/4 y la solicitud queda pendiente. Se detectó y corrigió un aviso visual causado por campos booleanos ausentes convertidos a NaN; la prueba de interfaz comprueba aviso solo en la señal marcada.
+
+## Aclaración posterior comunicada por Patricia
+
+El 8 de noviembre, Patricia confirmó la aceptación experta de severidad 3 y probabilidad 4 en el caso 3 y la respuesta correcta NSGA en el caso 5; los demás casos revisados fueron aceptados. Se rectifica su presentación anterior como pendientes. No se ejecutó nuevamente el modelo ni se modificaron los resultados históricos del control automático. Patricia menciona seis casos revisados; el registro anterior enumera cinco, por lo que no se incorpora un sexto sin detalle ni se recalculan métricas.
