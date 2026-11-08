@@ -1,0 +1,29 @@
+{
+  "version": "DOCUMENT-DATES-1",
+  "documents": [
+    {
+      "filename": "Solicitud cambio apoyo gerencia.pdf",
+      "date_observed": "2023-07-10",
+      "date_precision": "DAY",
+      "source_page": 1,
+      "source_quote": "Bogotá, julio 10 de 2023",
+      "source_sha256": "be55c603dc3e8028a758f3255e02c71e7dae54831a015a909fe77920030e909a"
+    },
+    {
+      "filename": "RQ001 Acta Review Sprint 8_Firmada.pdf",
+      "date_observed": "2024-04-17",
+      "date_precision": "DAY",
+      "source_page": 1,
+      "source_quote": "Fecha de reunión: 17 de abril de 2024",
+      "source_sha256": "dcfadcc2d498dfa89fa3759b73e04eaa60dd6639e5908922a08a13084435d3ac"
+    },
+    {
+      "filename": "RTA-DIAN-Solicitud_de_Mejora_CNS-0554-24.pdf",
+      "date_observed": "2024-09-25",
+      "date_precision": "DAY",
+      "source_page": 1,
+      "source_quote": "Bogotá, 25 de septiembre de 2024",
+      "source_sha256": "2e20a7d085eb651075dfca833123d8a64686b9865f5b6a791750a2e2c00ba512"
+    }
+  ]
+}

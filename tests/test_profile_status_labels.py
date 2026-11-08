@@ -55,7 +55,7 @@ def test_data_r_view_exposes_calculation_coverage_and_sample_scope_without_chang
     assert not app.exception
     assert next(m.value for m in app.metric if m.label == "PIRD global") == "49.77"
     text = "\n".join(m.value for m in app.markdown)
-    assert "234 de 404 señales (57.92 %)" in text
+    assert "236 de 404 señales (58.42 %)" in text
     assert "Señales pendientes de componentes:" in text
     assert "Revisión experta muestral del corpus" in text
     assert "Resultado provisional" not in text

@@ -2,12 +2,12 @@
 
 import pandas as pd
 
-from src.risk.build_risk_timeline import infer_document_date
+from src.risk.verified_document_dates import resolve_document_date
 from src.risk.project_resolution import find_project_mentions, validate_project_catalog
 
 
 def build_document_timeline(chunks: pd.DataFrame, project_id: str | None = None,
-                            catalog: dict | None = None) -> dict:
+                            catalog: dict | None = None, verified_dates: dict | None = None) -> dict:
     if not {"filename", "chunk_text"}.issubset(chunks.columns):
         raise ValueError("La cronología requiere nombre de documento y texto de los fragmentos")
     selected = chunks.copy()
@@ -23,7 +23,7 @@ def build_document_timeline(chunks: pd.DataFrame, project_id: str | None = None,
         selected = selected[mask]
     records = []
     for filename in selected.filename.drop_duplicates().astype(str):
-        date = infer_document_date(filename)
+        date = resolve_document_date(filename, verified_dates)
         records.append({
             "filename": filename,
             "document_date": date["document_date"].strftime("%Y-%m" if date["date_precision"] == "MONTH" else "%Y-%m-%d") if pd.notna(date["document_date"]) else None,

@@ -74,7 +74,7 @@ def persistence_level(days: int, dated_document_count: int) -> int:
     return 5
 
 
-def build_timeline(items: pd.DataFrame, assignments: pd.DataFrame, embeddings: np.ndarray, threshold: float = 0.70) -> tuple[pd.DataFrame, dict]:
+def build_timeline(items: pd.DataFrame, assignments: pd.DataFrame, embeddings: np.ndarray, threshold: float = 0.70, verified_dates: dict | None = None) -> tuple[pd.DataFrame, dict]:
     required_items = {"item_id", "source_doc_id", "source_filename", "explicit_date", "calibrated_confidence", "calibrated_evidence_sufficient"}
     required_assignments = {"item_id", "recurrence_level"}
     if missing := required_items.difference(items.columns):
@@ -89,7 +89,8 @@ def build_timeline(items: pd.DataFrame, assignments: pd.DataFrame, embeddings: n
     _, corrected_recurrence = semantic_recurrence(embeddings, timeline.source_doc_id, threshold=threshold)
     timeline["recurrence_level"] = corrected_recurrence
 
-    dates = pd.DataFrame([infer_document_date(value) for value in timeline.source_filename])
+    from src.risk.verified_document_dates import resolve_document_date
+    dates = pd.DataFrame([resolve_document_date(value, verified_dates) for value in timeline.source_filename])
     timeline = pd.concat([timeline.reset_index(drop=True), dates], axis=1)
     x = normalize(np.asarray(embeddings), norm="l2")
     similarities = x @ x.T
