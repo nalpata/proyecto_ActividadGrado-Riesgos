@@ -4,6 +4,6 @@
   "rows": 649,
   "assigned_rows": 515,
   "scored_rows": 339,
-  "storage": "session_only",
-  "contains_public_signal_data": false
+  "storage": "published_baseline",
+  "contains_public_signal_data": true
 }

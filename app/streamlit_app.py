@@ -308,32 +308,12 @@ def render_risk_details() -> None:
         records = pd.DataFrame(session_analysis.get("private", {}).get("scored_signals", []))
     elif is_corpus_project and project_scope:
         manifest = json.loads((ROOT / "config/risk_detail_manifest.json").read_text(encoding="utf-8"))
-        upload = st.file_uploader(
-            "Cargar detalle de la línea base (CSV)", type=["csv"], key=f"corpus_risk_detail_upload::{st.session_state.get('risk_details_upload_epoch', 0)}",
-            help="Use Detalle_riesgos_linea_base_339.csv sin editarlo. Se comprueba su versión y se conserva solo en esta sesión.")
-        if upload is not None:
-            import hashlib
-            uploaded_bytes = upload.getvalue()
-            upload_digest = hashlib.sha256(uploaded_bytes).hexdigest()
-            if st.session_state.get("risk_details_digest") != upload_digest:
-                # Clear stale data first: an invalid replacement must never leave prior details visible.
-                st.session_state.pop("risk_details_corpus", None)
-                st.session_state.pop("risk_details_digest", None)
-                try:
-                    checked = load_corpus_risk_details(uploaded_bytes, manifest, corpus_catalog, project_scope)
-                except (ValueError, KeyError, pd.errors.ParserError):
-                    st.error("El archivo no coincide con la línea base publicada. Cargue el CSV original sin modificarlo.")
-                    return
-                st.session_state["risk_details_corpus"] = checked
-                st.session_state["risk_details_digest"] = upload_digest
-        corpus_details = st.session_state.get("risk_details_corpus")
-        if corpus_details is not None and st.button("Retirar detalle de esta sesión", key="clear_risk_details"):
-            st.session_state.pop("risk_details_corpus", None)
-            st.session_state.pop("risk_details_digest", None)
-            st.session_state["risk_details_upload_epoch"] = st.session_state.get("risk_details_upload_epoch", 0) + 1
-            st.rerun()
-        if corpus_details is None:
-            st.info("Cargue el archivo de detalle para explorar las señales y sus citas. Los agregados por categoría siguen disponibles debajo.")
+        try:
+            corpus_details = load_corpus_risk_details(
+                (ROOT / "data/evaluation/risk_details/signals_published.csv").read_bytes(),
+                manifest, corpus_catalog, project_scope)
+        except (OSError, ValueError, KeyError, pd.errors.ParserError):
+            st.error("El detalle publicado no concilia con el perfil vigente. No se mostrarán registros de otra versión.")
             return
         records = select_project_risk_details(corpus_details, active_project_id)
         st.caption("Detalle de la línea base conciliado con los perfiles publicados. Las señales ambiguas y multiproyecto quedan excluidas del proyecto activo.")
@@ -412,7 +392,7 @@ def render_risk_details() -> None:
     if pd.notna(justification):
         st.write("Sustento de la valoración:")
         st.text(str(justification))
-    st.caption("Los niveles ausentes permanecen vacíos. El detalle se conserva en la sesión y no se incorpora al repositorio.")
+    st.caption("Los niveles ausentes permanecen vacíos. El detalle del corpus está publicado y se carga automáticamente para el proyecto seleccionado.")
 
 
 if ((selected_project == "Nuevo proyecto" or session_ingestion is not None) and session_project_view is None or has_corpus_profile_pending) and selected_page in {
