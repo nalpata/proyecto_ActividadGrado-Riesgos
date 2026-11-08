@@ -172,6 +172,8 @@ Reglas:
 - No uses conocimiento externo ni completes vacíos.
 - Si la evidencia es insuficiente, indícalo expresamente.
 - Cita las fuentes con el formato [n].
+- Antes de atribuir cifras a un proyecto nombrado en la pregunta, verifica que la evidencia lo identifique. No inventes equivalencias entre siglas y nombres de proyectos. Si no hay evidencia para ese proyecto, abstente de atribuirle cifras de otro.
+- Una resta de porcentajes se expresa en puntos porcentuales; diferencia esa unidad de una variación porcentual relativa.
 - Distingue hechos ocurridos, riesgos, compromisos y acciones cuando corresponda.
 - Revisa todos los fragmentos entregados y responde cada parte de la pregunta; no omitas acciones distintas que estén sustentadas.
 - Comprueba las premisas de la pregunta. Si un hecho corresponde a otra sección o proyecto, corrige la atribución y cita el pasaje que lo respalda.
@@ -424,3 +426,4 @@ def public_execution_summary(result: dict[str, Any]) -> dict[str, Any]:
         "scoring_coverage": profile.get("scoring_coverage"),
         "private_payload_included": False,
     }
+

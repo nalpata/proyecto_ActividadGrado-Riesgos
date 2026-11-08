@@ -1,6 +1,10 @@
 """Recuperación sobre una ingesta de sesión sin acceso al índice histórico."""
 
 from typing import Any
+from copy import copy
+import json
+import re
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -28,6 +32,11 @@ class SessionRetriever(BgeM3Retriever):
         norms = np.linalg.norm(matrix, axis=1, keepdims=True)
         if not np.isfinite(matrix).all() or (norms == 0).any():
             raise ValueError("El índice contiene vectores inválidos")
+        catalog = json.loads((Path(__file__).resolve().parents[2] / "config/project_catalog.json").read_text())
+        self._project_alias_groups = [
+            tuple({str(p["display_name"]), *map(str, p.get("aliases", []))})
+            for p in catalog["projects"]
+        ]
         self.project_id = project_id
         self.allowed_chunk_ids = None
         self.top_k = top_k
@@ -46,4 +55,28 @@ class SessionRetriever(BgeM3Retriever):
     def __call__(self, question: str, document_ids: list[str]) -> list[dict[str, Any]]:
         if self._chunks.empty:
             return []
-        return super().__call__(question, document_ids)
+        # A named catalog project must occur in eligible documentary text, not
+        # merely in the user's question or the arbitrary session name.
+        eligible = self._chunks
+        if document_ids:
+            eligible = eligible[eligible.doc_id.astype(str).isin(map(str, document_ids))]
+        mask = np.zeros(len(eligible), dtype=bool)
+        named_project = False
+        for aliases in self._project_alias_groups:
+            pattern = r"(?<!\w)(?:" + "|".join(re.escape(a) for a in aliases) + r")(?!\w)"
+            if re.search(pattern, question, re.IGNORECASE):
+                named_project = True
+                matches = eligible.chunk_text.astype(str).str.contains(pattern, case=False, regex=True).to_numpy()
+                if not matches.any():
+                    return []
+                mask |= matches
+        if not named_project:
+            mask[:] = True
+        allowed = set(eligible.loc[mask, "chunk_id"].astype(str))
+        if not allowed:
+            return []
+        # Scope before ranking; do not discard unrelated Top-k after retrieval.
+        scoped = copy(self)
+        scoped.allowed_chunk_ids = allowed if self.allowed_chunk_ids is None else allowed & self.allowed_chunk_ids
+        return BgeM3Retriever.__call__(scoped, question, document_ids)
+
