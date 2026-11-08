@@ -25,6 +25,7 @@ from src.frontend.dashboard_data import (  # noqa: E402
 )
 from src.frontend.session_project_view import build_session_project_view  # noqa: E402
 from src.frontend.document_timeline import build_document_timeline  # noqa: E402
+from src.frontend.profile_status_labels import describe_pird_profile  # noqa: E402
 from src.frontend.visualizations import (  # noqa: E402
     LEVEL_ORDER,
     build_category_priority_figure,
@@ -247,6 +248,9 @@ else:
     view_categories = snapshot["categories"]
     view_distribution = snapshot["level_distribution"]
     view_timeline = get_timeline_summary()
+profile_scope = ("synthetic" if is_academic_demo else "session" if session_project_view else
+                 "corpus" if selected_scope in {"Consolidado público", "Corpus por proyecto"} else "unverified")
+profile_presentation = describe_pird_profile(profile, profile_scope)
 st.sidebar.caption(f"Proyecto activo: {active_project}")
 if current_project_view:
     st.sidebar.caption(f"{profile['signals_total']} señales asignadas · cobertura PIRD {profile['scoring_coverage']:.1%}")
@@ -269,12 +273,16 @@ if selected_page != "Portada":
         st.info("Demostración académica con valores sintéticos. La estructura reproduce el flujo del sistema; los resultados no pertenecen a proyectos reales.")
 
 
-def provisional_notice() -> None:
+def profile_notice() -> None:
     st.markdown(
-        f"""<div class="notice"><strong>Resultado provisional.</strong> El PIRD es un índice relativo de
-        priorización, no una probabilidad. Cobertura actual: {profile['scoring_coverage']:.1%}.</div>""",
+        f"""<div class="notice"><strong>Estado del cálculo:</strong> {profile_presentation['calculation_label']}<br>
+        <strong>Cobertura:</strong> {profile_presentation['coverage_text']} · {profile_presentation['coverage_label']}<br>
+        <strong>Señales pendientes de componentes:</strong> {profile_presentation['signals_pending']}<br>
+        <strong>Validación:</strong> {profile_presentation['validation_label']}</div>""",
         unsafe_allow_html=True,
     )
+    st.caption(profile_presentation["validation_note"])
+    st.caption(profile_presentation["index_note"])
 
 
 if ((selected_project == "Nuevo proyecto" or session_ingestion is not None) and session_project_view is None or has_corpus_profile_pending) and selected_page in {
@@ -433,11 +441,12 @@ elif selected_page == "Proyectos y documentos":
                 else:
                     st.success(
                         f"PIRD del proyecto: {risk_summary['global_pird']:.2f} · "
-                        f"nivel {risk_summary['global_level']} · {risk_summary['profile_status']}"
+                        f"nivel {risk_summary['global_level']} · {describe_pird_profile(risk_summary, 'session')['calculation_label']}"
                     )
+                    st.caption(describe_pird_profile(risk_summary, "session")["validation_label"])
                 if analysis["classification"]["calibration_status"] == "PROVISIONAL_NO_PRIVATE_EXAMPLES":
                     st.warning(
-                        "Clasificación provisional: los 29 ejemplos humanos del Día 5 no están "
+                        "Clasificación sin ejemplos humanos configurados: los 29 ejemplos del Día 5 no están "
                         "configurados en el servidor. Se aplicó la misma taxonomía y reglas, sin afirmar "
                         "calibración humana para estos documentos nuevos."
                     )
@@ -467,7 +476,7 @@ elif selected_page == "Proyectos y documentos":
 elif selected_page == "Resumen ejecutivo":
     if not is_processed_project:
         st.warning("Este proyecto todavía no tiene documentos procesados. Cárguelos en Proyectos y documentos.")
-    provisional_notice()
+    profile_notice()
     st.write("")
     col1, col2, col3, col4 = st.columns(4)
     pird_label = f"{profile['global_pird']:.2f}" if profile["global_pird"] is not None else "Pendiente"
@@ -480,7 +489,7 @@ elif selected_page == "Resumen ejecutivo":
     with left:
         st.markdown(
             f"""<div class="section-card"><div class="eyebrow">Estado del proyecto</div>
-            <h3>{profile['global_level']} · {profile['profile_status']}</h3>
+            <h3>{profile['global_level']} · {profile_presentation['calculation_label']}</h3>
             <p>El perfil consolida {profile['signals_scored']} señales completas de un total de
             {profile['signals_total']}. Las categorías que requieren mayor atención agregada son
             {', '.join(profile['top_categories']) or 'pendientes de puntuación'}.</p></div>""", unsafe_allow_html=True)
@@ -496,7 +505,7 @@ elif selected_page == "Resumen ejecutivo":
             st.markdown(
                 f"""<div class="section-card"><div class="eyebrow">Alcance por proyecto</div>
                 <h3>{selected_project_view['display_name']}</h3>
-                <p>Perfil provisional calculado con señales asignadas automáticamente a este proyecto. Los casos ambiguos permanecen pendientes y las asignaciones requieren revisión humana.</p></div>""",
+                <p>El perfil utiliza las señales del proyecto activo. Los casos ambiguos conservan su asignación pendiente. {profile_presentation['validation_note']}</p></div>""",
                 unsafe_allow_html=True,
             )
         else:
@@ -508,7 +517,7 @@ elif selected_page == "Resumen ejecutivo":
 elif selected_page == "Radar de riesgos":
     if not is_processed_project:
         st.warning("El radar estará disponible después de procesar los documentos del proyecto.")
-    provisional_notice()
+    profile_notice()
     st.subheader("Radar PIRD por categoría")
     categories = pd.DataFrame(view_categories)
     if categories.empty:
@@ -595,7 +604,7 @@ elif selected_page == "Timeline":
 elif selected_page == "Riesgos priorizados":
     if not is_processed_project:
         st.warning("La priorización estará disponible después de procesar los documentos del proyecto.")
-    provisional_notice()
+    profile_notice()
     st.subheader("Priorización agregada")
     categories = pd.DataFrame(view_categories)
     if categories.empty:
@@ -616,7 +625,7 @@ elif selected_page == "Riesgos priorizados":
     st.caption("Priorización por categoría. Las señales y evidencias individuales permanecen en el entorno privado autorizado.")
 
 elif selected_page == "Perfil del proyecto":
-    provisional_notice()
+    profile_notice()
     st.subheader("Distribución del PIRD")
     distribution = pd.DataFrame(view_distribution)
     if distribution.empty:
