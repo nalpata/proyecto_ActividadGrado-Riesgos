@@ -68,6 +68,9 @@ REGLAS:
 - No utilices recurrencia entre documentos ni persistencia temporal: se incorporan aparte en el PIRD.
 - Usa la cita y su contexto documental suministrado para distinguir condición abierta, consecuencias expresas y medidas de seguimiento.
 - No equipares una alerta a impacto crítico; justifica el nivel con consecuencias expresas, sin inferirlas.
+- exposure_status es una etiqueta propuesta, no una prueba del estado real. No deduzcas cierre de esa etiqueta.
+- Una solicitud emitida, una reunión celebrada o un compromiso registrado no acreditan su cumplimiento ni el cierre de la exposición.
+- Si afirmas cierre, la evidencia de ESTA señal debe acreditar literalmente cierre o resolución; no uses el cierre de otra actividad del contexto.
 - Marca supported=1 solo cuando la cita o su contexto permite justificar el nivel.
 - Si no hay base suficiente, devuelve el nivel null y supported=0.
 - evidence_basis debe ser una frase breve tomada o parafraseada estrictamente de la cita o su contexto suministrado.
