@@ -904,6 +904,7 @@ elif selected_page == "Pregunte a sus documentos":
 
 else:
     st.subheader("Metodología de la solución")
+    st.caption("Versión de controles: PROYECTO-EXPOSICION-20261108-2")
     st.write(f"**Proyecto seleccionado:** {active_project}. Los indicadores de esta página corresponden al modo de datos activo.")
     st.markdown("""
 **Consulta documental.** Los PDF y DOCX se transforman en texto y fragmentos mediante chunking recursivo.
