@@ -12,3 +12,9 @@ La primera evaluación de un proyecto adicional se conserva separada de esta cor
 ## Verificación
 
 Las regresiones sintéticas comprueban proyectos ausentes, alcance documental antes de Top-k, límites de palabra, conservación de consultas ordinarias y discrepancia entre etiqueta de extracción y estado valorado. Las pruebas de software no sustituyen la verificación en la aplicación. La comprobación posterior en los casos conocidos se reportará como regresión y no como un nuevo test independiente.
+
+## Resultado de la comprobación posterior
+
+La versión `PROYECTO-EXPOSICION-20261108-3` se verificó en la aplicación (rama de despliegue `230ea392a5c96308b5a5a448bb75f6a1426eb424`). La consulta sobre un proyecto ajeno quedó sin evidencia; la comparación temporal utilizó puntos porcentuales. Pasaron 227 pruebas automatizadas en el código de corrección.
+
+En una nueva ejecución sobre los mismos dos documentos retenidos, se obtuvieron 31 candidatos, 20 señales aceptadas, 12 valoradas y ocho pendientes (60,00 %). La primera ejecución había obtenido 29 candidatos, 12 aceptadas y una valorada (8,33 %). Cambió el conjunto de señales: la diferencia no estima un efecto causal aislado ni representa la recuperación automática de las propuestas descartadas. La señal relacionada con el caso revisado coincidió en severidad y probabilidad con la referencia previa; esto no valida el perfil agregado. La revisión inicial conserva su resultado desfavorable y no se recalcula la línea base histórica.
