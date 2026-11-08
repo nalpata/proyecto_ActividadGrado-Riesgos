@@ -24,6 +24,7 @@ from src.frontend.dashboard_data import (  # noqa: E402
     validate_project_scope_summary,
 )
 from src.frontend.session_project_view import build_session_project_view  # noqa: E402
+from src.frontend.document_timeline import build_document_timeline  # noqa: E402
 from src.frontend.visualizations import (  # noqa: E402
     LEVEL_ORDER,
     build_category_priority_figure,
@@ -542,7 +543,7 @@ elif selected_page == "Timeline":
         st.warning("El análisis temporal estará disponible después de procesar los documentos del proyecto.")
     temporal = view_timeline
     st.subheader("Continuidad y persistencia documental")
-    st.info("La vista pública presenta agregados temporales. No simula una serie cronológica ni imputa fechas ausentes.")
+    st.info("Los indicadores de recurrencia y persistencia se complementan con una cronología de documentos. Las fechas ausentes o inválidas permanecen sin asignar.")
     t1, t2, t3, t4 = st.columns(4)
     t1.metric("Documentos fuente", temporal["source_documents"])
     t2.metric("Señales con fecha", temporal["signals_with_document_date"])
@@ -561,7 +562,35 @@ elif selected_page == "Timeline":
             st.plotly_chart(build_persistence_figure(temporal["persistence_level_counts"]), width="stretch")
         else:
             st.warning("No hay niveles de persistencia calculados.")
-    st.caption("Los nombres de archivo, fechas por documento y señales individuales no forman parte del front público.")
+    if not is_academic_demo:
+        st.subheader("Cronología documental")
+        if session_ingestion:
+            chronology_chunks = pd.DataFrame(session_ingestion["chunks"])
+            chronology_catalog = session_ingestion.get("project_catalog")
+            chronology_project = session_ingestion["project_id"] if chronology_catalog else None
+        else:
+            chronology_chunks = pd.read_csv(ROOT / "data/processed/chunks/chunks_recursive.csv")
+            chronology_catalog = corpus_catalog
+            chronology_project = active_project_id or None
+        chronology = build_document_timeline(chronology_chunks, chronology_project, chronology_catalog)
+        d1, d2, d3 = st.columns(3)
+        d1.metric("Documentos en la cronología", chronology["documents_total"])
+        d2.metric("Con fecha identificada", chronology["documents_dated"])
+        d3.metric("Sin fecha identificada", chronology["documents_undated"])
+        if chronology["monthly_counts"]:
+            monthly_documents = pd.DataFrame(chronology["monthly_counts"]).rename(columns={"month": "Mes", "documents": "Documentos"})
+            st.bar_chart(monthly_documents.set_index("Mes"), x_label="Mes documental", y_label="Documentos")
+        else:
+            st.info("No hay fechas identificadas para construir la cronología de estos documentos.")
+        if chronology["documents"]:
+            chronology_table = pd.DataFrame(chronology["documents"])
+            chronology_table["date_source"] = chronology_table["date_source"].map(lambda value: "Nombre de archivo" if str(value).startswith("FILENAME_") else "No identificada")
+            chronology_table["date_precision"] = chronology_table["date_precision"].map({"DAY": "Día", "MONTH": "Mes"})
+            st.dataframe(chronology_table.rename(columns={
+                "filename": "Documento", "document_date": "Fecha documental",
+                "date_source": "Fuente de fecha", "date_precision": "Precisión",
+                "date_warning": "Observación de fecha"}), width="stretch", hide_index=True)
+        st.caption("La cronología cuenta documentos, no riesgos. Cuando se selecciona un proyecto, incluye documentos que lo mencionan, también compartidos con otros proyectos; esto no asigna todas sus señales ni habilita esos fragmentos para el chat. Las fechas proceden de los nombres de archivo y conservan su precisión original.")
 
 elif selected_page == "Riesgos priorizados":
     if not is_processed_project:

@@ -88,6 +88,10 @@ def test_ambiguous_signals_remain_in_reconciliation_without_entering_any_profile
     pending = recomputed[recomputed.project_id == "MULTI"].iloc[0]
     assert pd.isna(pending.pird)
     assert pending.pird_status == "PENDIENTE_ASIGNACION_PROYECTO"
+    assert pending.severity == 3
+    assert pending.probability == 4
+    assert pending.exposure_evidence_basis == "atraso"
+    assert pending.exposure_justification == "rúbrica histórica"
 
 
 def test_catalog_change_invalidates_cached_project_profile(tmp_path):

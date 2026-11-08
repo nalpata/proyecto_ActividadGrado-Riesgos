@@ -68,6 +68,10 @@ def recompute_projects(items: pd.DataFrame, historical_scored: pd.DataFrame,
         exposure = historical.loc[mask.to_numpy(), ["item_id", *EXPOSURE_COLUMNS]]
         outputs.append(calculate_item_pird(subset, exposure, timeline))
     pending = tagged.loc[~assigned_mask].copy()
+    # La pertenencia pendiente no elimina valoraciones históricas sustentadas.
+    # Se conservan para trazabilidad, sin habilitar el cálculo de PIRD por proyecto.
+    pending = pending.merge(historical[["item_id", *EXPOSURE_COLUMNS]],
+                            on="item_id", how="left", validate="one_to_one")
     pending["pird_status"] = "PENDIENTE_ASIGNACION_PROYECTO"
     pending["pird"] = np.nan
     pending["pird_level"] = None
