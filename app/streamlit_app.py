@@ -124,6 +124,13 @@ def get_private_project_catalog() -> dict:
     return validate_project_catalog(payload)
 
 
+def get_optional_project_catalog() -> dict | None:
+    try:
+        return get_private_project_catalog()
+    except RuntimeError:
+        return None
+
+
 @st.cache_data
 def get_project_chunk_ids() -> dict[str, set[str]]:
     catalog = get_private_project_catalog()
@@ -332,6 +339,7 @@ elif selected_page == "Proyectos y documentos":
                         project_id=active_project_id or active_project,
                         files=[{"name": item.name, "content": item.getvalue()} for item in uploaded_files],
                         encoder=get_embedding_model(),
+                        project_catalog=get_optional_project_catalog(),
                     )
                     st.session_state[ingestion_key] = ingestion_result
                     st.session_state.pop(risk_analysis_key, None)
@@ -353,6 +361,11 @@ elif selected_page == "Proyectos y documentos":
                 st.warning("La ingesta terminó con advertencias en algunos documentos.")
                 st.dataframe(pd.DataFrame(ingestion_result["errors"]), width="stretch", hide_index=True)
             st.success("Día 19A completo. Los chunks y embeddings permanecen aislados en esta sesión.")
+            scope_summary = ingestion_result.get("project_scope", {})
+            if scope_summary.get("mode") == "DOCUMENT_EVIDENCE":
+                st.caption(f"Fragmentos del proyecto activo: {scope_summary['chunks_active_project']} de {scope_summary['chunks_total']}. Los ambiguos y de otros proyectos no se usan en su chat.")
+            else:
+                st.warning("Proyecto declarado por el usuario: falta configurar el catálogo documental para verificar a qué proyecto pertenece cada fragmento y señal.")
             api_key = get_openai_api_key()
             if not api_key:
                 st.warning("El Día 19B requiere OPENAI_API_KEY configurada en los secretos del servidor.")
@@ -388,6 +401,9 @@ elif selected_page == "Proyectos y documentos":
             analysis = st.session_state.get(risk_analysis_key)
             if analysis:
                 risk_summary = analysis["summary"]
+                signal_scope = analysis.get("project_scope", {})
+                if signal_scope.get("mode") == "DOCUMENT_EVIDENCE":
+                    st.caption(f"Elementos documentales asignados al proyecto: {signal_scope['signals_active_project']}; fuera del alcance o pendientes: {signal_scope['signals_excluded_or_pending']}.")
                 st.markdown("#### Resultado del Día 19B")
                 r1, r2, r3, r4 = st.columns(4)
                 r1.metric("Señales extraídas", risk_summary["items_extracted"])
@@ -575,6 +591,8 @@ elif selected_page == "Pregunte a sus documentos":
         st.info("El modo sintético demuestra los perfiles y radares. El asistente se desactiva porque no existe un corpus documental sintético asociado.")
     elif session_ingestion:
         st.info("La consulta utiliza únicamente los documentos procesados en esta sesión para el proyecto activo.")
+        if session_ingestion.get("project_scope", {}).get("mode") != "DOCUMENT_EVIDENCE":
+            st.warning("El alcance corresponde a la selección del usuario; la pertenencia documental al proyecto aún no está verificada.")
     elif not is_processed_project:
         st.warning("Este proyecto aún no tiene un índice documental. Cargue y procese sus documentos para habilitar las consultas.")
     elif selected_project_view:

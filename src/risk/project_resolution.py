@@ -12,6 +12,7 @@ from typing import Any, Iterable
 import pandas as pd
 
 from src.risk.pird import risk_level
+from src.risk.extract_documentary_items import evidence_is_verbatim
 
 
 PUBLIC_SCHEMA_VERSION = "1.0.0"
@@ -44,6 +45,8 @@ def validate_project_catalog(catalog: dict[str, Any]) -> dict[str, Any]:
             raise ValueError("Cada proyecto requiere display_name y aliases")
         for alias in project["aliases"]:
             normalized = normalize_text(alias)
+            if not normalized:
+                raise ValueError("Los alias de proyecto no pueden estar vacíos")
             owner = aliases.get(normalized)
             if owner and owner != project["project_id"]:
                 raise ValueError(f"Alias ambiguo en el catálogo: {alias}")
@@ -150,10 +153,12 @@ def assign_projects(signals: pd.DataFrame, chunks: pd.DataFrame, catalog: dict[s
     assignments = []
     for row in signals.itertuples(index=False):
         row_data = row._asdict()
-        signal_text = " ".join(str(row_data.get(field) or "") for field in ("title", "statement", "calibrated_justification"))
         evidence = row_data.get("evidence_quote", "")
         chunk = chunk_text.get(str(row_data["source_chunk_id"]), "")
-        assignments.append(resolve_project(signal_text, evidence, chunk, row_data["source_filename"], catalog))
+        if not evidence or not evidence_is_verbatim(str(evidence), str(chunk)):
+            assignments.append(_result(str(catalog["unassigned_project_id"]), [], "PENDING_UNVERIFIED_EVIDENCE", 0.0, "missing_or_unverified_quote"))
+        else:
+            assignments.append(resolve_project("", evidence, chunk, row_data["source_filename"], catalog))
     return pd.concat([signals.reset_index(drop=True), pd.DataFrame(assignments)], axis=1)
 
 
