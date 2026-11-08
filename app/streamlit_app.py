@@ -41,6 +41,7 @@ from src.frontend.runtime_chat import RuntimeChatService, append_runtime_history
 from src.frontend.chat_service import ConversationalRagService  # noqa: E402
 from src.pipeline.project_risk_processing import process_project_risks  # noqa: E402
 from src.risk.project_resolution import assign_chunks, validate_project_catalog  # noqa: E402
+from src.risk.corpus_project_catalog import load_catalog, reconcile_chunks  # noqa: E402
 
 DEMONSTRATION_QUESTIONS = (
     "¿Qué retrasos requieren vigilancia?",
@@ -118,10 +119,7 @@ def get_private_project_catalog() -> dict:
         raw = st.secrets.get("PROJECT_CATALOG_JSON") or os.getenv("PROJECT_CATALOG_JSON")
     except Exception:
         raw = os.getenv("PROJECT_CATALOG_JSON")
-    if not raw:
-        raise RuntimeError("El catálogo privado de proyectos no está configurado")
-    payload = json.loads(raw) if isinstance(raw, str) else dict(raw)
-    return validate_project_catalog(payload)
+    return load_catalog(ROOT / "config/project_catalog.json", raw)
 
 
 def get_optional_project_catalog() -> dict | None:
@@ -193,10 +191,11 @@ def get_chat_service(api_key: str, project_id: str = "", project_name: str = "")
 
 snapshot = get_snapshot()
 private_project_scope = get_project_scope()
+corpus_catalog = get_private_project_catalog()
 academic_project_scope = get_academic_demo_scope()
 st.sidebar.markdown("## ◈ Radar de riesgos")
 st.sidebar.caption("Vigilancia documental · prototipo académico")
-scope_options = ["Consolidado público", "Demostración académica sintética"]
+scope_options = ["Consolidado público", "Corpus por proyecto", "Demostración académica sintética"]
 if private_project_scope:
     scope_options.append("Entorno privado por proyecto")
 selected_scope = st.sidebar.radio("1. Seleccione el modo de datos", scope_options)
@@ -207,12 +206,16 @@ elif selected_scope == "Entorno privado por proyecto":
     project_scope = private_project_scope
 else:
     project_scope = None
-scoped_project_names = [item["display_name"] for item in project_scope["catalog"]] if project_scope else []
-project_options = [*scoped_project_names, "Nuevo proyecto"] if project_scope else [DEMO_PROJECT, "Nuevo proyecto"]
+is_corpus_project = selected_scope == "Corpus por proyecto"
+scoped_project_names = ([item["display_name"] for item in corpus_catalog["projects"]] if is_corpus_project
+                        else [item["display_name"] for item in project_scope["catalog"]] if project_scope else [])
+project_options = [*scoped_project_names, "Nuevo proyecto"] if scoped_project_names else [DEMO_PROJECT, "Nuevo proyecto"]
 project_selector_label = "2. Seleccione el proyecto sintético" if is_academic_demo else "2. Seleccione el proyecto"
 selected_project = st.sidebar.selectbox(project_selector_label, project_options)
 if is_academic_demo:
     st.sidebar.caption("Abra esta lista para cambiar entre Proyecto A, B, C y D.")
+elif is_corpus_project:
+    st.sidebar.caption("Multinube conserva los lotes 1, 2 y 3 como subdivisiones; no se cuentan como proyectos adicionales.")
 if selected_project == "Nuevo proyecto":
     project_name = st.sidebar.text_input("Nombre del proyecto", placeholder="Ej.: Contrato de infraestructura")
     active_project = project_name.strip() or "Nuevo proyecto sin nombre"
@@ -227,6 +230,9 @@ session_project_view = (
 )
 current_project_view = session_project_view or selected_project_view
 active_project_id = current_project_view["project_id"] if current_project_view else ""
+if is_corpus_project and selected_project != "Nuevo proyecto":
+    active_project_id = next(p["project_id"] for p in corpus_catalog["projects"] if p["display_name"] == selected_project)
+has_corpus_profile_pending = is_corpus_project and selected_project != "Nuevo proyecto" and current_project_view is None
 is_processed_project = selected_project != "Nuevo proyecto" or session_project_view is not None
 if current_project_view:
     profile = current_project_view["profile"]
@@ -268,10 +274,10 @@ def provisional_notice() -> None:
     )
 
 
-if (selected_project == "Nuevo proyecto" or session_ingestion is not None) and session_project_view is None and selected_page in {
+if ((selected_project == "Nuevo proyecto" or session_ingestion is not None) and session_project_view is None or has_corpus_profile_pending) and selected_page in {
     "Resumen ejecutivo", "Radar de riesgos", "Timeline", "Riesgos priorizados", "Perfil del proyecto",
 }:
-    st.info("Este proyecto todavía no tiene un perfil calculado. Procese sus documentos y analice los riesgos en Proyectos y documentos.")
+    st.info("Este proyecto todavía no tiene un perfil calculado. La consulta documental está disponible para proyectos del corpus; el perfil requiere un análisis de sus señales.")
     st.stop()
 
 
@@ -299,6 +305,12 @@ if selected_page == "Portada":
 elif selected_page == "Proyectos y documentos":
     st.subheader("Gestión del proyecto")
     st.write(f"**Proyecto activo:** {active_project}")
+    if is_corpus_project and active_project_id:
+        corpus_chunks = pd.read_csv(ROOT / "data/processed/chunks/chunks_recursive.csv")
+        _, reconciliation = reconcile_chunks(corpus_chunks, corpus_catalog)
+        project_count = next(p["chunks_single_project"] for p in reconciliation["projects"] if p["project_id"] == active_project_id)
+        st.info(f"Índice publicado: {project_count} fragmentos asignados automáticamente a este proyecto. Los fragmentos ambiguos o pendientes quedan excluidos de sus consultas.")
+        st.caption("La asignación automática requiere revisión humana. Estos conteos corresponden a fragmentos, no a señales de riesgo ni a un perfil PIRD recalculado.")
     uploaded_files = st.file_uploader(
         "Cargue documentos de aseguramiento técnico",
         type=list(SUPPORTED_DOCUMENT_TYPES),
@@ -339,7 +351,7 @@ elif selected_page == "Proyectos y documentos":
                         project_id=active_project_id or active_project,
                         files=[{"name": item.name, "content": item.getvalue()} for item in uploaded_files],
                         encoder=get_embedding_model(),
-                        project_catalog=get_optional_project_catalog(),
+                        project_catalog=corpus_catalog if active_project_id in {p["project_id"] for p in corpus_catalog["projects"]} else None,
                     )
                     st.session_state[ingestion_key] = ingestion_result
                     st.session_state.pop(risk_analysis_key, None)
@@ -595,8 +607,8 @@ elif selected_page == "Pregunte a sus documentos":
             st.warning("El alcance corresponde a la selección del usuario; la pertenencia documental al proyecto aún no está verificada.")
     elif not is_processed_project:
         st.warning("Este proyecto aún no tiene un índice documental. Cargue y procese sus documentos para habilitar las consultas.")
-    elif selected_project_view:
-        st.info(f"La recuperación está limitada a evidencia asignada explícitamente al proyecto {selected_project_view['display_name']}.")
+    elif active_project_id:
+        st.info(f"La recuperación está limitada a fragmentos asignados automáticamente al proyecto {active_project}. Los ambiguos y pendientes quedan excluidos.")
     api_key = get_openai_api_key()
     if not api_key:
         st.warning("El asistente está listo, pero la clave del modelo aún no está configurada como secreto del servidor.")

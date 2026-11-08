@@ -7,7 +7,22 @@ import pandas as pd
 from src.risk.extract_documentary_items import evidence_is_verbatim
 from src.risk.project_resolution import (
     ASSIGNED_STATUSES, assign_chunks, resolve_project, validate_project_catalog, normalize_text,
+    find_project_mentions,
 )
+
+
+def subdivision_assignment(project_id: str | None, catalog: dict, evidence: str, context: str = "") -> dict:
+    project = next((p for p in catalog["projects"] if p["project_id"] == project_id), {})
+    subdivisions = project.get("subdivisions", [])
+    if not subdivisions:
+        return {"detected_subdivision_id": None, "subdivision_status": "NOT_APPLICABLE"}
+    subcatalog = {"projects": subdivisions}
+    validate_project_catalog(subcatalog)
+    ids = {m["project_id"] for m in find_project_mentions(evidence, subcatalog)}
+    if not ids:
+        ids = {m["project_id"] for m in find_project_mentions(context, subcatalog)}
+    return {"detected_subdivision_id": next(iter(ids)) if len(ids) == 1 else None,
+            "subdivision_status": "ASSIGNED_EXPLICIT" if len(ids) == 1 else "AMBIGUOUS" if ids else "PENDING_NO_EVIDENCE"}
 
 
 def validate_scope(project_id: str, catalog: dict) -> dict:
@@ -56,6 +71,7 @@ def annotate_chunks(chunks: list[dict], project_id: str, catalog: dict | None) -
         chunk["detected_project_id"] = ids[0] if assigned else None
         chunk["project_assignment_status"] = assignment["project_assignment_status"]
         chunk["detected_project_ids"] = ids
+        chunk.update(subdivision_assignment(chunk["detected_project_id"], catalog, chunk["chunk_text"]))
         active += int(assigned and ids[0] == project_id)
     return {"mode": "DOCUMENT_EVIDENCE", "chunks_total": len(chunks),
             "chunks_active_project": active, "chunks_excluded_or_pending": len(chunks) - active}
@@ -91,6 +107,10 @@ def scope_signals(items: pd.DataFrame, chunks: pd.DataFrame, project_id: str,
             "project_assignment_basis": assignment["project_assignment_basis"],
             "project_scope_included": assignment["project_id"] == project_id
                 and assignment["project_assignment_status"] in ASSIGNED_STATUSES,
+            **(subdivision_assignment(assignment["project_id"], catalog, quote,
+                                     str(source.chunk_text) if source is not None else "")
+                if assignment["project_assignment_status"] in ASSIGNED_STATUSES else
+                {"detected_subdivision_id": None, "subdivision_status": "PENDING_PROJECT"}),
         })
     for column in assignments[0] if assignments else []:
         result[column] = [a[column] for a in assignments]

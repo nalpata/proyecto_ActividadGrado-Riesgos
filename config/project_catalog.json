@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "unassigned_project_id": "PENDING",
+  "multi_project_id": "MULTI",
+  "projects": [
+    {"project_id": "DATAR", "display_name": "DataR", "aliases": ["DataR"]},
+    {"project_id": "MULTINUBE", "display_name": "Multinube", "aliases": ["Multinube", "MNH"],
+      "subdivisions": [
+        {"project_id": "LOTE_1", "display_name": "Lote 1", "aliases": ["Lote 1"]},
+        {"project_id": "LOTE_2", "display_name": "Lote 2", "aliases": ["Lote 2"]},
+        {"project_id": "LOTE_3", "display_name": "Lote 3", "aliases": ["Lote 3"]}
+      ]},
+    {"project_id": "NSGA", "display_name": "NSGA", "aliases": ["NSGA"]},
+    {"project_id": "NSGT", "display_name": "NSGT", "aliases": ["NSGT"]},
+    {"project_id": "PDIS", "display_name": "PDIS", "aliases": ["PDIS"]}
+  ]
+}
