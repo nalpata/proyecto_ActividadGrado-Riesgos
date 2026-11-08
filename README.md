@@ -35,7 +35,7 @@ Fechas en **America/Bogota**. El [registro de PR fusionados](results/closure_202
 | --- | --- |
 | 7 de noviembre | PR20–31: consulta de documentos de sesión, aislamiento entre proyectos, diagnóstico de errores, compatibilidad del recuperador, caché del modelo, resolución de proyectos, catálogo, recálculo, exposición temporal, estados metodológicos y enriquecimiento con contexto. |
 | 8 de noviembre | PR32–37: incorporación de siete revisiones expertas, avisos de alcance, interfaz y sincronización de documentación. PR38: detalle público automático. PR39: procedencia de componentes. PR40: inventario del proyecto nuevo. |
-| 8 de noviembre | PR41: inventario de sesión, diagnóstico, progreso y rúbricas. PR42: alcance documental con filtro por fecha. Evaluación posterior conserva los errores observados; no se declaran solucionados por pasar pruebas de software. |
+| 8 de noviembre | PR41: inventario de sesión, diagnóstico, progreso y rúbricas. PR42: alcance documental con filtro por fecha. Las observaciones iniciales y su aclaración posterior se distinguen en el registro de evaluación. |
 | Actualización de cierre | Control conservador de cierres no respaldados, notebooks de verificación y reproducción, pruebas adicionales y actualización de README y matriz de objetivos. |
 
 Las siete revisiones expertas completaron 332→339 señales valoradas. Esto no equivale a revisión humana de las 339 valoraciones ni de todas las señales.
@@ -72,20 +72,20 @@ La revisión humana histórica incluyó 40 casos, con distintos denominadores se
 
 Los denominadores no se extrapolan al corpus completo. La evaluación experta de utilidad de la aplicación no se realizó por acuerdo con el revisor.
 
-La comprobación posterior usó dos actas fuera de los experimentos anteriores, del mismo entorno de proyectos. El experto OC confirmó referencias el 8 de noviembre. Después de los ajustes PR41–42:
+La comprobación posterior usó dos actas fuera de los experimentos anteriores, del mismo entorno de proyectos. El experto OC confirmó referencias el 8 de noviembre. Estado actualizado según las aclaraciones de Patricia tras su revisión con el experto (8 de noviembre de 2026); no corresponde a una nueva ejecución del sistema:
 
 | Caso | Observación |
 | --- | --- |
 | 1 y 2 | Respuestas confirmadas correctas |
-| 3 | Sigue sin resolver: la consulta omite/contradice una señal relevante; la extracción encuentra una alerta, pero la valora 3/4 frente a 5/5 del experto |
-| 4 | No se publica una penalidad sin evidencia; el bloqueo de una salida sin cita no prueba por sí solo razonamiento correcto |
-| 5 | Persiste una abstención indebida sobre la atribución a NSGA |
+| 3 | Valoración del sistema aceptada tras revisión con el experto: severidad 3 y probabilidad 4. Se cierra la discrepancia anterior; no se requiere seguir trabajando en esta valoración. |
+| 4 | Aceptado según la confirmación de Patricia sobre los demás casos revisados; se conserva el registro técnico de ausencia de monto inventado. |
+| 5 | Cerrado: Patricia confirma que el sistema respondió NSGA y que es la respuesta correcta. La descripción anterior de abstención indebida queda rectificada. |
 
 La última sesión antes del control de cierre tuvo 88 extracciones, 39 aceptadas, 27 calculadas y 12 pendientes (69,23 %); su agregado 32,96 mezcla proyectos y no se atribuye como PIRD de uno solo. Una solicitud distinta recibió 2/1 con una justificación de cierre no respaldada: el control añadido la deja pendiente, conservando la propuesta. [Registro agregado de evaluación](results/closure_20261108/evaluation_summary.json).
 
-En la comprobación de Streamlit posterior al control, la misma sesión conservó 39 señales y pasó a 19 valoradas y 20 pendientes (48,72 %): ocho propuestas requieren revisión de cierre. La solicitud quedó sin S/P ni PIRD; la alerta principal conservó 3/4. No fue una ejecución nueva del LLM ni un cambio de la línea base.
+En la comprobación de Streamlit posterior al control, la misma sesión conservó 39 señales y pasó a 19 valoradas y 20 pendientes (48,72 %): ocho propuestas fueron marcadas por el control automático. Estas marcas no son ocho errores confirmados por el experto ni una revisión obligatoria para continuar con el informe. La solicitud quedó sin S/P ni PIRD; la alerta principal conservó 3/4. No fue una ejecución nueva del LLM ni un cambio de la línea base.
 
-Estos casos ya conocidos sirven para regresión, no para afirmar un test independiente. Las pruebas de software no sustituyen la revisión experta ni resuelven automáticamente los casos 3 y 5.
+Estos casos ya conocidos sirven para regresión, no para afirmar un test independiente. Las pruebas de software no sustituyen la revisión experta. El cierre de las observaciones de los casos 3 y 5 se basa en las aclaraciones posteriores de Patricia, no en el conteo de pruebas. Patricia refiere seis casos revisados; el registro previo enumera cinco. No se inventa un sexto caso ni se calcula una nueva métrica con ese denominador.
 
 ## Notebooks, pruebas y reproducción
 
