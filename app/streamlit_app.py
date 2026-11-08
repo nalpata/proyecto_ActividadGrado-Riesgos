@@ -44,6 +44,7 @@ from src.retrieval.project_retriever import ProjectBgeM3Retriever  # noqa: E402
 from src.frontend.runtime_chat import RuntimeChatService, append_runtime_history as append_history  # noqa: E402
 from src.frontend.chat_service import ConversationalRagService  # noqa: E402
 from src.pipeline.project_risk_processing import process_project_risks  # noqa: E402
+from src.risk.session_exposure_grounding import review_session_analysis  # noqa: E402
 from src.risk.project_resolution import assign_chunks, validate_project_catalog  # noqa: E402
 from src.risk.corpus_project_catalog import load_catalog, reconcile_chunks, load_recomputed_scope  # noqa: E402
 
@@ -232,6 +233,9 @@ else:
 selected_project_view = project_by_name(project_scope, selected_project) if project_scope else None
 session_ingestion = st.session_state.get(f"project_ingestion::{active_project}")
 session_analysis = st.session_state.get(f"project_risk_analysis::{active_project}")
+if session_analysis and not is_academic_demo:
+    session_analysis = review_session_analysis(session_analysis)
+    st.session_state[f"project_risk_analysis::{active_project}"] = session_analysis
 session_project_view = (
     build_session_project_view(session_analysis, active_project)
     if session_analysis and not is_academic_demo else None
@@ -417,6 +421,10 @@ def render_risk_details() -> None:
             st.text(str(justification))
     if session_project_view and row.get("assessment_review_required", False):
         st.warning(row.get("assessment_review_reason", "Valoración pendiente de revisión de consistencia."))
+    if session_project_view and row.get("exposure_review_required", False):
+        st.warning("Cierre sin respaldo suficiente: componentes y PIRD pendientes de revisión documental.")
+        with st.expander("Propuesta original descartada; no constituye evidencia de cierre"):
+            st.json(row.get("exposure_grounding_original", {}))
     st.caption("Los niveles ausentes permanecen vacíos. Las señales corresponden únicamente a los documentos de esta sesión." if session_project_view else "Los niveles ausentes permanecen vacíos. El detalle del corpus está publicado y se carga automáticamente para el proyecto seleccionado.")
 
 
@@ -613,6 +621,9 @@ elif selected_page == "Proyectos y documentos":
                     "ejemplos humanos privados."
                 )
             review_count = analysis.get("assessment_review", {}).get("signals_flagged", 0)
+            grounding_count = analysis.get("exposure_grounding_audit", {}).get("signals_flagged", 0)
+            if grounding_count:
+                st.warning(f"{grounding_count} señales conservan componentes pendientes por cierre no respaldado. Las propuestas originales se conservan para revisión.")
             if review_count:
                 st.warning(f"{review_count} menciones requieren revisión por diferencias de valoración dentro del mismo documento. Los valores originales se conservan.")
             if analysis["categories"]:
