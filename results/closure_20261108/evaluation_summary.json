@@ -26,18 +26,21 @@
       "status": "CORRECTO"
     },
     "3": {
-      "status": "NO_RESUELTO",
-      "expert_severity": 5,
-      "expert_probability": 5,
+      "status": "VALORACION_ACEPTADA_TRAS_REVISION_EXPERTA",
       "model_severity": 3,
-      "model_probability": 4
+      "model_probability": 4,
+      "source": "Confirmación de Patricia en conversación del 8 de noviembre de 2026 tras revisión con el experto.",
+      "further_valuation_work_required": false
     },
     "4": {
       "status": "SIN_MONTO_INVENTADO",
       "limit": "La puerta de citas bloquea salidas sin referencia; no acredita razonamiento semántico del generador."
     },
     "5": {
-      "status": "ABSTENCION_INDEBIDA"
+      "status": "CERRADO_RESPUESTA_CORRECTA",
+      "correct_answer": "NSGA",
+      "source": "Patricia confirma que NSGA fue la respuesta del sistema y es correcta.",
+      "previous_abstention_description_rectified": true
     }
   },
   "reserved_session_before_guard": {
@@ -72,5 +75,39 @@
     "request_probability": null,
     "request_pird": null,
     "method": "Observed in deployed Streamlit session after conservative review; no new LLM call. Raw proposals retained. Flags require review and are not expert adjudications."
+  },
+  "reserved_cases_before_user_clarification": {
+    "1": {
+      "status": "CORRECTO"
+    },
+    "2": {
+      "status": "CORRECTO"
+    },
+    "3": {
+      "status": "NO_RESUELTO",
+      "expert_severity": 5,
+      "expert_probability": 5,
+      "model_severity": 3,
+      "model_probability": 4
+    },
+    "4": {
+      "status": "SIN_MONTO_INVENTADO",
+      "limit": "La puerta de citas bloquea salidas sin referencia; no acredita razonamiento semántico del generador."
+    },
+    "5": {
+      "status": "ABSTENCION_INDEBIDA"
+    }
+  },
+  "user_clarification": {
+    "date": "2026-11-08",
+    "source": "Confirmaciones de Patricia en conversación; no nueva ejecución ni revisión directa de trazas por el asistente.",
+    "other_reviewed_cases_accepted": true,
+    "reported_reviewed_cases": 6,
+    "previously_enumerated_cases": 5,
+    "additional_case_details_available": false,
+    "new_metrics_computed": false,
+    "automatic_flags_are_confirmed_expert_errors": false,
+    "automatic_flags_are_mandatory_repeat_review": false,
+    "next_step": "Actualizar informe con resultados aceptados y limitaciones metodológicas."
   }
 }
