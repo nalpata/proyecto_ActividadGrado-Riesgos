@@ -82,6 +82,7 @@ def test_day_19c_application_uses_session_view_and_blocks_wrong_chat_scope():
     source = (ROOT / "app/streamlit_app.py").read_text(encoding="utf-8")
 
     assert "build_session_project_view" in source
-    assert "SESSION-19C" in source
+    assert 'f"project_ingestion::{active_project}"' in source
     assert "session_project_view is not None" in source
-    assert "Día 19C" in source
+    assert "SessionRetriever(session_ingestion" in source
+

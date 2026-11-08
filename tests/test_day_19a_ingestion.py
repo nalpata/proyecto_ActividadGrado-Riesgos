@@ -103,7 +103,8 @@ def test_upload_validation_rejects_unsupported_or_empty_documents():
 def test_day_19a_interface_exposes_explicit_processing_action():
     source = (ROOT / "app/streamlit_app.py").read_text(encoding="utf-8")
 
-    assert "Procesar documentos · Día 19A" in source
+    assert '"Procesar documentos"' in source
     assert "ingest_project_documents" in source
-    assert "Día 19B" in source
+    assert '"Analizar riesgos"' in source
+
 
