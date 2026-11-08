@@ -39,10 +39,12 @@ from src.frontend.chat_service import FinalPipelineChatService, ProjectScopedRet
 from src.pipeline.end_to_end import BgeM3Retriever, EndToEndPipeline, OpenAIRagAnswerer  # noqa: E402
 from src.pipeline.project_ingestion import ingest_project_documents  # noqa: E402
 from src.retrieval.session_retriever import SessionRetriever  # noqa: E402
+from src.retrieval.document_reference_scope import DocumentReferenceScopedRetriever  # noqa: E402
 from src.retrieval.project_retriever import ProjectBgeM3Retriever  # noqa: E402
 from src.frontend.runtime_chat import RuntimeChatService, append_runtime_history as append_history  # noqa: E402
 from src.frontend.chat_service import ConversationalRagService  # noqa: E402
 from src.pipeline.project_risk_processing import process_project_risks  # noqa: E402
+from src.risk.session_exposure_grounding import review_session_analysis  # noqa: E402
 from src.risk.project_resolution import assign_chunks, validate_project_catalog  # noqa: E402
 from src.risk.corpus_project_catalog import load_catalog, reconcile_chunks, load_recomputed_scope  # noqa: E402
 
@@ -174,6 +176,7 @@ def get_embedding_model():
 
 @st.cache_resource(max_entries=8)
 def get_chat_service(api_key: str, project_id: str = "", project_name: str = "") -> FinalPipelineChatService:
+    """Servicio con contexto de sección y diagnóstico explícito de referencias (v2)."""
     from openai import OpenAI
 
     retriever = ProjectBgeM3Retriever(
@@ -230,6 +233,9 @@ else:
 selected_project_view = project_by_name(project_scope, selected_project) if project_scope else None
 session_ingestion = st.session_state.get(f"project_ingestion::{active_project}")
 session_analysis = st.session_state.get(f"project_risk_analysis::{active_project}")
+if session_analysis and not is_academic_demo:
+    session_analysis = review_session_analysis(session_analysis)
+    st.session_state[f"project_risk_analysis::{active_project}"] = session_analysis
 session_project_view = (
     build_session_project_view(session_analysis, active_project)
     if session_analysis and not is_academic_demo else None
@@ -308,32 +314,12 @@ def render_risk_details() -> None:
         records = pd.DataFrame(session_analysis.get("private", {}).get("scored_signals", []))
     elif is_corpus_project and project_scope:
         manifest = json.loads((ROOT / "config/risk_detail_manifest.json").read_text(encoding="utf-8"))
-        upload = st.file_uploader(
-            "Cargar detalle de la línea base (CSV)", type=["csv"], key=f"corpus_risk_detail_upload::{st.session_state.get('risk_details_upload_epoch', 0)}",
-            help="Use Detalle_riesgos_linea_base_339.csv sin editarlo. Se comprueba su versión y se conserva solo en esta sesión.")
-        if upload is not None:
-            import hashlib
-            uploaded_bytes = upload.getvalue()
-            upload_digest = hashlib.sha256(uploaded_bytes).hexdigest()
-            if st.session_state.get("risk_details_digest") != upload_digest:
-                # Clear stale data first: an invalid replacement must never leave prior details visible.
-                st.session_state.pop("risk_details_corpus", None)
-                st.session_state.pop("risk_details_digest", None)
-                try:
-                    checked = load_corpus_risk_details(uploaded_bytes, manifest, corpus_catalog, project_scope)
-                except (ValueError, KeyError, pd.errors.ParserError):
-                    st.error("El archivo no coincide con la línea base publicada. Cargue el CSV original sin modificarlo.")
-                    return
-                st.session_state["risk_details_corpus"] = checked
-                st.session_state["risk_details_digest"] = upload_digest
-        corpus_details = st.session_state.get("risk_details_corpus")
-        if corpus_details is not None and st.button("Retirar detalle de esta sesión", key="clear_risk_details"):
-            st.session_state.pop("risk_details_corpus", None)
-            st.session_state.pop("risk_details_digest", None)
-            st.session_state["risk_details_upload_epoch"] = st.session_state.get("risk_details_upload_epoch", 0) + 1
-            st.rerun()
-        if corpus_details is None:
-            st.info("Cargue el archivo de detalle para explorar las señales y sus citas. Los agregados por categoría siguen disponibles debajo.")
+        try:
+            corpus_details = load_corpus_risk_details(
+                (ROOT / "data/evaluation/risk_details/signals_published.csv").read_bytes(),
+                manifest, corpus_catalog, project_scope)
+        except (OSError, ValueError, KeyError, pd.errors.ParserError):
+            st.error("El detalle publicado no concilia con el perfil vigente. No se mostrarán registros de otra versión.")
             return
         records = select_project_risk_details(corpus_details, active_project_id)
         st.caption("Detalle de la línea base conciliado con los perfiles publicados. Las señales ambiguas y multiproyecto quedan excluidas del proyecto activo.")
@@ -408,11 +394,38 @@ def render_risk_details() -> None:
         source = row.get(component + "_assessment_source")
         if source == "REVISION_EXPERTA_CONFIRMADA":
             st.caption(f"{label}: nivel confirmado mediante revisión experta de este caso.")
+    provenance_path = ROOT / "data/evaluation/risk_details/component_provenance.json"
+    provenance = (json.loads(provenance_path.read_text(encoding="utf-8")).get("components", {})
+                  if is_corpus_project and not session_project_view else {})
+    updated_components = []
+    for component, label in [("severity", "Severidad"), ("probability", "Probabilidad")]:
+        assessment = provenance.get(f"{row['item_id']}:{component}")
+        if assessment and assessment["level"] == row.get(component):
+            updated_components.append(component)
+            method_label = ("Revisión experta confirmada" if assessment["expert_reviewed"]
+                            else "Enriquecimiento documental asistido por IA; sin revisión experta de este componente")
+            st.markdown(f"#### Sustento vigente · {label}")
+            st.caption(method_label)
+            st.write("Documento:", assessment["source_filename"])
+            st.write("Página:", str(assessment["source_page"]))
+            st.text(assessment["quote"])
+            st.text(assessment["justification"])
     justification = row.get("exposure_justification")
     if pd.notna(justification):
-        st.write("Sustento de la valoración:")
-        st.text(str(justification))
-    st.caption("Los niveles ausentes permanecen vacíos. El detalle se conserva en la sesión y no se incorpora al repositorio.")
+        if updated_components:
+            with st.expander("Registro histórico de la valoración"):
+                st.caption("Este texto se conserva para trazabilidad. El sustento vigente de los componentes actualizados se muestra arriba.")
+                st.text(str(justification))
+        else:
+            st.write("Sustento de la valoración de esta sesión:" if session_project_view else "Sustento registrado en la valoración histórica:")
+            st.text(str(justification))
+    if session_project_view and pd.notna(row.get("assessment_review_required")) and bool(row.get("assessment_review_required")):
+        st.warning(row.get("assessment_review_reason", "Valoración pendiente de revisión de consistencia."))
+    if session_project_view and pd.notna(row.get("exposure_review_required")) and bool(row.get("exposure_review_required")):
+        st.warning("Cierre sin respaldo suficiente: componentes y PIRD pendientes de revisión documental.")
+        with st.expander("Propuesta original descartada; no constituye evidencia de cierre"):
+            st.json(row.get("exposure_grounding_original", {}))
+    st.caption("Los niveles ausentes permanecen vacíos. Las señales corresponden únicamente a los documentos de esta sesión." if session_project_view else "Los niveles ausentes permanecen vacíos. El detalle del corpus está publicado y se carga automáticamente para el proyecto seleccionado.")
 
 
 if ((selected_project == "Nuevo proyecto" or session_ingestion is not None) and session_project_view is None or has_corpus_profile_pending) and selected_page in {
@@ -446,7 +459,7 @@ if selected_page == "Portada":
 elif selected_page == "Proyectos y documentos":
     st.subheader("Gestión del proyecto")
     st.write(f"**Proyecto activo:** {active_project}")
-    if is_corpus_project and active_project_id:
+    if is_corpus_project and active_project_id in {p["project_id"] for p in corpus_catalog["projects"]}:
         corpus_chunks = pd.read_csv(ROOT / "data/processed/chunks/chunks_recursive.csv")
         _, reconciliation = reconcile_chunks(corpus_chunks, corpus_catalog)
         project_count = next(p["chunks_single_project"] for p in reconciliation["projects"] if p["project_id"] == active_project_id)
@@ -510,105 +523,119 @@ elif selected_page == "Proyectos y documentos":
                     )
                     st.session_state[ingestion_key] = ingestion_result
                     st.session_state.pop(risk_analysis_key, None)
+                    st.session_state.pop(f"risk_checkpoint::{active_project}", None)
                     st.session_state.pop(f"chat_history::{active_project}", None)
                     processing_status.update(label="Procesamiento documental completado", state="complete", expanded=False)
                 st.rerun()
             except Exception:
                 st.error("No fue posible completar la ingesta. Revise que los archivos contengan texto extraíble e intente nuevamente.")
-        ingestion_result = st.session_state.get(ingestion_key)
-        if ingestion_result:
-            ingestion_summary = ingestion_result["summary"]
-            i1, i2, i3, i4 = st.columns(4)
-            i1.metric("Documentos procesados", ingestion_summary["documents_processed"])
-            i2.metric("Páginas", ingestion_summary["pages"])
-            i3.metric("Chunks", ingestion_summary["chunks"])
-            i4.metric("Dimensiones BGE-M3", ingestion_summary["embedding_dimensions"])
-            st.dataframe(pd.DataFrame(ingestion_result["documents"]), width="stretch", hide_index=True)
-            if ingestion_result["errors"]:
-                st.warning("La ingesta terminó con advertencias en algunos documentos.")
-                st.dataframe(pd.DataFrame(ingestion_result["errors"]), width="stretch", hide_index=True)
-            st.success("Documentos procesados. Los fragmentos y vectores están disponibles para este proyecto en la sesión.")
-            scope_summary = ingestion_result.get("project_scope", {})
-            if scope_summary.get("mode") == "DOCUMENT_EVIDENCE":
-                st.caption(f"Fragmentos del proyecto activo: {scope_summary['chunks_active_project']} de {scope_summary['chunks_total']}. Los ambiguos y de otros proyectos no se usan en su chat.")
-            else:
-                st.warning("Proyecto declarado por el usuario: falta configurar el catálogo documental para verificar a qué proyecto pertenece cada fragmento y señal.")
-            api_key = get_openai_api_key()
-            if not api_key:
-                st.warning("Configure la conexión con OpenAI para analizar los documentos.")
-            analyze_clicked = st.button(
-                "Analizar riesgos",
-                type="primary",
-                disabled=not api_key,
-                width="stretch",
-            )
-            if analyze_clicked:
-                try:
-                    from openai import OpenAI
+    ingestion_key = f"project_ingestion::{active_project}"
+    risk_analysis_key = f"project_risk_analysis::{active_project}"
+    ingestion_result = st.session_state.get(ingestion_key)
+    if ingestion_result:
+        ingestion_summary = ingestion_result["summary"]
+        i1, i2, i3, i4 = st.columns(4)
+        i1.metric("Documentos procesados", ingestion_summary["documents_processed"])
+        i2.metric("Páginas", ingestion_summary["pages"])
+        i3.metric("Chunks", ingestion_summary["chunks"])
+        i4.metric("Dimensiones BGE-M3", ingestion_summary["embedding_dimensions"])
+        st.dataframe(pd.DataFrame(ingestion_result["documents"]), width="stretch", hide_index=True)
+        if ingestion_result["errors"]:
+            st.warning("La ingesta terminó con advertencias en algunos documentos.")
+            st.dataframe(pd.DataFrame(ingestion_result["errors"]), width="stretch", hide_index=True)
+        st.success("Documentos procesados. Los fragmentos y vectores están disponibles para este proyecto en la sesión.")
+        scope_summary = ingestion_result.get("project_scope", {})
+        if scope_summary.get("mode") == "DOCUMENT_EVIDENCE":
+            st.caption(f"Fragmentos del proyecto activo: {scope_summary['chunks_active_project']} de {scope_summary['chunks_total']}. Los ambiguos y de otros proyectos no se usan en su chat.")
+        else:
+            st.warning("Proyecto declarado por el usuario: falta configurar el catálogo documental para verificar a qué proyecto pertenece cada fragmento y señal.")
+        api_key = get_openai_api_key()
+        if not api_key:
+            st.warning("Configure la conexión con OpenAI para analizar los documentos.")
+        analyze_clicked = st.button(
+            "Analizar riesgos",
+            type="primary",
+            disabled=not api_key,
+            width="stretch",
+        )
+        if analyze_clicked:
+            try:
+                from openai import OpenAI
 
-                    with st.status("Analizando riesgos del proyecto…", expanded=True) as risk_status:
-                        risk_status.write("Extrayendo señales y verificando evidencia literal.")
-                        risk_status.write("Aplicando clasificación y puerta determinista de validación.")
-                        risk_status.write("Calculando recurrencia, persistencia y componentes PIRD disponibles.")
-                        analysis = process_project_risks(
-                            ingestion_result=ingestion_result,
-                            client=OpenAI(api_key=api_key),
-                            encoder=get_embedding_model(),
-                            calibration_examples=get_calibration_examples(),
-                        )
-                        st.session_state[risk_analysis_key] = analysis
-                        risk_status.update(label="Análisis de riesgos completado", state="complete", expanded=False)
-                    st.rerun()
-                except Exception:
-                    st.error(
-                        "No fue posible completar el análisis de riesgos. Verifique la conexión del modelo, "
-                        "el límite de 100 chunks y vuelva a intentarlo."
+                with st.status("Analizando riesgos del proyecto…", expanded=True) as risk_status:
+                    risk_status.write("Extrayendo señales y verificando evidencia literal.")
+                    risk_status.write("Aplicando clasificación y puerta determinista de validación.")
+                    risk_status.write("Calculando recurrencia, persistencia y componentes PIRD disponibles.")
+                    progress_bar = st.progress(0.0, text="Iniciando extracción")
+                    def report_progress(stage, done, total):
+                        progress_bar.progress(done / max(total, 1), text=f"{stage}: {done}/{total}")
+                    checkpoint = st.session_state.setdefault(f"risk_checkpoint::{active_project}", {})
+                    analysis = process_project_risks(
+                        ingestion_result=ingestion_result,
+                        client=OpenAI(api_key=api_key),
+                        encoder=get_embedding_model(),
+                        calibration_examples=get_calibration_examples(),
+                        progress_callback=report_progress, checkpoint=checkpoint,
                     )
-
-            analysis = st.session_state.get(risk_analysis_key)
-            if analysis:
-                risk_summary = analysis["summary"]
-                signal_scope = analysis.get("project_scope", {})
-                if signal_scope.get("mode") == "DOCUMENT_EVIDENCE":
-                    st.caption(f"Elementos documentales asignados al proyecto: {signal_scope['signals_active_project']}; fuera del alcance o pendientes: {signal_scope['signals_excluded_or_pending']}.")
-                st.markdown("#### Resultado del análisis de riesgos")
-                r1, r2, r3, r4 = st.columns(4)
-                r1.metric("Señales extraídas", risk_summary["items_extracted"])
-                r2.metric("Señales validadas", risk_summary["signals_validated"])
-                r3.metric("Puntuadas", risk_summary["signals_scored"])
-                r4.metric("Cobertura PIRD", f"{risk_summary['scoring_coverage']:.1%}")
-                if risk_summary["global_pird"] is None:
-                    st.warning(
-                        "El PIRD permanece pendiente: la evidencia disponible no permite completar todos "
-                        "los componentes requeridos. No se imputaron valores."
-                    )
-                else:
-                    st.success(
-                        f"PIRD del proyecto: {risk_summary['global_pird']:.2f} · "
-                        f"nivel {risk_summary['global_level']} · {describe_pird_profile(risk_summary, 'session')['calculation_label']}"
-                    )
-                    st.caption(describe_pird_profile(risk_summary, "session")["validation_label"])
-                if analysis["classification"]["calibration_status"] == "PROVISIONAL_NO_PRIVATE_EXAMPLES":
-                    st.warning(
-                        "Clasificación sin ejemplos humanos configurados: los 29 ejemplos de calibración no están "
-                        "configurados en el servidor. Se aplicó la misma taxonomía y reglas, sin afirmar "
-                        "calibración humana para estos documentos nuevos."
-                    )
-                elif analysis["classification"]["calibration_status"] == "CALIBRATED":
-                    st.caption(
-                        f"Clasificación con {analysis['classification']['human_examples_available']} "
-                        "ejemplos humanos privados."
-                    )
-                if analysis["categories"]:
-                    st.dataframe(pd.DataFrame(analysis["categories"]), width="stretch", hide_index=True)
-                st.caption(
-                    "Vista agregada en memoria. La evidencia, los textos y las señales individuales no "
-                    "se muestran ni se escriben en el repositorio. Las demás vistas del proyecto se actualizan en esta sesión."
+                    st.session_state[risk_analysis_key] = analysis
+                    risk_status.update(label="Análisis de riesgos completado", state="complete", expanded=False)
+                st.rerun()
+            except Exception:
+                st.error(
+                    "No fue posible completar el análisis de riesgos. Verifique la conexión del modelo, "
+                    "el límite de 100 chunks y vuelva a intentarlo. La extracción ya completada se conserva en esta sesión; las etapas posteriores pueden repetirse."
                 )
-    else:
+
+        analysis = st.session_state.get(risk_analysis_key)
+        if analysis:
+            risk_summary = analysis["summary"]
+            signal_scope = analysis.get("project_scope", {})
+            if signal_scope.get("mode") == "DOCUMENT_EVIDENCE":
+                st.caption(f"Elementos documentales asignados al proyecto: {signal_scope['signals_active_project']}; fuera del alcance o pendientes: {signal_scope['signals_excluded_or_pending']}.")
+            st.markdown("#### Resultado del análisis de riesgos")
+            r1, r2, r3, r4 = st.columns(4)
+            r1.metric("Señales extraídas", risk_summary["items_extracted"])
+            r2.metric("Señales validadas", risk_summary["signals_validated"])
+            r3.metric("Puntuadas", risk_summary["signals_scored"])
+            r4.metric("Cobertura PIRD", f"{risk_summary['scoring_coverage']:.1%}")
+            if risk_summary["global_pird"] is None:
+                st.warning(
+                    "El PIRD permanece pendiente: la evidencia disponible no permite completar todos "
+                    "los componentes requeridos. No se imputaron valores."
+                )
+            else:
+                st.success(
+                    f"PIRD del proyecto: {risk_summary['global_pird']:.2f} · "
+                    f"nivel {risk_summary['global_level']} · {describe_pird_profile(risk_summary, 'session')['calculation_label']}"
+                )
+                st.caption(describe_pird_profile(risk_summary, "session")["validation_label"])
+            if analysis["classification"]["calibration_status"] == "PROVISIONAL_NO_PRIVATE_EXAMPLES":
+                st.warning(
+                    "Clasificación sin ejemplos humanos configurados: los 29 ejemplos de calibración no están "
+                    "configurados en el servidor. Se aplicó la misma taxonomía y reglas, sin afirmar "
+                    "calibración humana para estos documentos nuevos."
+                )
+            elif analysis["classification"]["calibration_status"] == "CALIBRATED":
+                st.caption(
+                    f"Clasificación con {analysis['classification']['human_examples_available']} "
+                    "ejemplos humanos privados."
+                )
+            review_count = analysis.get("assessment_review", {}).get("signals_flagged", 0)
+            grounding_count = analysis.get("exposure_grounding_audit", {}).get("signals_flagged", 0)
+            if grounding_count:
+                st.warning(f"{grounding_count} señales conservan componentes pendientes por cierre no respaldado. Las propuestas originales se conservan para revisión.")
+            if review_count:
+                st.warning(f"{review_count} menciones requieren revisión por diferencias de valoración dentro del mismo documento. Los valores originales se conservan.")
+            if analysis["categories"]:
+                st.dataframe(pd.DataFrame(analysis["categories"]), width="stretch", hide_index=True)
+            st.caption(
+                "Vista agregada en memoria. La evidencia, los textos y las señales individuales no "
+                "se muestran ni se escriben en el repositorio. Las demás vistas del proyecto se actualizan en esta sesión."
+            )
+    elif not uploaded_files:
         st.info("Seleccione uno o varios archivos PDF/DOCX. No se enviarán al repositorio público.")
     st.subheader("Estado del proyecto")
-    if uploaded_files and st.session_state.get(f"project_ingestion::{active_project}"):
+    if ingestion_result:
         st.success("Ingesta documental completada · embeddings BGE-M3 disponibles en la sesión")
     elif has_corpus_profile_pending:
         st.warning("Perfil por proyecto pendiente de cálculo; el índice documental está disponible.")
@@ -771,7 +798,7 @@ elif selected_page == "Riesgos priorizados":
             table = prioritized[["category", "category_score", "category_level", "scoring_coverage", "scored_signals", "total_signals"]].copy()
             table["scoring_coverage"] = table["scoring_coverage"].map(lambda value: f"{value:.1%}")
             st.dataframe(table.rename(columns={"category": "Categoría", "category_score": "PIRD", "category_level": "Nivel", "scoring_coverage": "Cobertura", "scored_signals": "Puntuadas", "total_signals": "Total"}), width="stretch", hide_index=True)
-    st.caption("Priorización por categoría. Las señales y evidencias individuales permanecen en el entorno privado autorizado.")
+    st.caption("Priorización agregada por categoría. Las señales individuales y sus evidencias están disponibles en el detalle del proyecto.")
 
 elif selected_page == "Perfil del proyecto":
     profile_notice()
@@ -833,7 +860,11 @@ elif selected_page == "Pregunte a sus documentos":
                         score_label = f" · similitud {score:.3f}" if isinstance(score, (int, float)) else ""
                         st.markdown(f"**[{source['rank']}]** {source.get('filename') or 'Documento'} · página {page}{score_label}")
             elif exchange.get("response_status") != "ERROR":
-                st.caption("No se encontraron fuentes suficientes para sustentar una respuesta.")
+                st.caption("Sin referencias válidas en la respuesta." if exchange.get("retrieved_sources") else "No se encontraron fuentes suficientes para sustentar una respuesta.")
+            if exchange.get("retrieved_sources"):
+                with st.expander("Fragmentos recuperados (no equivalen a evidencia de la respuesta)"):
+                    for source in exchange["retrieved_sources"]:
+                        st.write(f"[{source['rank']}] {source.get('filename')} · página {source.get('page')} · {source.get('section_path') or 'sección no identificada'}")
 
     assistant_disabled = not api_key or is_academic_demo or (not session_ingestion and (not is_processed_project or session_project_view is not None))
     demo_question = None
@@ -858,7 +889,10 @@ elif selected_page == "Pregunte a sus documentos":
                 from openai import OpenAI
 
                 service = ConversationalRagService(
-                    retriever=SessionRetriever(session_ingestion, get_embedding_model()),
+                    retriever=DocumentReferenceScopedRetriever(
+                        SessionRetriever(session_ingestion, get_embedding_model()),
+                        session_ingestion.get("documents", []),
+                    ),
                     answerer=OpenAIRagAnswerer(client=OpenAI(api_key=api_key)),
                 )
                 exchange = service.ask(question)
@@ -917,4 +951,5 @@ La consulta conversacional reutiliza el índice y no recalcula el perfil de ries
 
 st.divider()
 st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo")
+
 

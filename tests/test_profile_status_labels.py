@@ -53,12 +53,13 @@ def test_data_r_view_exposes_reviewed_coverage_and_limits():
     app.sidebar.radio[0].set_value("Corpus por proyecto").run()
     app.sidebar.radio[1].set_value("Resumen ejecutivo").run()
     assert not app.exception
-    assert next(m.value for m in app.metric if m.label == "PIRD global") == "51.42"
+    assert next(m.value for m in app.metric if m.label == "PIRD global") == "51.50"
     text = "\n".join(m.value for m in app.markdown)
-    assert "260 de 404 señales (64.36 %)" in text
+    assert "267 de 404 señales (66.09 %)" in text
     assert "Señales pendientes de componentes:" in text
     assert "Revisión experta muestral del corpus" in text
     assert "Resultado provisional" not in text
     app.sidebar.selectbox[0].set_value("PDIS").run()
     assert not app.exception
     assert next(m.value for m in app.metric if m.label == "PIRD global") == "Pendiente"
+

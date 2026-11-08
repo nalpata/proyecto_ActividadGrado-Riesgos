@@ -1,0 +1,49 @@
+{
+  "executed_at_utc": "2026-11-08T22:14:55.321497+00:00",
+  "base_commit": "bcb9bb28641752bb672970d7f7602b6f7e6df3bf",
+  "scope": "Local staged maintenance changes; no new LLM or human evaluation. GitHub Actions results are separate.",
+  "command": "python -m pytest -q --junitxml=/tmp/closure_tests.xml",
+  "environment_note": "PYTHONPATH=.:../closure-test-env/lib/python3.12/site-packages",
+  "python": "3.12.14",
+  "packages": {
+    "pytest": "9.2.0",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "streamlit": "1.67.0"
+  },
+  "tests": 222,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seconds": 18.954,
+  "notebooks": {
+    "30": "Executed 4 code cells, no API",
+    "31": "Executed 3 code cells, RUN_ENRICHMENT=False, no API",
+    "27_and_29": "Historical content retained; not executed; ordinary Python cells syntax-checked",
+    "engine": "python_exec_no_ipython_kernel"
+  },
+  "baseline_sha256": "5bf5e501c27d4ae5b99bf1f8062701124cdbd25c5dd4a6ee861981b2991498e5",
+  "artifact_sha256": {
+    "README.md": "85c0a9911bc448e8b8c50c150338b1824fbecbeafd0c7b2d5f1dc2721d7152f5",
+    "app/streamlit_app.py": "7e54dd2fd951042a0ceecac50f6dc02d9ecb757cc41909dfe3c9aac031401a8a",
+    "src/risk/session_exposure_grounding.py": "8834c4a1af82ac67f72b62cd7065c7d7ace6a48ad09e1de56a3840e401ef25be",
+    "src/risk/build_intelligent_risk_profile.py": "3a3fdd0d886a5814854f48080a665c208110a38b91a78dc8b329a11154e22b69",
+    "src/audit/notebook_runner.py": "b8f8e855c91508d0011a7e418329dc3625bbf902d7b32596d40d177cecd0159d",
+    "tests/test_session_exposure_grounding.py": "4d525c088c7452e7ac7bdbe48399560c2f0ef3b7bffff6fc618ffdae3f898eeb",
+    "tests/test_closure_notebooks.py": "d2b952efbd24622366f1e21e7faad2548a194e80d3345826ea8822e286149e03",
+    "notebooks/31_reproduccion_enriquecimiento_contexto.ipynb": "a7a6cb1286cd6d9c8b597d63ea94b0d5fb99e3096f49e94632cb5ca73c365295",
+    "notebooks/30_verificacion_cierre_noviembre_2026.ipynb": "60dfc3b7bfe373be36ded7130aa91ae369eefa200ed922e949992833f1e0578f",
+    "notebooks/27_perfil_inteligente_dia_11_colab.ipynb": "fa3aa5e5d04f52fbd5eadd57014a8c910626d753b4cd4b1cdba88c3e51f5bc88",
+    "notebooks/29_automatizacion_end_to_end_dia_13_colab.ipynb": "20cb3db63dd7ce567daedf56b842a3e96d7bf47fbdcc5a75ae3dd83c4ca2d12a",
+    "docs/actualizacion_20261107_08.md": "a8d8045824b5c09cd9f4a23be47eeb6645540eb9e6f4bf3edd464c3dcf07b717",
+    "docs/cierre_noviembre_2026.md": "6b55b7fcce9aae743d7ad37a79efec049a46b1ccfd7449b2e7295c54135c19de",
+    "results/closure_20261108/evaluation_summary.json": "c7eeea159ef935a87d600b167d56f1f0dc70e4a9cd006fba4a8c2671a1e188e8",
+    "results/closure_20261108/merged_work_log.json": "ccb4ca76fdf5ddefa8e197b2839549c08f68e65c0717d198a294cac16f03f66f"
+  },
+  "prior_ci": {
+    "pr": 43,
+    "job": 128878778302,
+    "tests_passed": 222,
+    "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/actions/runs/42528996805/job/128878778302"
+  }
+}

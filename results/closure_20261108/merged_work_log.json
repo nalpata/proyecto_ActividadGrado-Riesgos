@@ -1,0 +1,213 @@
+{
+  "timezone": "America/Bogota",
+  "source": "GitHub pull request metadata retrieved 2026-11-08",
+  "pull_requests": [
+    {
+      "number": 20,
+      "title": "Completar chat de sesión y corregir aislamiento y trazabilidad del perfil",
+      "merged_at_utc": "2026-11-07T23:33:33Z",
+      "base": "main",
+      "merge_commit": "1bda5f89636a1c1d7e8e13706e067ef66feadcfc",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/20",
+      "merged_at_bogota": "2026-11-07T18:33:33-05:00"
+    },
+    {
+      "number": 21,
+      "title": "Identificar fallos del asistente sin exponer información privada",
+      "merged_at_utc": "2026-11-07T23:40:23Z",
+      "base": "main",
+      "merge_commit": "dbec5234da291cad68a660d2c871bbedd448e40e",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/21",
+      "merged_at_bogota": "2026-11-07T18:40:23-05:00"
+    },
+    {
+      "number": 22,
+      "title": "Corregir TypeError de allowed_chunk_ids en el asistente desplegado",
+      "merged_at_utc": "2026-11-07T23:52:12Z",
+      "base": "main",
+      "merge_commit": "b60b6c2fc4edf1f0ab615fc64b744cd73e4bc985",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/22",
+      "merged_at_bogota": "2026-11-07T18:52:12-05:00"
+    },
+    {
+      "number": 23,
+      "title": "Conservar diagnóstico del asistente en despliegues con módulos cacheados",
+      "merged_at_utc": "2026-11-07T23:55:50Z",
+      "base": "main",
+      "merge_commit": "0149e1fd88fb731744b0ecc90aed031fc8acd2ac",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/23",
+      "merged_at_bogota": "2026-11-07T18:55:50-05:00"
+    },
+    {
+      "number": 24,
+      "title": "Evitar copias de BGE-M3 por clave y proyecto en Streamlit",
+      "merged_at_utc": "2026-11-08T00:05:13Z",
+      "base": "main",
+      "merge_commit": "08cda653c26655951565d2e0af28e4f376013d63",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/24",
+      "merged_at_bogota": "2026-11-07T19:05:13-05:00"
+    },
+    {
+      "number": 25,
+      "title": "Identificar proyectos con evidencia y aislar recuperación y perfil de sesión",
+      "merged_at_utc": "2026-11-08T00:26:52Z",
+      "base": "main",
+      "merge_commit": "ba618ff0b61af80b4b602c29beb421c89175cadf",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/25",
+      "merged_at_bogota": "2026-11-07T19:26:52-05:00"
+    },
+    {
+      "number": 26,
+      "title": "Activar catálogo del corpus con cinco proyectos y lotes de Multinube",
+      "merged_at_utc": "2026-11-08T00:34:20Z",
+      "base": "main",
+      "merge_commit": "8015dedc89c3925bd9476c1ef746195656169445",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/26",
+      "merged_at_bogota": "2026-11-07T19:34:20-05:00"
+    },
+    {
+      "number": 27,
+      "title": "Recalcular perfiles históricos dentro de cada proyecto con trazabilidad",
+      "merged_at_utc": "2026-11-08T00:46:47Z",
+      "base": "main",
+      "merge_commit": "b581c56fbb7f7ce0278514d7eca44da26833ac4e",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/27",
+      "merged_at_bogota": "2026-11-07T19:46:47-05:00"
+    },
+    {
+      "number": 28,
+      "title": "Conservar exposición de pendientes y completar cronología documental",
+      "merged_at_utc": "2026-11-08T03:18:10Z",
+      "base": "main",
+      "merge_commit": "ef3c289d20fb827348600f3cd6cc1952e3aa0e09",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/28",
+      "merged_at_bogota": "2026-11-07T22:18:10-05:00"
+    },
+    {
+      "number": 29,
+      "title": "Separar cálculo, cobertura y alcance de validación del PIRD en la interfaz",
+      "merged_at_utc": "2026-11-08T03:38:09Z",
+      "base": "main",
+      "merge_commit": "f2dccf8272953782ccb0f480f76417869ca84457",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/29",
+      "merged_at_bogota": "2026-11-07T22:38:09-05:00"
+    },
+    {
+      "number": 30,
+      "title": "Recuperar fechas del corpus y completar cuatro puntuaciones PIRD",
+      "merged_at_utc": "2026-11-08T03:46:48Z",
+      "base": "main",
+      "merge_commit": "e5ccbc9b3201b840bc7ddd568558bf66f0a7b4a0",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/30",
+      "merged_at_bogota": "2026-11-07T22:46:48-05:00"
+    },
+    {
+      "number": 31,
+      "title": "Incorporar exposición enriquecida con revisión documental y preservar histórico",
+      "merged_at_utc": "2026-11-08T04:33:08Z",
+      "base": "main",
+      "merge_commit": "ca9f56be396937f6c1cc0f03e43848f5e3f6c73e",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/31",
+      "merged_at_bogota": "2026-11-07T23:33:08-05:00"
+    },
+    {
+      "number": 32,
+      "title": "Integrar revisión experta muestral de siete componentes PIRD",
+      "merged_at_utc": "2026-11-08T05:13:08Z",
+      "base": "dia-17-asistente-conversacional",
+      "merge_commit": "6bcedcf7c7393a9392ca8973a727a5fd264acc5e",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/32",
+      "merged_at_bogota": "2026-11-08T00:13:08-05:00"
+    },
+    {
+      "number": 33,
+      "title": "Actualizar aviso de revisión experta en el perfil del corpus",
+      "merged_at_utc": "2026-11-08T05:15:24Z",
+      "base": "dia-17-asistente-conversacional",
+      "merge_commit": "1258d2be4d0cbe611bb59e9c28545c6303a311b5",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/33",
+      "merged_at_bogota": "2026-11-08T00:15:24-05:00"
+    },
+    {
+      "number": 34,
+      "title": "Corregir navegación, datos y metodología por proyecto en Streamlit",
+      "merged_at_utc": "2026-11-08T05:20:32Z",
+      "base": "dia-17-asistente-conversacional",
+      "merge_commit": "038faac42548001925dad4ece7a61465a3354d4a",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/34",
+      "merged_at_bogota": "2026-11-08T00:20:32-05:00"
+    },
+    {
+      "number": 35,
+      "title": "Sincronizar revisión experta y correcciones de interfaz con main",
+      "merged_at_utc": "2026-11-08T05:21:00Z",
+      "base": "main",
+      "merge_commit": "c57999cab4d075d62dd7abcfec50f6c15b092f2f",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/35",
+      "merged_at_bogota": "2026-11-08T00:21:00-05:00"
+    },
+    {
+      "number": 36,
+      "title": "Consultar señales individuales y evidencia por proyecto en la sesión",
+      "merged_at_utc": "2026-11-08T05:32:39Z",
+      "base": "dia-17-asistente-conversacional",
+      "merge_commit": "482f40f9a89e9de8bb627fb341eeb6e6fa19a6b8",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/36",
+      "merged_at_bogota": "2026-11-08T00:32:39-05:00"
+    },
+    {
+      "number": 37,
+      "title": "Sincronizar consulta de señales y evidencia con la rama principal",
+      "merged_at_utc": "2026-11-08T05:33:21Z",
+      "base": "main",
+      "merge_commit": "9dcbec3b5c14b233a8b5fc8c70835f101dc50053",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/37",
+      "merged_at_bogota": "2026-11-08T00:33:21-05:00"
+    },
+    {
+      "number": 38,
+      "title": "Cargar automáticamente el detalle público de riesgos por proyecto",
+      "merged_at_utc": "2026-11-08T13:33:07Z",
+      "base": "dia-17-asistente-conversacional",
+      "merge_commit": "e5a84f022f7ebd166a693d232dc1615f97b4a3e1",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/38",
+      "merged_at_bogota": "2026-11-08T08:33:07-05:00"
+    },
+    {
+      "number": 39,
+      "title": "Mostrar la evidencia vigente de cada componente PIRD",
+      "merged_at_utc": "2026-11-08T13:49:33Z",
+      "base": "dia-17-asistente-conversacional",
+      "merge_commit": "5c5645cc6df31b446383b0a7b1704dabb9d31ba2",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/39",
+      "merged_at_bogota": "2026-11-08T08:49:33-05:00"
+    },
+    {
+      "number": 40,
+      "title": "Evitar fallo de inventario tras analizar un proyecto nuevo",
+      "merged_at_utc": "2026-11-08T14:15:09Z",
+      "base": "dia-17-asistente-conversacional",
+      "merge_commit": "18f166b5b7d39a06d9622c9d4056a5774a8083cd",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/40",
+      "merged_at_bogota": "2026-11-08T09:15:09-05:00"
+    },
+    {
+      "number": 41,
+      "title": "Conservar ingesta y mejorar trazabilidad del RAG y revisión de valoraciones",
+      "merged_at_utc": "2026-11-08T21:04:40Z",
+      "base": "dia-17-asistente-conversacional",
+      "merge_commit": "9575a7b443a973b920811141591665c03ab4dd9a",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/41",
+      "merged_at_bogota": "2026-11-08T16:04:40-05:00"
+    },
+    {
+      "number": 42,
+      "title": "Respetar la fecha del acta solicitada antes de seleccionar el top-5",
+      "merged_at_utc": "2026-11-08T21:26:51Z",
+      "base": "dia-17-asistente-conversacional",
+      "merge_commit": "f46526adeec0fedefc72a989d04eed30e7d1a24a",
+      "url": "https://github.com/nalpata/proyecto_ActividadGrado-Riesgos/pull/42",
+      "merged_at_bogota": "2026-11-08T16:26:51-05:00"
+    }
+  ]
+}

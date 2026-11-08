@@ -45,6 +45,7 @@ def build_prompt(batch: pd.DataFrame) -> str:
             "item_id": row.item_id, "type": row.calibrated_type, "category": row.calibrated_category,
             "exposure_status": row.exposure_status, "title": row.title,
             "statement": row.statement, "evidence": row.evidence_quote,
+            "source_context": getattr(row, "source_context", ""),
         })
     return f"""Evalúa severidad y probabilidad documental para cada señal. Usa solo el texto entregado; no agregues consecuencias, cifras ni contexto externo.
 
@@ -65,9 +66,14 @@ PROBABILIDAD (posibilidad de que la exposición adversa continúe o se materiali
 REGLAS:
 - Para hechos ocurridos y hallazgos, evalúa la probabilidad de continuidad de la exposición, no la probabilidad del hecho pasado.
 - No utilices recurrencia entre documentos ni persistencia temporal: se incorporan aparte en el PIRD.
-- Marca supported=1 solo cuando la cita permite justificar el nivel.
+- Usa la cita y su contexto documental suministrado para distinguir condición abierta, consecuencias expresas y medidas de seguimiento.
+- No equipares una alerta a impacto crítico; justifica el nivel con consecuencias expresas, sin inferirlas.
+- exposure_status es una etiqueta propuesta, no una prueba del estado real. No deduzcas cierre de esa etiqueta.
+- Una solicitud emitida, una reunión celebrada o un compromiso registrado no acreditan su cumplimiento ni el cierre de la exposición.
+- Si afirmas cierre, la evidencia de ESTA señal debe acreditar literalmente cierre o resolución; no uses el cierre de otra actividad del contexto.
+- Marca supported=1 solo cuando la cita o su contexto permite justificar el nivel.
 - Si no hay base suficiente, devuelve el nivel null y supported=0.
-- evidence_basis debe ser una frase breve tomada o parafraseada estrictamente de la cita.
+- evidence_basis debe ser una frase breve tomada o parafraseada estrictamente de la cita o su contexto suministrado.
 - Devuelve exactamente una evaluación por item_id.
 
 SEÑALES:

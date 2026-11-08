@@ -43,6 +43,7 @@ class RuntimeChatService:
             "response_status": qa.get("response_status") or execution.get("status", "ERROR"),
             "sources": sources,
             "diagnostic_code": diagnostic_code(execution),
+            "retrieved_sources": public_sources(qa.get("retrieved_sources", [])),
             "model": qa.get("model"),
             "usage": qa.get("usage", {}),
         }
@@ -56,6 +57,7 @@ def append_runtime_history(history: list[dict], exchange: dict) -> list[dict]:
         "response_status": exchange.get("response_status"),
         "evidence_available": bool(exchange.get("evidence_available")),
         "sources": public_sources(exchange.get("sources", [])),
+        "retrieved_sources": public_sources(exchange.get("retrieved_sources", [])),
         "diagnostic_code": code if code in allowed else None,
     }
     return [*history, safe][-20:]

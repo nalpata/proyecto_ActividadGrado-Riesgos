@@ -84,7 +84,7 @@ def test_pipeline_filters_before_recurrence_persistence_and_pird(monkeypatch):
         "chunks_analyzed": 2, "items_with_verified_evidence": 2, "prompt_tokens": 0, "completion_tokens": 0}))
     monkeypatch.setattr(processing, "_classify_items", lambda frame, *a: (frame, {
         "calibration_status": "PROVISIONAL_NO_PRIVATE_EXAMPLES", "prompt_tokens": 0, "completion_tokens": 0}))
-    def assess(frame, client):
+    def assess(frame, client, progress=None):
         assert frame.item_id.tolist() == ["I1"]
         return pd.DataFrame([{"item_id": "I1", "severity": 3, "probability": 4}]), {
             "prompt_tokens": 0, "completion_tokens": 0}
@@ -123,3 +123,4 @@ def test_no_active_project_signals_leave_profile_pending_without_exposure_calls(
     assert result["summary"]["global_pird"] is None
     assert result["summary"]["signals_validated"] == 0
     assert result["project_scope"]["signals_excluded_or_pending"] == 1
+

@@ -1,0 +1,76 @@
+{
+  "date": "2026-11-08",
+  "base_commit": "f46526adeec0fedefc72a989d04eed30e7d1a24a",
+  "baseline": {
+    "signals": 649,
+    "assigned": 515,
+    "scored": 339,
+    "pending": 176,
+    "coverage": 0.658252427184466,
+    "DataR": {
+      "scored": 267,
+      "assigned": 404,
+      "pird": 51.5
+    }
+  },
+  "expert_components": {
+    "reviewed_cases": 7,
+    "before_scored": 332,
+    "after_scored": 339
+  },
+  "reserved_cases": {
+    "1": {
+      "status": "CORRECTO"
+    },
+    "2": {
+      "status": "CORRECTO"
+    },
+    "3": {
+      "status": "NO_RESUELTO",
+      "expert_severity": 5,
+      "expert_probability": 5,
+      "model_severity": 3,
+      "model_probability": 4
+    },
+    "4": {
+      "status": "SIN_MONTO_INVENTADO",
+      "limit": "La puerta de citas bloquea salidas sin referencia; no acredita razonamiento semántico del generador."
+    },
+    "5": {
+      "status": "ABSTENCION_INDEBIDA"
+    }
+  },
+  "reserved_session_before_guard": {
+    "documents": 2,
+    "pages": 19,
+    "chunks": 29,
+    "extracted": 88,
+    "accepted": 39,
+    "scored": 27,
+    "pending": 12,
+    "coverage": 0.6923076923076923,
+    "aggregate_pird": 32.96,
+    "limit": "Agregado de sesión con proyectos mixtos, no PIRD de un proyecto único."
+  },
+  "closure_correction": {
+    "policy": "Solicitud realizada no prueba cumplimiento; cierre no sustentado pasa a pendiente, con propuesta original conservada.",
+    "new_llm_execution": false,
+    "expert_labels_forced": false
+  },
+  "scope": "Casos conocidos de dos actas del mismo entorno de proyectos; no prueba independiente de generalización.",
+  "live_session_after_guard": {
+    "observed_at": "2026-11-08",
+    "deployed_commit": "bcb9bb28641752bb672970d7f7602b6f7e6df3bf",
+    "accepted": 39,
+    "scored": 19,
+    "pending": 20,
+    "coverage": 0.48717948717948717,
+    "additional_pending": 8,
+    "main_alert_severity": 3,
+    "main_alert_probability": 4,
+    "request_severity": null,
+    "request_probability": null,
+    "request_pird": null,
+    "method": "Observed in deployed Streamlit session after conservative review; no new LLM call. Raw proposals retained. Flags require review and are not expert adjudications."
+  }
+}

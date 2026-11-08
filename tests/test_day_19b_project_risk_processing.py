@@ -134,10 +134,10 @@ def test_private_calibration_examples_accept_public_alias_format():
 def test_day_19b_interface_exposes_analysis_action_and_privacy_boundary():
     source = open("app/streamlit_app.py", encoding="utf-8").read()
 
-    assert "Analizar riesgos · Día 19B" in source
+    assert '"Analizar riesgos"' in source
     assert "process_project_risks" in source
     assert "CALIBRATION_EXAMPLES_JSON" in source
-    assert "Día 19C" in source
+    assert "progress_callback=report_progress" in source
 
 
 def test_profile_keeps_category_without_complete_pird_as_pending():
@@ -155,3 +155,4 @@ def test_profile_keeps_category_without_complete_pird_as_pending():
     assert pending.scored_signals == 0
     assert pending.scoring_coverage == 0
     assert profile["signals_pending"] == 1
+

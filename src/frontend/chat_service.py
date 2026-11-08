@@ -48,6 +48,8 @@ def public_sources(sources: list[dict[str, Any]]) -> list[dict[str, Any]]:
         item = {field: source.get(field) for field in PUBLIC_SOURCE_FIELDS}
         if item["rank"] is None:
             item["rank"] = len(cleaned) + 1
+        if source.get("section_path"):
+            item["section_path"] = str(source["section_path"])
         cleaned.append(item)
     return cleaned
 
@@ -83,6 +85,7 @@ class ConversationalRagService:
             "evidence_available": evidence_available,
             "response_status": result.get("response_status", "COMPLETED" if evidence_available else "NO_EVIDENCE"),
             "sources": sources,
+            "retrieved_sources": public_sources(result.get("retrieved_sources", [])),
             "model": result.get("model"),
             "usage": result.get("usage", {}),
         }
@@ -135,6 +138,7 @@ class FinalPipelineChatService:
             "evidence_available": evidence_available,
             "response_status": status,
             "sources": sources,
+            "retrieved_sources": public_sources(qa.get("retrieved_sources", [])),
             "model": qa.get("model"),
             "usage": qa.get("usage", {}),
             "diagnostic_code": public_diagnostic(result.get("execution", {})),

@@ -25,13 +25,17 @@ def test_front_loads_only_the_frozen_public_contract():
     assert snapshot["data_policy"]["contains_individual_signals"] is False
 
 
-def test_streamlit_structure_does_not_reference_private_evidence_files():
+def test_streamlit_uses_only_approved_published_detail_paths():
     source = (ROOT / "app/streamlit_app.py").read_text(encoding="utf-8")
-    forbidden = ("timeline_riesgos.csv", "riesgos_priorizados.csv", "evidence_quote", "chunk_text")
+    forbidden = ("timeline_riesgos.csv", "riesgos_priorizados.csv")
     assert all(item not in source for item in forbidden)
+    assert "data/evaluation/risk_details/signals_published.csv" in source
+    assert "config/risk_detail_manifest.json" in source
+    assert "load_corpus_risk_details" in source
 
 
 def test_cover_uses_the_approved_system_title():
     source = (ROOT / "app/streamlit_app.py").read_text(encoding="utf-8")
     assert "Sistema inteligente de vigilancia de riesgo documental" in source
     assert "Retrieval-Augmented Generation (RAG)" in source
+
