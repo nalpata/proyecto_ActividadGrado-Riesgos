@@ -411,9 +411,9 @@ def render_risk_details() -> None:
                 st.caption("Este texto se conserva para trazabilidad. El sustento vigente de los componentes actualizados se muestra arriba.")
                 st.text(str(justification))
         else:
-            st.write("Sustento registrado en la valoración histórica:")
+            st.write("Sustento de la valoración de esta sesión:" if session_project_view else "Sustento registrado en la valoración histórica:")
             st.text(str(justification))
-    st.caption("Los niveles ausentes permanecen vacíos. El detalle del corpus está publicado y se carga automáticamente para el proyecto seleccionado.")
+    st.caption("Los niveles ausentes permanecen vacíos. Las señales corresponden únicamente a los documentos de esta sesión." if session_project_view else "Los niveles ausentes permanecen vacíos. El detalle del corpus está publicado y se carga automáticamente para el proyecto seleccionado.")
 
 
 if ((selected_project == "Nuevo proyecto" or session_ingestion is not None) and session_project_view is None or has_corpus_profile_pending) and selected_page in {
