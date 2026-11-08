@@ -25,6 +25,7 @@ from src.frontend.dashboard_data import (  # noqa: E402
 )
 from src.frontend.session_project_view import build_session_project_view  # noqa: E402
 from src.frontend.document_timeline import build_document_timeline  # noqa: E402
+from src.frontend.risk_details import load_corpus_risk_details, select_project_risk_details, filter_risk_details
 from src.frontend.profile_status_labels import describe_pird_profile  # noqa: E402
 from src.frontend.visualizations import (  # noqa: E402
     LEVEL_ORDER,
@@ -295,6 +296,123 @@ def profile_notice() -> None:
             )
         else:
             st.caption("Las nuevas valoraciones de severidad y probabilidad de esta versión no han tenido revisión experta.")
+
+
+def render_risk_details() -> None:
+    st.subheader("Señales individuales y evidencia")
+    if is_academic_demo:
+        st.info("La demostración sintética contiene perfiles agregados, sin señales documentales individuales.")
+        return
+    if session_project_view:
+        # The processing envelope already contains only accepted signals for the active session project.
+        records = pd.DataFrame(session_analysis.get("private", {}).get("scored_signals", []))
+    elif is_corpus_project and project_scope:
+        manifest = json.loads((ROOT / "config/risk_detail_manifest.json").read_text(encoding="utf-8"))
+        upload = st.file_uploader(
+            "Cargar detalle de la línea base (CSV)", type=["csv"], key=f"corpus_risk_detail_upload::{st.session_state.get('risk_details_upload_epoch', 0)}",
+            help="Use Detalle_riesgos_linea_base_339.csv sin editarlo. Se comprueba su versión y se conserva solo en esta sesión.")
+        if upload is not None:
+            import hashlib
+            uploaded_bytes = upload.getvalue()
+            upload_digest = hashlib.sha256(uploaded_bytes).hexdigest()
+            if st.session_state.get("risk_details_digest") != upload_digest:
+                # Clear stale data first: an invalid replacement must never leave prior details visible.
+                st.session_state.pop("risk_details_corpus", None)
+                st.session_state.pop("risk_details_digest", None)
+                try:
+                    checked = load_corpus_risk_details(uploaded_bytes, manifest, corpus_catalog, project_scope)
+                except (ValueError, KeyError, pd.errors.ParserError):
+                    st.error("El archivo no coincide con la línea base publicada. Cargue el CSV original sin modificarlo.")
+                    return
+                st.session_state["risk_details_corpus"] = checked
+                st.session_state["risk_details_digest"] = upload_digest
+        corpus_details = st.session_state.get("risk_details_corpus")
+        if corpus_details is not None and st.button("Retirar detalle de esta sesión", key="clear_risk_details"):
+            st.session_state.pop("risk_details_corpus", None)
+            st.session_state.pop("risk_details_digest", None)
+            st.session_state["risk_details_upload_epoch"] = st.session_state.get("risk_details_upload_epoch", 0) + 1
+            st.rerun()
+        if corpus_details is None:
+            st.info("Cargue el archivo de detalle para explorar las señales y sus citas. Los agregados por categoría siguen disponibles debajo.")
+            return
+        records = select_project_risk_details(corpus_details, active_project_id)
+        st.caption("Detalle de la línea base conciliado con los perfiles publicados. Las señales ambiguas y multiproyecto quedan excluidas del proyecto activo.")
+    else:
+        st.info("No hay detalle individual disponible para este modo de datos.")
+        return
+    if records.empty:
+        st.info("Este proyecto no tiene señales individuales asignadas en el conjunto disponible.")
+        return
+    detail_key = f"{selected_scope}::{active_project}"
+    category_options = sorted(records.calibrated_category.dropna().unique().tolist())
+    saved_filters = st.session_state.get("risk_detail_filters", {}).get(detail_key, {})
+    d1, d2 = st.columns(2)
+    selected_categories = d1.multiselect("Categoría de la señal", category_options,
+                                      default=[c for c in saved_filters.get("categories", category_options) if c in category_options],
+                                      key=f"detail_categories::{detail_key}")
+    scoring_status = d2.selectbox("Estado de puntuación", ["Todas", "Puntuadas", "Pendientes"],
+                                 index=["Todas", "Puntuadas", "Pendientes"].index(saved_filters.get("status", "Todas")), key=f"detail_status::{detail_key}")
+    level_options = [level for level in LEVEL_ORDER if level in records.pird_level.dropna().unique()]
+    level_filter_enabled = st.checkbox("Filtrar por nivel PIRD", value=saved_filters.get("use_levels", False), key=f"detail_use_levels::{detail_key}")
+    selected_levels = (st.multiselect("Nivel PIRD de la señal", level_options,
+                                     default=[v for v in saved_filters.get("levels", level_options) if v in level_options],
+                                     key=f"detail_levels::{detail_key}") if level_filter_enabled else None)
+    query = st.text_input("Buscar en señal, documento o evidencia", value=saved_filters.get("query", ""), key=f"detail_query::{detail_key}")
+    st.session_state.setdefault("risk_detail_filters", {})[detail_key] = {
+        "categories": selected_categories, "status": scoring_status, "use_levels": level_filter_enabled,
+        "levels": selected_levels or [], "query": query,
+    }
+    visible = filter_risk_details(records, selected_categories, selected_levels, scoring_status, query)
+    st.caption(f"{len(visible)} de {len(records)} señales del proyecto seleccionado.")
+    if visible.empty:
+        st.info("No hay señales que cumplan los filtros seleccionados.")
+        return
+    columns = [c for c in ['item_id', 'title', 'calibrated_type', 'calibrated_category', 'pird', 'pird_level',
+                          'severity', 'probability', 'recurrence_level', 'persistence_level',
+                          'source_filename', 'source_page', 'pird_missing_components'] if c in visible]
+    labels = {'item_id': 'ID', 'title': 'Señal', 'calibrated_type': 'Tipo', 'calibrated_category': 'Categoría',
+              'pird': 'PIRD', 'pird_level': 'Nivel', 'severity': 'Severidad', 'probability': 'Probabilidad',
+              'recurrence_level': 'Recurrencia', 'persistence_level': 'Persistencia',
+              'source_filename': 'Documento', 'source_page': 'Página', 'pird_missing_components': 'Componentes faltantes'}
+    st.dataframe(visible[columns].rename(columns=labels), width="stretch", hide_index=True)
+    st.download_button("Descargar señales filtradas", visible[columns].to_csv(index=False).encode("utf-8-sig"),
+                       file_name=f"riesgos_{active_project_id}_filtrados.csv", mime="text/csv", key=f"detail_download::{detail_key}")
+    chosen = st.selectbox("Seleccionar señal para ver su evidencia", visible.item_id.tolist(),
+                          format_func=lambda item: f"{item} · {visible.loc[visible.item_id == item, 'title'].iloc[0]}",
+                          key=f"detail_item::{detail_key}")
+    row = visible.loc[visible.item_id == chosen].iloc[0]
+    st.markdown("#### Evidencia documental de la señal")
+    st.text(str(row.get("statement", "")))
+    st.write("Documento:", str(row.get("source_filename", "No disponible")))
+    page = row.get("source_page")
+    st.write("Página:", str(page) if pd.notna(page) else "No identificada")
+    quote = row.get("evidence_quote")
+    st.text(str(quote) if pd.notna(quote) else "Sin cita registrada")
+    detail_components = [
+        {"Componente": name, "Nivel 1–5": row.get(col)}
+        for name, col in [("Severidad", "severity"), ("Probabilidad", "probability"),
+                          ("Recurrencia", "recurrence_level"), ("Persistencia", "persistence_level")]
+    ]
+    sufficient = row.get("calibrated_evidence_sufficient")
+    confidence = row.get("calibrated_confidence")
+    detail_components += [
+        {"Componente": "Evidencia", "Nivel 1–5": 5.0 if sufficient == 1 else None},
+        {"Componente": "Confianza", "Nivel 1–5": 1 + 4 * float(confidence) if pd.notna(confidence) else None},
+    ]
+    st.dataframe(pd.DataFrame(detail_components), width="stretch", hide_index=True)
+    if row.get("pird_status") == "CALCULADO":
+        st.metric("PIRD de la señal", f"{float(row['pird']):.2f}", str(row.get("pird_level", "")))
+    else:
+        st.info("PIRD pendiente. Componentes faltantes: " + str(row.get("pird_missing_components", "No especificados")))
+    for component, label in [("severity", "Severidad"), ("probability", "Probabilidad")]:
+        source = row.get(component + "_assessment_source")
+        if source == "REVISION_EXPERTA_CONFIRMADA":
+            st.caption(f"{label}: nivel confirmado mediante revisión experta de este caso.")
+    justification = row.get("exposure_justification")
+    if pd.notna(justification):
+        st.write("Sustento de la valoración:")
+        st.text(str(justification))
+    st.caption("Los niveles ausentes permanecen vacíos. El detalle se conserva en la sesión y no se incorpora al repositorio.")
 
 
 if ((selected_project == "Nuevo proyecto" or session_ingestion is not None) and session_project_view is None or has_corpus_profile_pending) and selected_page in {
@@ -635,7 +753,8 @@ elif selected_page == "Riesgos priorizados":
     if not is_processed_project:
         st.warning("La priorización estará disponible después de procesar los documentos del proyecto.")
     profile_notice()
-    st.subheader("Priorización agregada")
+    render_risk_details()
+    st.subheader("Priorización agregada por categoría")
     categories = pd.DataFrame(view_categories)
     if categories.empty:
         st.warning("El proyecto no tiene riesgos con PIRD calculado todavía.")
@@ -798,3 +917,4 @@ La consulta conversacional reutiliza el índice y no recalcula el perfil de ries
 
 st.divider()
 st.caption("Proyecto de maestría · Sistema RAG y Perfil Inteligente de Riesgo")
+

@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "sha256": "5bf5e501c27d4ae5b99bf1f8062701124cdbd25c5dd4a6ee861981b2991498e5",
+  "rows": 649,
+  "assigned_rows": 515,
+  "scored_rows": 339,
+  "storage": "session_only",
+  "contains_public_signal_data": false
+}
