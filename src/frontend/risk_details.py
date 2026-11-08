@@ -1,4 +1,4 @@
-"""Detalle por señal en memoria de sesión; el corpus original no se publica."""
+"""Carga verificada y filtros del detalle de señales por proyecto."""
 from io import BytesIO
 import hashlib
 import pandas as pd
