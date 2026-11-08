@@ -1,0 +1,491 @@
+{
+  "schema_version": "1.0.0",
+  "scope_status": "PROVISIONAL_PROJECT_RECOMPUTED",
+  "catalog": [
+    {
+      "project_id": "DATAR",
+      "display_name": "DataR"
+    },
+    {
+      "project_id": "MULTINUBE",
+      "display_name": "Multinube"
+    },
+    {
+      "project_id": "NSGA",
+      "display_name": "NSGA"
+    },
+    {
+      "project_id": "NSGT",
+      "display_name": "NSGT"
+    },
+    {
+      "project_id": "PDIS",
+      "display_name": "PDIS"
+    }
+  ],
+  "assignment": {
+    "signals_total": 649,
+    "signals_assigned_single_project": 515,
+    "signals_pending_or_ambiguous": 134,
+    "assignment_coverage": 0.7935,
+    "status_counts": {
+      "AMBIGUOUS_CONTEXT": 33,
+      "ASSIGNED_CHUNK_EXPLICIT": 112,
+      "ASSIGNED_CONTEXT_NEAREST": 196,
+      "ASSIGNED_FILENAME_EXPLICIT": 174,
+      "ASSIGNED_SIGNAL_EXPLICIT": 33,
+      "MULTI_PROJECT_SIGNAL": 6,
+      "PENDING_NO_EVIDENCE": 95
+    }
+  },
+  "projects": [
+    {
+      "project_id": "DATAR",
+      "display_name": "DataR",
+      "profile": {
+        "profile_status": "PROVISIONAL",
+        "signals_total": 404,
+        "signals_scored": 236,
+        "signals_pending": 168,
+        "scoring_coverage": 0.5842,
+        "global_pird": 49.77,
+        "global_level": "MEDIO",
+        "top_categories": [
+          "Contractual",
+          "Cronograma",
+          "Operación"
+        ],
+        "critical_signals": 13,
+        "high_signals": 81,
+        "project_scope_status": "DOCUMENT_EVIDENCE"
+      },
+      "categories": [
+        {
+          "category": "Contractual",
+          "total_signals": 114,
+          "scored_signals": 53,
+          "scoring_coverage": 0.4649,
+          "category_score": 56.8867,
+          "category_level": "ALTO"
+        },
+        {
+          "category": "Cronograma",
+          "total_signals": 77,
+          "scored_signals": 44,
+          "scoring_coverage": 0.5714,
+          "category_score": 54.4979,
+          "category_level": "ALTO"
+        },
+        {
+          "category": "Operación",
+          "total_signals": 110,
+          "scored_signals": 74,
+          "scoring_coverage": 0.6727,
+          "category_score": 50.6071,
+          "category_level": "ALTO"
+        },
+        {
+          "category": "Calidad",
+          "total_signals": 69,
+          "scored_signals": 47,
+          "scoring_coverage": 0.6812,
+          "category_score": 49.5352,
+          "category_level": "MEDIO"
+        },
+        {
+          "category": "Seguridad",
+          "total_signals": 1,
+          "scored_signals": 1,
+          "scoring_coverage": 1.0,
+          "category_score": 48.17,
+          "category_level": "MEDIO"
+        },
+        {
+          "category": "Gobierno del Proyecto",
+          "total_signals": 4,
+          "scored_signals": 4,
+          "scoring_coverage": 1.0,
+          "category_score": 44.1951,
+          "category_level": "MEDIO"
+        },
+        {
+          "category": "Financiero",
+          "total_signals": 11,
+          "scored_signals": 5,
+          "scoring_coverage": 0.4545,
+          "category_score": 41.1358,
+          "category_level": "MEDIO"
+        },
+        {
+          "category": "Otro",
+          "total_signals": 18,
+          "scored_signals": 8,
+          "scoring_coverage": 0.4444,
+          "category_score": 28.7741,
+          "category_level": "MEDIO"
+        }
+      ],
+      "level_distribution": [
+        {
+          "pird_level": "BAJO",
+          "signal_count": 52,
+          "percentage_of_scored": 22.03
+        },
+        {
+          "pird_level": "MEDIO",
+          "signal_count": 90,
+          "percentage_of_scored": 38.14
+        },
+        {
+          "pird_level": "ALTO",
+          "signal_count": 81,
+          "percentage_of_scored": 34.32
+        },
+        {
+          "pird_level": "CRITICO",
+          "signal_count": 13,
+          "percentage_of_scored": 5.51
+        }
+      ],
+      "timeline": {
+        "signals": 404,
+        "source_documents": 34,
+        "signals_with_document_date": 391,
+        "temporal_role_counts": {
+          "APARICION": 250,
+          "RECURRENCIA": 141,
+          "SIN_FECHA_PROPIA": 8,
+          "PENDIENTE_FECHA": 5
+        },
+        "persistence_level_counts": {
+          "1": 198,
+          "2": 19,
+          "3": 20,
+          "4": 15,
+          "5": 147
+        },
+        "privacy": "Individual dates, source names and signals are not published"
+      }
+    },
+    {
+      "project_id": "MULTINUBE",
+      "display_name": "Multinube",
+      "profile": {
+        "profile_status": "PROVISIONAL",
+        "signals_total": 104,
+        "signals_scored": 54,
+        "signals_pending": 50,
+        "scoring_coverage": 0.5192,
+        "global_pird": 39.87,
+        "global_level": "MEDIO",
+        "top_categories": [
+          "Financiero",
+          "Contractual",
+          "Operación"
+        ],
+        "critical_signals": 0,
+        "high_signals": 8,
+        "project_scope_status": "DOCUMENT_EVIDENCE"
+      },
+      "categories": [
+        {
+          "category": "Financiero",
+          "total_signals": 25,
+          "scored_signals": 10,
+          "scoring_coverage": 0.4,
+          "category_score": 48.7896,
+          "category_level": "MEDIO"
+        },
+        {
+          "category": "Contractual",
+          "total_signals": 14,
+          "scored_signals": 7,
+          "scoring_coverage": 0.5,
+          "category_score": 39.1592,
+          "category_level": "MEDIO"
+        },
+        {
+          "category": "Operación",
+          "total_signals": 48,
+          "scored_signals": 27,
+          "scoring_coverage": 0.5625,
+          "category_score": 38.6928,
+          "category_level": "MEDIO"
+        },
+        {
+          "category": "Calidad",
+          "total_signals": 6,
+          "scored_signals": 3,
+          "scoring_coverage": 0.5,
+          "category_score": 37.7663,
+          "category_level": "MEDIO"
+        },
+        {
+          "category": "Cronograma",
+          "total_signals": 9,
+          "scored_signals": 6,
+          "scoring_coverage": 0.6667,
+          "category_score": 33.5513,
+          "category_level": "MEDIO"
+        },
+        {
+          "category": "Otro",
+          "total_signals": 2,
+          "scored_signals": 1,
+          "scoring_coverage": 0.5,
+          "category_score": 18.3,
+          "category_level": "BAJO"
+        }
+      ],
+      "level_distribution": [
+        {
+          "pird_level": "BAJO",
+          "signal_count": 17,
+          "percentage_of_scored": 31.48
+        },
+        {
+          "pird_level": "MEDIO",
+          "signal_count": 29,
+          "percentage_of_scored": 53.7
+        },
+        {
+          "pird_level": "ALTO",
+          "signal_count": 8,
+          "percentage_of_scored": 14.81
+        },
+        {
+          "pird_level": "CRITICO",
+          "signal_count": 0,
+          "percentage_of_scored": 0.0
+        }
+      ],
+      "timeline": {
+        "signals": 104,
+        "source_documents": 19,
+        "signals_with_document_date": 104,
+        "temporal_role_counts": {
+          "APARICION": 88,
+          "RECURRENCIA": 16
+        },
+        "persistence_level_counts": {
+          "1": 73,
+          "2": 2,
+          "3": 8,
+          "4": 5,
+          "5": 16
+        },
+        "privacy": "Individual dates, source names and signals are not published"
+      }
+    },
+    {
+      "project_id": "NSGA",
+      "display_name": "NSGA",
+      "profile": {
+        "profile_status": "PROVISIONAL",
+        "signals_total": 6,
+        "signals_scored": 2,
+        "signals_pending": 4,
+        "scoring_coverage": 0.3333,
+        "global_pird": 38.2,
+        "global_level": "MEDIO",
+        "top_categories": [
+          "Contractual",
+          "Calidad"
+        ],
+        "critical_signals": 0,
+        "high_signals": 0,
+        "project_scope_status": "DOCUMENT_EVIDENCE"
+      },
+      "categories": [
+        {
+          "category": "Contractual",
+          "total_signals": 3,
+          "scored_signals": 1,
+          "scoring_coverage": 0.3333,
+          "category_score": 38.28,
+          "category_level": "MEDIO"
+        },
+        {
+          "category": "Calidad",
+          "total_signals": 1,
+          "scored_signals": 1,
+          "scoring_coverage": 1.0,
+          "category_score": 38.05,
+          "category_level": "MEDIO"
+        },
+        {
+          "category": "Operación",
+          "total_signals": 2,
+          "scored_signals": 0,
+          "scoring_coverage": 0.0,
+          "category_score": null,
+          "category_level": null
+        }
+      ],
+      "level_distribution": [
+        {
+          "pird_level": "BAJO",
+          "signal_count": 0,
+          "percentage_of_scored": 0.0
+        },
+        {
+          "pird_level": "MEDIO",
+          "signal_count": 2,
+          "percentage_of_scored": 100.0
+        },
+        {
+          "pird_level": "ALTO",
+          "signal_count": 0,
+          "percentage_of_scored": 0.0
+        },
+        {
+          "pird_level": "CRITICO",
+          "signal_count": 0,
+          "percentage_of_scored": 0.0
+        }
+      ],
+      "timeline": {
+        "signals": 6,
+        "source_documents": 2,
+        "signals_with_document_date": 6,
+        "temporal_role_counts": {
+          "APARICION": 6
+        },
+        "persistence_level_counts": {
+          "1": 6
+        },
+        "privacy": "Individual dates, source names and signals are not published"
+      }
+    },
+    {
+      "project_id": "NSGT",
+      "display_name": "NSGT",
+      "profile": {
+        "profile_status": "PROVISIONAL",
+        "signals_total": 1,
+        "signals_scored": 1,
+        "signals_pending": 0,
+        "scoring_coverage": 1.0,
+        "global_pird": 37.82,
+        "global_level": "MEDIO",
+        "top_categories": [
+          "Operación"
+        ],
+        "critical_signals": 0,
+        "high_signals": 0,
+        "project_scope_status": "DOCUMENT_EVIDENCE"
+      },
+      "categories": [
+        {
+          "category": "Operación",
+          "total_signals": 1,
+          "scored_signals": 1,
+          "scoring_coverage": 1.0,
+          "category_score": 37.82,
+          "category_level": "MEDIO"
+        }
+      ],
+      "level_distribution": [
+        {
+          "pird_level": "BAJO",
+          "signal_count": 0,
+          "percentage_of_scored": 0.0
+        },
+        {
+          "pird_level": "MEDIO",
+          "signal_count": 1,
+          "percentage_of_scored": 100.0
+        },
+        {
+          "pird_level": "ALTO",
+          "signal_count": 0,
+          "percentage_of_scored": 0.0
+        },
+        {
+          "pird_level": "CRITICO",
+          "signal_count": 0,
+          "percentage_of_scored": 0.0
+        }
+      ],
+      "timeline": {
+        "signals": 1,
+        "source_documents": 1,
+        "signals_with_document_date": 1,
+        "temporal_role_counts": {
+          "APARICION": 1
+        },
+        "persistence_level_counts": {
+          "1": 1
+        },
+        "privacy": "Individual dates, source names and signals are not published"
+      }
+    },
+    {
+      "project_id": "PDIS",
+      "display_name": "PDIS",
+      "profile": {
+        "profile_status": "PENDIENTE",
+        "signals_total": 0,
+        "signals_scored": 0,
+        "signals_pending": 0,
+        "scoring_coverage": 0.0,
+        "global_pird": null,
+        "global_level": "PENDIENTE",
+        "top_categories": [],
+        "critical_signals": 0,
+        "high_signals": 0,
+        "project_scope_status": "DOCUMENT_EVIDENCE"
+      },
+      "categories": [],
+      "level_distribution": [],
+      "timeline": {
+        "signals": 0,
+        "source_documents": 0,
+        "signals_with_document_date": 0,
+        "temporal_role_counts": {},
+        "persistence_level_counts": {},
+        "privacy": "Individual dates, source names and signals are not published"
+      }
+    }
+  ],
+  "data_policy": {
+    "aggregate_only": true,
+    "contains_source_text": false,
+    "contains_individual_signals": false,
+    "assignment_rule": "Explicit project evidence only; ambiguous and missing cases remain pending."
+  },
+  "catalog_sha256": "a790680aa5c713e2241493d95f4ab730f7ec4018f50e17222146e8fa3f6cf53c",
+  "method": {
+    "version": "PROJECT-RECOMPUTE-2-DOCUMENT-DATES",
+    "reused": [
+      "signal_classification",
+      "BGE-M3_signal_embeddings",
+      "severity_probability_rubric"
+    ],
+    "recomputed_within_project": [
+      "semantic_recurrence",
+      "persistence",
+      "PIRD",
+      "category_profile"
+    ],
+    "similarity_threshold": 0.7,
+    "new_llm_calls": 0,
+    "assignment_review": "PENDING_HUMAN_REVIEW",
+    "verified_document_dates": [
+      "RQ001 Acta Review Sprint 8_Firmada.pdf",
+      "RTA-DIAN-Solicitud_de_Mejora_CNS-0554-24.pdf",
+      "Solicitud cambio apoyo gerencia.pdf"
+    ],
+    "severity_probability_human_gold_standard": false,
+    "historical_snapshot_overwritten": false
+  },
+  "provenance": {
+    "items": "0d908607c2160fac20632092b6b4e8f70197da143af6301eff2fee18d7aace3a",
+    "scored": "a216eee955589cdcb73e360f0d9f53ee41445408490120e22e223ab5bdf5ad18",
+    "index": "62e0b2c9d7f59d1222e5d9799f6addf1af47a094d6e83cd115910854c755b435",
+    "embeddings": "4d1fcede52a17c23cbc87c4a6edc10088a343e34fb9cd28088e215d0e7b5c5dc",
+    "chunks": "f842b10dc79ff4cdea44c59a7cde070a297bdc5625b0efbc4a25c1b6bf77beae",
+    "catalog": "83bd54c005fffbe6f477aa67f211afcfba9d8a3e4a19931f4f7d04952e154e9b",
+    "document_dates": "36b2b6b96cbab07ac5778bb0c73985173b1519397e251429e0e17e431bd5b9cf"
+  }
+}

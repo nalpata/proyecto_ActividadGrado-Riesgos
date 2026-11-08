@@ -24,7 +24,7 @@ EXPOSURE_COLUMNS = [
 
 def recompute_projects(items: pd.DataFrame, historical_scored: pd.DataFrame,
                        vector_index: pd.DataFrame, embeddings: np.ndarray,
-                       chunks: pd.DataFrame, catalog: dict) -> tuple[pd.DataFrame, dict[str, Any]]:
+                       chunks: pd.DataFrame, catalog: dict, verified_dates: dict | None = None) -> tuple[pd.DataFrame, dict[str, Any]]:
     """Alinea vectores por item_id y restringe vecindades antes de recalcular R/T/PIRD.
 
     La exposición S/P se conserva: no hay llamadas LLM ni etiquetas humanas nuevas.
@@ -64,7 +64,7 @@ def recompute_projects(items: pd.DataFrame, historical_scored: pd.DataFrame,
         vectors = matrix[mask.to_numpy()]
         _, recurrence = semantic_recurrence(vectors, subset.source_doc_id, threshold=0.70)
         assignments = pd.DataFrame({"item_id": subset.item_id, "recurrence_level": recurrence})
-        timeline, _ = build_timeline(subset, assignments, vectors, threshold=0.70)
+        timeline, _ = build_timeline(subset, assignments, vectors, threshold=0.70, verified_dates=verified_dates)
         exposure = historical.loc[mask.to_numpy(), ["item_id", *EXPOSURE_COLUMNS]]
         outputs.append(calculate_item_pird(subset, exposure, timeline))
     pending = tagged.loc[~assigned_mask].copy()
@@ -87,11 +87,12 @@ def recompute_projects(items: pd.DataFrame, historical_scored: pd.DataFrame,
     snapshot["scope_status"] = "PROVISIONAL_PROJECT_RECOMPUTED"
     snapshot["catalog_sha256"] = hashlib.sha256(json.dumps(catalog, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
     snapshot["method"] = {
-        "version": "PROJECT-RECOMPUTE-1",
+        "version": "PROJECT-RECOMPUTE-2-DOCUMENT-DATES" if verified_dates else "PROJECT-RECOMPUTE-1",
         "reused": ["signal_classification", "BGE-M3_signal_embeddings", "severity_probability_rubric"],
         "recomputed_within_project": ["semantic_recurrence", "persistence", "PIRD", "category_profile"],
         "similarity_threshold": 0.70, "new_llm_calls": 0,
         "assignment_review": "PENDING_HUMAN_REVIEW",
+        "verified_document_dates": sorted(verified_dates or {}),
         "severity_probability_human_gold_standard": False,
         "historical_snapshot_overwritten": False,
     }
@@ -104,16 +105,26 @@ def recompute_projects(items: pd.DataFrame, historical_scored: pd.DataFrame,
 
 
 def run(items_csv: Path, historical_csv: Path, vector_index_csv: Path, embeddings_npy: Path,
-        chunks_csv: Path, catalog_json: Path, public_output: Path, private_output: Path) -> dict:
+        chunks_csv: Path, catalog_json: Path, public_output: Path, private_output: Path,
+        document_dates_json: Path | None = None, corpus_root: Path | None = None) -> dict:
     from src.risk.corpus_project_catalog import load_catalog
     paths = {"items": items_csv, "scored": historical_csv, "index": vector_index_csv,
              "embeddings": embeddings_npy, "chunks": chunks_csv, "catalog": catalog_json}
+    verified_dates = None
+    if (document_dates_json is None) != (corpus_root is None):
+        raise ValueError("Las fechas verificadas requieren manifiesto y corpus originales")
+    if document_dates_json is not None:
+        from src.risk.verified_document_dates import verify_document_dates
+        verified_dates = verify_document_dates(json.loads(document_dates_json.read_text(encoding="utf-8")), corpus_root)
+        paths["document_dates"] = document_dates_json
     sources = {p.resolve() for p in paths.values()}
+    if verified_dates:
+        sources.update((corpus_root / name).resolve() for name in verified_dates)
     if private_output.resolve() in sources or public_output.resolve() in sources or private_output.resolve() == public_output.resolve():
         raise ValueError("No se puede sobrescribir un archivo fuente")
     recomputed, snapshot = recompute_projects(
         pd.read_csv(items_csv), pd.read_csv(historical_csv), pd.read_csv(vector_index_csv),
-        np.load(embeddings_npy, allow_pickle=False), pd.read_csv(chunks_csv), load_catalog(catalog_json))
+        np.load(embeddings_npy, allow_pickle=False), pd.read_csv(chunks_csv), load_catalog(catalog_json), verified_dates=verified_dates)
     snapshot["provenance"] = {k: hashlib.sha256(path.read_bytes()).hexdigest() for k, path in paths.items()}
     public_output.parent.mkdir(parents=True, exist_ok=True)
     private_output.parent.mkdir(parents=True, exist_ok=True)
@@ -127,5 +138,7 @@ if __name__ == "__main__":
     for name in ("items-csv", "historical-csv", "vector-index-csv", "embeddings-npy", "chunks-csv",
                  "catalog-json", "public-output", "private-output"):
         parser.add_argument("--" + name, type=Path, required=True)
+    parser.add_argument("--document-dates-json", type=Path)
+    parser.add_argument("--corpus-root", type=Path)
     args = vars(parser.parse_args())
     run(**args)

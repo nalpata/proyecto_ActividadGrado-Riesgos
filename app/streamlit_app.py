@@ -207,7 +207,7 @@ if is_academic_demo:
 elif selected_scope == "Entorno privado por proyecto":
     project_scope = private_project_scope
 elif selected_scope == "Corpus por proyecto":
-    project_scope = load_recomputed_scope(ROOT / "results/day_21/project_scope_recomputed.json", corpus_catalog)
+    project_scope = load_recomputed_scope(ROOT / "results/day_22/project_scope_dates_verified.json", corpus_catalog)
 else:
     project_scope = None
 is_corpus_project = selected_scope == "Corpus por proyecto"
@@ -581,7 +581,11 @@ elif selected_page == "Timeline":
             chronology_chunks = pd.read_csv(ROOT / "data/processed/chunks/chunks_recursive.csv")
             chronology_catalog = corpus_catalog
             chronology_project = active_project_id or None
-        chronology = build_document_timeline(chronology_chunks, chronology_project, chronology_catalog)
+        from src.risk.verified_document_dates import verify_document_dates
+        chronology_dates = None if session_ingestion else verify_document_dates(
+            json.loads((ROOT / "config/document_dates_verified.json").read_text(encoding="utf-8")),
+            ROOT / "data/raw/corpus_actualizado")
+        chronology = build_document_timeline(chronology_chunks, chronology_project, chronology_catalog, chronology_dates)
         d1, d2, d3 = st.columns(3)
         d1.metric("Documentos en la cronología", chronology["documents_total"])
         d2.metric("Con fecha identificada", chronology["documents_dated"])
@@ -593,13 +597,13 @@ elif selected_page == "Timeline":
             st.info("No hay fechas identificadas para construir la cronología de estos documentos.")
         if chronology["documents"]:
             chronology_table = pd.DataFrame(chronology["documents"])
-            chronology_table["date_source"] = chronology_table["date_source"].map(lambda value: "Nombre de archivo" if str(value).startswith("FILENAME_") else "No identificada")
+            chronology_table["date_source"] = chronology_table["date_source"].map(lambda value: "Nombre de archivo" if str(value).startswith("FILENAME_") else "Contenido documental verificado" if value == "DOCUMENT_BODY_VERIFIED" else "No identificada")
             chronology_table["date_precision"] = chronology_table["date_precision"].map({"DAY": "Día", "MONTH": "Mes"})
             st.dataframe(chronology_table.rename(columns={
                 "filename": "Documento", "document_date": "Fecha documental",
                 "date_source": "Fuente de fecha", "date_precision": "Precisión",
                 "date_warning": "Observación de fecha"}), width="stretch", hide_index=True)
-        st.caption("La cronología cuenta documentos, no riesgos. Cuando se selecciona un proyecto, incluye documentos que lo mencionan, también compartidos con otros proyectos; esto no asigna todas sus señales ni habilita esos fragmentos para el chat. Las fechas proceden de los nombres de archivo y conservan su precisión original.")
+        st.caption("La cronología cuenta documentos, no riesgos. Cuando se selecciona un proyecto, incluye documentos que lo mencionan, también compartidos con otros proyectos; esto no asigna todas sus señales ni habilita esos fragmentos para el chat. Las fechas proceden de nombres de archivo y, para el corpus original, de citas documentales verificadas. Se conserva su precisión y las sesiones no heredan fechas del corpus.")
 
 elif selected_page == "Riesgos priorizados":
     if not is_processed_project:
