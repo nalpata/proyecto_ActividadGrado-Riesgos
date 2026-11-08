@@ -57,5 +57,20 @@
     "new_llm_execution": false,
     "expert_labels_forced": false
   },
-  "scope": "Casos conocidos de dos actas del mismo entorno de proyectos; no prueba independiente de generalización."
+  "scope": "Casos conocidos de dos actas del mismo entorno de proyectos; no prueba independiente de generalización.",
+  "live_session_after_guard": {
+    "observed_at": "2026-11-08",
+    "deployed_commit": "bcb9bb28641752bb672970d7f7602b6f7e6df3bf",
+    "accepted": 39,
+    "scored": 19,
+    "pending": 20,
+    "coverage": 0.48717948717948717,
+    "additional_pending": 8,
+    "main_alert_severity": 3,
+    "main_alert_probability": 4,
+    "request_severity": null,
+    "request_probability": null,
+    "request_pird": null,
+    "method": "Observed in deployed Streamlit session after conservative review; no new LLM call. Raw proposals retained. Flags require review and are not expert adjudications."
+  }
 }

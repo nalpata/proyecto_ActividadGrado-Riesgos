@@ -107,3 +107,10 @@ def test_app_reviews_preexisting_session_before_building_views():
     assert reviewed['summary']['signals_scored']==1
     assert reviewed['private']['scored_signals'][1]['probability'] is None
     assert reviewed['private']['scored_signals'][0]['probability']==4
+    app.sidebar.radio[1].set_value('Riesgos priorizados').run()
+    assert not app.exception, [e.message for e in app.exception]
+    assert not any('Cierre sin respaldo' in w.value for w in app.warning)
+    chooser=next(w for w in app.selectbox if w.label=='Seleccionar señal para ver su evidencia')
+    chooser.set_value('A1').run()
+    assert not app.exception, [e.message for e in app.exception]
+    assert any('Cierre sin respaldo' in w.value for w in app.warning)
